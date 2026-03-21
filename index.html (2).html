@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LabQ — Química do Zero ao Avançado</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#000;--bg2:#080808;--bg3:#0a0a0a;--card:#0d0d0d;--border:#1a1a1a;--border2:#252525;--accent:#2563eb;--al:#3b82f6;--ag:rgba(37,99,235,.25);--text:#f0f4ff;--muted:#475569;--muted2:#64748b;--mono:'JetBrains Mono',monospace;--sans:'Syne',sans-serif;--green:#22c55e;--red:#ef4444;--amber:#f59e0b;--purple:#a78bfa}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100vh;overflow-x:hidden}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--bg2)}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:99px}
+.page{display:none;min-height:100vh;padding-bottom:80px}.page.active{display:block}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:100;background:rgba(0,0,0,.92);backdrop-filter:blur(20px);border-top:1px solid var(--border);display:flex;height:64px}
+.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;transition:all .2s;border:none;background:none;color:var(--muted);font-family:var(--sans);font-size:9px;font-weight:600;letter-spacing:.3px;padding:0 2px}
+.nav-item svg{width:18px;height:18px;transition:all .2s}.nav-item.active{color:var(--al)}.nav-item.active svg{filter:drop-shadow(0 0 6px var(--al))}
+.page-header{padding:48px 20px 20px;display:flex;align-items:flex-start;justify-content:space-between;max-width:480px;margin:0 auto}
+.page-header h1{font-size:26px;font-weight:800;letter-spacing:-1px;line-height:1.1}.page-header p{font-size:11px;color:var(--muted2);margin-top:4px;font-family:var(--mono)}
+.xp-badge{display:flex;align-items:center;gap:6px;padding:7px 13px;border-radius:99px;background:linear-gradient(135deg,#1e3a5f,var(--accent));font-size:11px;font-weight:700;color:#fff;border:1px solid var(--al);font-family:var(--mono);white-space:nowrap;flex-shrink:0;box-shadow:0 0 20px var(--ag)}
+.star{width:11px;height:11px;background:#fbbf24;flex-shrink:0;clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%)}
+.prog-wrap{max-width:480px;margin:0 auto;padding:0 20px 20px}.prog-meta{display:flex;justify-content:space-between;font-size:11px;color:var(--muted2);margin-bottom:7px;font-family:var(--mono)}.prog-meta span:last-child{color:var(--al)}
+.prog-track{height:8px;background:var(--bg3);border-radius:99px;overflow:hidden;border:1px solid var(--border)}.prog-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,#1e40af,var(--al),#bfdbfe);transition:width .8s cubic-bezier(.4,0,.2,1)}
+.section-sep{display:flex;align-items:center;gap:10px;font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin:22px 0 10px;font-family:var(--mono)}.section-sep::after{content:'';flex:1;height:1px;background:var(--border)}.sep-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.btn-main{width:100%;padding:13px;border-radius:12px;cursor:pointer;border:1px solid var(--accent);background:linear-gradient(135deg,#1e3a5f,var(--accent));color:#fff;font-size:13px;font-weight:700;font-family:var(--sans);transition:opacity .15s,transform .15s;letter-spacing:.3px;display:block;text-align:center}.btn-main:hover{opacity:.9;transform:translateY(-1px)}.btn-main:disabled{opacity:.3;cursor:not-allowed;transform:none}
+.btn-ghost{width:100%;padding:12px;border-radius:12px;cursor:pointer;border:1px solid var(--border2);background:var(--bg3);color:var(--muted2);font-size:13px;font-weight:600;font-family:var(--sans);transition:all .15s;display:block;text-align:center}.btn-ghost:hover{color:var(--text)}.btn-ghost:disabled{opacity:.25;cursor:not-allowed}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:14px;overflow:hidden}
+/* HOME */
+.home-hero{min-height:calc(100vh - 140px);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;max-width:480px;margin:0 auto;text-align:center;position:relative;overflow:hidden}
+.home-bear{display:flex;justify-content:center;margin-bottom:18px}.home-bear svg{filter:drop-shadow(0 0 40px rgba(37,99,235,.5))}
+.home-title{font-size:34px;font-weight:800;letter-spacing:-2px;line-height:1.05;margin-bottom:10px}.home-title em{color:var(--al);font-style:normal}
+.home-sub{font-size:12px;color:var(--muted2);line-height:1.8;font-family:var(--mono);margin-bottom:24px}
+.home-btn{display:inline-block;padding:13px 32px;border-radius:12px;background:linear-gradient(135deg,#1e3a5f,var(--accent));color:#fff;font-size:13px;font-weight:700;border:1px solid var(--al);cursor:pointer;font-family:var(--sans);box-shadow:0 0 30px var(--ag);transition:transform .15s}.home-btn:hover{transform:translateY(-2px)}
+.home-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:480px;margin:0 auto;padding:0 20px}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px 8px;text-align:center}.stat-n{font-size:26px;font-weight:800;font-family:var(--mono);letter-spacing:-1px;color:var(--al)}.stat-l{font-size:9px;color:var(--muted);font-family:var(--mono);margin-top:4px;letter-spacing:1px;text-transform:uppercase}
+/* MAPA */
+.map-wrap{max-width:480px;margin:0 auto;padding:0 20px}
+.tiles-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.tile{border-radius:14px;padding:14px 6px 12px;cursor:pointer;text-align:center;position:relative;min-height:88px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;transition:transform .18s,box-shadow .18s;border:1.5px solid var(--border);background:var(--bg3)}
+.tile.locked{opacity:.32;cursor:not-allowed;filter:grayscale(.8)}.tile.unlocked{background:linear-gradient(145deg,#050d1f,#0f2347,#1a3a6b);border-color:var(--accent);box-shadow:0 0 14px var(--ag)}.tile.unlocked:hover{transform:translateY(-4px);box-shadow:0 10px 30px var(--ag)}.tile.done{background:linear-gradient(145deg,#050d1f,#0f2a5c,#bfdbfe22);border-color:#93c5fd;border-width:2px}.tile.done:hover{transform:translateY(-3px)}
+.tile-emoji{font-size:22px;line-height:1}.tile-label{font-size:10px;font-weight:600;color:var(--text);line-height:1.3}.tile-sub{font-size:9px;color:var(--muted2);font-family:var(--mono)}.tile.locked .tile-label{color:var(--muted)}
+.tile-check{position:absolute;top:6px;right:7px;width:15px;height:15px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#bfdbfe);display:flex;align-items:center;justify-content:center}.tile-check::after{content:'';display:block;width:5px;height:3px;border-left:1.5px solid #000;border-bottom:1.5px solid #000;transform:rotate(-45deg) translateY(-1px)}
+.tile-lock{position:absolute;top:6px;right:7px;font-size:10px;opacity:.35}
+.bear-wrap{text-align:center;margin-bottom:6px}.bear-float{display:inline-block;animation:bearBob 2.4s ease-in-out infinite;filter:drop-shadow(0 8px 20px rgba(37,99,235,.4))}
+@keyframes bearBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}@keyframes bearPop{0%{transform:scale(1) rotate(0)}25%{transform:scale(1.2) rotate(-12deg)}50%{transform:scale(1.2) rotate(12deg)}75%{transform:scale(1.08) rotate(-5deg)}100%{transform:scale(1) rotate(0)}}.bear-float.pop{animation:bearPop .7s ease both}
+.bear-bubble{display:inline-block;background:var(--card);border:1px solid var(--border2);border-radius:12px;padding:6px 13px;font-size:11px;color:var(--muted2);font-family:var(--mono);margin-bottom:10px}
+/* MÓDULO */
+.module-hero{padding:48px 20px 20px;max-width:480px;margin:0 auto}.back-btn{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted2);cursor:pointer;background:none;border:none;font-family:var(--mono);margin-bottom:18px;transition:color .2s}.back-btn:hover{color:var(--text)}.module-hero h2{font-size:22px;font-weight:800;letter-spacing:-1px;margin-bottom:4px}.module-hero p{font-size:11px;color:var(--muted2);font-family:var(--mono)}
+.module-page{max-width:480px;margin:0 auto;padding:0 20px}
+.tabs{display:flex;gap:4px;padding:4px;background:var(--bg3);border-radius:12px;border:1px solid var(--border);margin-bottom:18px}.tab-btn{flex:1;padding:9px;border:none;border-radius:9px;font-size:11px;font-weight:600;cursor:pointer;transition:all .2s;background:none;color:var(--muted);font-family:var(--sans)}.tab-btn.active{background:linear-gradient(135deg,#1e3a5f,var(--accent));color:#fff;border:1px solid var(--al)}
+.did-label{font-size:9px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--al);margin-bottom:10px;font-family:var(--mono)}.did-intro{background:#050d1f;border:1px solid #1e3a5f;border-radius:10px;padding:13px;font-size:12px;line-height:1.8;color:#93c5fd;font-family:var(--mono);margin-bottom:12px}
+.did-step{display:flex;gap:11px;margin-bottom:10px;padding:12px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}.step-n{width:26px;height:26px;flex-shrink:0;border-radius:7px;background:linear-gradient(135deg,#1e3a5f,var(--accent));color:#fff;font-weight:700;font-size:11px;display:flex;align-items:center;justify-content:center;font-family:var(--mono)}.step-c h4{font-size:12px;font-weight:600;color:#e0f2fe;margin-bottom:3px}.step-c p{font-size:11px;color:var(--muted2);line-height:1.7;font-family:var(--mono)}.step-c strong{color:#93c5fd}
+.formula{background:var(--bg);border:1px solid #1e3a5f;border-left:3px solid var(--accent);border-radius:0 8px 8px 0;padding:9px 13px;margin:10px 0;font-family:var(--mono);font-size:12px;text-align:center;color:#93c5fd;letter-spacing:1px}
+.svg-block{width:100%;border-radius:12px;overflow:hidden;background:#000;margin:12px 0;border:1px solid var(--border)}.svg-block svg{display:block;width:100%}
+.q-dots{display:flex;gap:5px;justify-content:center;margin-bottom:16px}.q-dot{width:7px;height:7px;border-radius:50%;background:var(--border2);transition:all .3s}.q-dot.done{background:linear-gradient(135deg,var(--accent),#bfdbfe)}.q-dot.cur{background:var(--al);box-shadow:0 0 8px rgba(59,130,246,.5)}
+.q-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px;margin-bottom:12px}.q-num{font-size:10px;color:var(--al);font-weight:600;letter-spacing:1px;margin-bottom:7px;font-family:var(--mono)}.q-text{font-size:13px;color:#e0f2fe;line-height:1.7;margin-bottom:16px}
+.opts{display:flex;flex-direction:column;gap:7px}.opt{background:var(--bg2);border:1.5px solid var(--border);border-radius:10px;padding:11px 13px;color:var(--muted2);font-size:12px;text-align:left;cursor:pointer;transition:all .18s;display:flex;align-items:center;gap:9px;font-family:var(--sans);width:100%}.opt:hover:not([disabled]){border-color:var(--accent);color:#bfdbfe;background:#050d1f}.opt-l{width:22px;height:22px;border-radius:6px;background:var(--border);color:var(--muted);font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:var(--mono);transition:all .18s}.opt:hover:not([disabled]) .opt-l{background:#1e3a5f;color:#93c5fd}
+.opt.correct{border-color:var(--green);background:rgba(34,197,94,.08);color:#86efac}.opt.correct .opt-l{background:#14532d;color:#86efac}.opt.wrong{border-color:var(--red);background:rgba(239,68,68,.08);color:#fca5a5}.opt.wrong .opt-l{background:#450a0a;color:#fca5a5}.opt[disabled]{cursor:not-allowed}
+.res-box{display:none;background:#050d1f;border:1px solid #1e3a5f;border-left:3px solid var(--green);border-radius:0 10px 10px 0;padding:13px;margin-top:10px}.res-box.show{display:block}.res-label{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--green);margin-bottom:7px;font-family:var(--mono)}.res-box p{font-size:12px;color:#93c5fd;line-height:1.8;font-family:var(--mono)}.res-box strong{color:#e0f2fe}
+.nav-row{display:flex;gap:8px;margin-top:4px}
+.score-wrap{text-align:center;padding:28px 20px 18px}.score-stars{font-size:28px;margin-bottom:10px}.score-num{font-size:52px;font-weight:800;color:var(--al);font-family:var(--mono);letter-spacing:-3px;line-height:1}.score-sub{font-size:11px;color:var(--muted2);margin-top:4px;font-family:var(--mono)}.score-msg{font-size:14px;font-weight:600;color:var(--text);margin:14px 0 5px}.score-xp{font-size:12px;color:var(--al);font-family:var(--mono)}.score-fail{font-size:12px;color:var(--red);margin-top:10px;font-family:var(--mono);line-height:1.6}
+/* LAB */
+.lab-wrap{max-width:480px;margin:0 auto;padding:0 20px}
+.periodic-scroll{overflow-x:auto;padding:14px;margin-bottom:14px;background:#fff;border-radius:16px;border:2px solid transparent;background-clip:padding-box;box-shadow:0 0 0 2px #2563eb,0 0 0 4px #bfdbfe,0 8px 32px rgba(37,99,235,.15)}
+.periodic-grid{display:grid;grid-template-columns:repeat(18,minmax(26px,1fr));gap:2px;min-width:520px}
+.el{border-radius:4px;padding:3px 1px;text-align:center;cursor:pointer;transition:transform .15s,box-shadow .15s;border:1px solid transparent;min-width:26px}.el:hover{transform:scale(1.22);z-index:10;box-shadow:0 4px 20px rgba(37,99,235,.6);border-color:#fff !important}.el-sym{font-size:9px;font-weight:700;font-family:var(--mono);line-height:1.2}.el-num{font-size:6px;font-family:var(--mono);opacity:.8}.el-name{font-size:5px;font-family:var(--mono);opacity:.75;overflow:hidden;white-space:nowrap}
+.el.alkali{background:#1a0a2e;color:#c4b5fd}.el.alkaline{background:#1a1400;color:#fde68a}.el.transition{background:#001a2e;color:#93c5fd}.el.post-transition{background:#001a0a;color:#86efac}.el.metalloid{background:#1a1000;color:#fcd34d}.el.nonmetal{background:#1a0000;color:#fca5a5}.el.halogen{background:#1a000e;color:#f9a8d4}.el.noble{background:#0a001a;color:#d8b4fe}.el.lanthanide{background:#001a1a;color:#6ee7b7}.el.actinide{background:#1a0808;color:#fca5a5}.el.empty{background:none;border:none;cursor:default}
+.el-detail-panel{background:var(--card);border:1px solid var(--border2);border-radius:14px;padding:18px;margin-bottom:14px;display:none}.el-detail-panel.show{display:block}
+.el-big-sym{font-size:42px;font-weight:800;color:var(--al);font-family:var(--mono);letter-spacing:-2px;line-height:1}
+.el-detail-row{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:14px}.el-detail-item{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:12px}.el-detail-item .label{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted2);font-family:var(--mono);margin-bottom:4px}.el-detail-item .value{font-size:14px;font-weight:600;color:var(--text);font-family:var(--mono)}
+.el-legend{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}.el-leg-item{display:flex;align-items:center;gap:4px;font-size:9px;color:var(--muted2);font-family:var(--mono)}.el-leg-dot{width:8px;height:8px;border-radius:2px}
+/* EXP */
+.exp-wrap{max-width:480px;margin:0 auto;padding:0 20px}
+.exp-chat{background:var(--bg3);border:1px solid var(--border);border-radius:16px;padding:16px;min-height:260px;margin-bottom:14px;display:flex;flex-direction:column;gap:10px}
+.exp-msg{padding:11px 14px;border-radius:12px;font-size:12px;font-family:var(--mono);line-height:1.8;max-width:90%}.exp-msg.bear{background:#050d1f;border:1px solid #1e3a5f;color:#93c5fd;align-self:flex-start;border-radius:4px 12px 12px 12px}.exp-msg.user{background:linear-gradient(135deg,#1e3a5f,var(--accent));color:#fff;align-self:flex-end;border-radius:12px 4px 12px 12px}.exp-msg strong{color:#e0f2fe}
+.exp-options{display:flex;flex-direction:column;gap:7px;margin-bottom:14px}.exp-opt{background:var(--bg2);border:1.5px solid var(--border);border-radius:10px;padding:11px 14px;color:var(--muted2);font-size:12px;text-align:left;cursor:pointer;transition:all .18s;font-family:var(--sans);width:100%}.exp-opt:hover{border-color:var(--accent);color:#bfdbfe;background:#050d1f}
+.exp-input-row{display:flex;gap:8px}.exp-input{flex:1;background:var(--bg3);border:1px solid var(--border2);border-radius:10px;padding:11px 14px;color:var(--text);font-size:12px;font-family:var(--mono);outline:none}.exp-input:focus{border-color:var(--accent)}.exp-send{padding:11px 18px;background:linear-gradient(135deg,#1e3a5f,var(--accent));border:none;border-radius:10px;color:#fff;font-size:12px;cursor:pointer;font-family:var(--sans);font-weight:600;white-space:nowrap}
+/* ADMIN */
+.admin-wrap{max-width:480px;margin:0 auto;padding:0 20px}
+.admin-section{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px;margin-bottom:14px}
+.admin-title{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--amber);margin-bottom:12px;font-family:var(--mono);display:flex;align-items:center;gap:8px}.admin-title::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--amber);display:block}
+.student-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)}.student-row:last-child{border-bottom:none}.student-name{font-size:12px;color:var(--text);font-family:var(--mono)}.student-score{font-size:10px;color:var(--muted2);font-family:var(--mono);margin-top:2px}
+.admin-badge{padding:3px 8px;border-radius:99px;font-size:9px;font-weight:700;font-family:var(--mono);letter-spacing:1px}.badge-pass{background:rgba(34,197,94,.15);color:#86efac;border:1px solid #166534}.badge-fail{background:rgba(239,68,68,.15);color:#fca5a5;border:1px solid #450a0a}.badge-pend{background:rgba(100,116,139,.1);color:var(--muted2);border:1px solid var(--border)}
+.admin-btn{padding:9px 16px;border-radius:8px;font-size:11px;font-weight:600;cursor:pointer;font-family:var(--mono);border:1px solid var(--border2);background:var(--bg2);color:var(--muted2);transition:all .15s;width:100%;text-align:left;margin-bottom:6px}.admin-btn:hover{border-color:var(--al);color:var(--al)}.admin-btn.danger{border-color:#450a0a;color:#fca5a5}.admin-btn.danger:hover{background:rgba(239,68,68,.08)}
+/* OVERLAY */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:500;display:none;align-items:center;justify-content:center;padding:20px}.overlay.show{display:flex}
+.overlay-box{background:var(--card);border:1px solid var(--border2);border-radius:20px;padding:28px;width:100%;max-width:320px}
+.overlay-title{font-size:16px;font-weight:800;letter-spacing:-0.5px;margin-bottom:6px}.overlay-sub{font-size:12px;color:var(--muted2);font-family:var(--mono);margin-bottom:20px}
+.overlay-input{width:100%;background:var(--bg2);border:1px solid var(--border2);border-radius:10px;padding:12px 14px;color:var(--text);font-size:18px;font-family:var(--mono);outline:none;margin-bottom:12px;letter-spacing:6px;text-align:center}.overlay-input:focus{border-color:var(--accent)}
+.overlay-err{font-size:11px;color:var(--red);font-family:var(--mono);text-align:center;margin-bottom:10px;display:none}
+.overlay-btns{display:flex;gap:8px}
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--card);border:1px solid var(--accent);border-radius:99px;padding:10px 20px;font-size:12px;font-weight:600;color:var(--al);white-space:nowrap;pointer-events:none;z-index:200;opacity:0;transition:opacity .3s,bottom .3s;font-family:var(--mono);box-shadow:0 4px 24px var(--ag)}.toast.show{opacity:1;bottom:90px}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}.page.active>*{animation:fadeUp .3s ease both}
+</style>
+</head>
+<body>
+
+<!-- HOME -->
+<div class="page active" id="page-home">
+  <div class="home-hero">
+    <!-- GALÁXIA SVG FUNDO -->
+    <div style="position:absolute;inset:0;z-index:0;pointer-events:none">
+      <svg width="100%" height="100%" viewBox="0 0 480 420" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="gal" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#1e3a5f" stop-opacity=".7"/><stop offset="40%" stop-color="#0a1628" stop-opacity=".5"/><stop offset="100%" stop-color="#000" stop-opacity="0"/></radialGradient>
+          <radialGradient id="gal2" cx="30%" cy="60%" r="40%"><stop offset="0%" stop-color="#7c3aed" stop-opacity=".15"/><stop offset="100%" stop-color="#000" stop-opacity="0"/></radialGradient>
+        </defs>
+        <!-- Stars -->
+        <circle cx="40" cy="30" r="1" fill="white" opacity=".8"/><circle cx="80" cy="15" r=".7" fill="white" opacity=".6"/><circle cx="130" cy="45" r="1.2" fill="white" opacity=".9"/><circle cx="200" cy="10" r=".8" fill="white" opacity=".7"/><circle cx="260" cy="35" r="1" fill="white" opacity=".8"/><circle cx="320" cy="20" r=".6" fill="white" opacity=".5"/><circle cx="380" cy="40" r="1.1" fill="white" opacity=".7"/><circle cx="440" cy="12" r=".8" fill="white" opacity=".6"/><circle cx="460" cy="55" r="1" fill="white" opacity=".8"/><circle cx="20" cy="80" r=".7" fill="white" opacity=".5"/><circle cx="100" cy="90" r="1" fill="white" opacity=".6"/><circle cx="160" cy="75" r=".8" fill="white" opacity=".7"/><circle cx="420" cy="80" r=".9" fill="white" opacity=".6"/><circle cx="350" cy="65" r=".6" fill="white" opacity=".5"/><circle cx="55" cy="120" r="1" fill="white" opacity=".4"/><circle cx="470" cy="100" r=".7" fill="white" opacity=".6"/><circle cx="240" cy="60" r=".5" fill="white" opacity=".4"/><circle cx="310" cy="90" r="1.1" fill="#93c5fd" opacity=".6"/><circle cx="170" cy="20" r=".9" fill="#c4b5fd" opacity=".5"/><circle cx="400" cy="30" r=".7" fill="#fde68a" opacity=".5"/>
+        <!-- Galaxy glow -->
+        <ellipse cx="240" cy="210" rx="200" ry="80" fill="url(#gal)" style="transform-origin:240px 210px;transform:rotate(-15deg)"/>
+        <ellipse cx="200" cy="220" rx="150" ry="60" fill="url(#gal2)"/>
+        <!-- Galaxy arms -->
+        <ellipse cx="240" cy="210" rx="220" ry="30" fill="none" stroke="#2563eb" stroke-width=".5" opacity=".2" style="transform-origin:240px 210px;transform:rotate(-15deg)"/>
+        <ellipse cx="240" cy="210" rx="160" ry="20" fill="none" stroke="#7c3aed" stroke-width=".5" opacity=".15" style="transform-origin:240px 210px;transform:rotate(-15deg)"/>
+        <!-- Star cluster center -->
+        <circle cx="240" cy="210" r="30" fill="radial-gradient(circle,#fff,transparent)" opacity=".05"/>
+        <circle cx="240" cy="210" r="4" fill="#fff" opacity=".3"/>
+        <circle cx="240" cy="210" r="8" fill="none" stroke="#bfdbfe" stroke-width=".5" opacity=".2"/>
+        <!-- More scattered stars -->
+        <circle cx="60" cy="180" r=".7" fill="white" opacity=".5"/><circle cx="420" cy="160" r=".8" fill="white" opacity=".4"/><circle cx="110" cy="200" r=".5" fill="white" opacity=".3"/><circle cx="370" cy="190" r=".6" fill="white" opacity=".4"/><circle cx="30" cy="250" r=".8" fill="white" opacity=".5"/><circle cx="460" cy="240" r=".7" fill="white" opacity=".4"/><circle cx="150" cy="270" r=".5" fill="#93c5fd" opacity=".4"/><circle cx="330" cy="260" r=".6" fill="#c4b5fd" opacity=".3"/>
+        <!-- Bottom stars -->
+        <circle cx="50" cy="350" r=".7" fill="white" opacity=".4"/><circle cx="430" cy="360" r=".8" fill="white" opacity=".5"/><circle cx="200" cy="380" r=".5" fill="white" opacity=".3"/><circle cx="300" cy="370" r=".6" fill="white" opacity=".4"/>
+      </svg>
+    </div>
+    <!-- URSINHO COM FOGUETE/GALÁXIA -->
+    <div class="home-bear" style="position:relative;z-index:1;margin-bottom:10px">
+      <svg width="100" height="130" viewBox="0 0 80 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Foguete -->
+        <path d="M38 128 L42 128 L42 108 L38 108 Z" fill="#475569"/>
+        <path d="M35 115 L38 108 L42 108 L45 115 Z" fill="#1e3a5f"/>
+        <ellipse cx="40" cy="107" rx="4" ry="8" fill="#e0f2fe" stroke="#93c5fd" stroke-width=".8"/>
+        <path d="M36 115 L33 122 L38 118 Z" fill="#3b82f6" opacity=".8"/>
+        <path d="M44 115 L47 122 L42 118 Z" fill="#3b82f6" opacity=".8"/>
+        <!-- Chama foguete -->
+        <ellipse cx="40" cy="126" rx="3" ry="5" fill="#f97316" opacity=".9"/>
+        <ellipse cx="40" cy="128" rx="2" ry="3" fill="#fbbf24"/>
+        <!-- Janela foguete -->
+        <circle cx="40" cy="107" r="2.5" fill="#0d1a2e" stroke="#60a5fa" stroke-width=".8"/>
+        <!-- Ursinho dentro do foguete (pequeno) -->
+        <circle cx="40" cy="106" r="1.8" fill="#a0693a"/>
+        <circle cx="38.5" cy="104.5" r=".6" fill="#8B5E3C"/><circle cx="41.5" cy="104.5" r=".6" fill="#8B5E3C"/>
+        <!-- Ursinho normal em cima (flutuando) -->
+        <g style="transform:translateY(0px);animation:bearBob 2.4s ease-in-out infinite">
+          <circle cx="20" cy="16" r="9" fill="#8B5E3C"/><circle cx="20" cy="16" r="5.5" fill="#c48a5c"/>
+          <circle cx="60" cy="16" r="9" fill="#8B5E3C"/><circle cx="60" cy="16" r="5.5" fill="#c48a5c"/>
+          <ellipse cx="40" cy="26" rx="20" ry="19" fill="#a0693a"/>
+          <ellipse cx="40" cy="30" rx="13" ry="11" fill="#c48a5c"/>
+          <circle cx="33" cy="22" r="4" fill="#fff"/><circle cx="47" cy="22" r="4" fill="#fff"/>
+          <circle cx="34" cy="22" r="2.2" fill="#1e1208"/><circle cx="48" cy="22" r="2.2" fill="#1e1208"/>
+          <circle cx="34.8" cy="21.2" r=".7" fill="white"/><circle cx="48.8" cy="21.2" r=".7" fill="white"/>
+          <ellipse cx="40" cy="30" rx="4.5" ry="3" fill="#4a2810"/>
+          <path d="M35 34 Q40 39 45 34" stroke="#4a2810" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+          <circle cx="29" cy="29" r="4" fill="#e07070" opacity=".35"/><circle cx="51" cy="29" r="4" fill="#e07070" opacity=".35"/>
+          <rect x="16" y="43" width="48" height="38" rx="9" fill="white"/>
+          <path d="M34 43 L40 52 L46 43" fill="#e8eef5" stroke="#d1d9e6" stroke-width=".8"/>
+          <rect x="20" y="55" width="13" height="11" rx="4" fill="#dbeafe" stroke="#93c5fd" stroke-width=".8"/>
+          <rect x="34" y="39" width="12" height="7" rx="3" fill="#a0693a"/>
+          <!-- Capacete astronauta -->
+          <ellipse cx="40" cy="20" rx="22" ry="20" fill="none" stroke="#93c5fd" stroke-width="1.5" opacity=".6"/>
+          <ellipse cx="40" cy="20" rx="18" ry="16" fill="#dbeafe" opacity=".15"/>
+          <!-- Braço direito acenando -->
+          <path d="M64 50 Q72 40 68 32" stroke="#a0693a" stroke-width="6" stroke-linecap="round" fill="none"/>
+          <circle cx="67" cy="30" r="5" fill="#c48a5c"/>
+          <!-- Braço esquerdo -->
+          <path d="M16 50 Q8 56 10 64" stroke="#a0693a" stroke-width="6" stroke-linecap="round" fill="none"/>
+          <circle cx="11" cy="66" r="5" fill="#c48a5c"/>
+          <rect x="24" y="78" width="11" height="14" rx="5" fill="#2563eb"/><rect x="45" y="78" width="11" height="14" rx="5" fill="#2563eb"/>
+          <ellipse cx="29" cy="91" rx="8" ry="4" fill="#0f172a"/><ellipse cx="51" cy="91" rx="8" ry="4" fill="#0f172a"/>
+          <!-- Mochila propulsora -->
+          <rect x="54" y="48" width="10" height="16" rx="4" fill="#1e3a5f" stroke="#3b82f6" stroke-width=".8"/>
+          <circle cx="57" cy="65" r="2" fill="#f97316" opacity=".8"/>
+          <circle cx="61" cy="65" r="2" fill="#f97316" opacity=".8"/>
+        </g>
+        <!-- Estrelinhas ao redor -->
+        <circle cx="12" cy="45" r="1.5" fill="#fbbf24" opacity=".8"/>
+        <circle cx="68" cy="38" r="1" fill="#c4b5fd" opacity=".9"/>
+        <circle cx="10" cy="25" r="1" fill="white" opacity=".6"/>
+        <circle cx="72" cy="55" r="1.2" fill="#93c5fd" opacity=".7"/>
+        <circle cx="20" cy="60" r=".8" fill="white" opacity=".5"/>
+      </svg>
+    </div>
+    <div style="position:relative;z-index:1">
+      <button class="home-btn" onclick="goPage('page-mapa')">Explorar módulos →</button>
+    </div>
+  </div>
+  <div class="home-stats" style="position:relative;z-index:1">
+    <div class="stat-card"><div class="stat-n" id="hs-mod">0</div><div class="stat-l">módulos</div></div>
+    <div class="stat-card"><div class="stat-n" id="hs-xp">0</div><div class="stat-l">XP</div></div>
+    <div class="stat-card"><div class="stat-n" id="hs-prog">0%</div><div class="stat-l">progresso</div></div>
+  </div>
+</div>
+
+<!-- MAPA -->
+<div class="page" id="page-mapa">
+  <div class="page-header"><div><h1>Mapa</h1><p id="lvl-text">Nível 1 — Iniciante</p></div><div class="xp-badge"><div class="star"></div><span id="xp-val">0 XP</span></div></div>
+  <div class="prog-wrap"><div class="prog-meta"><span>Progresso</span><span id="prog-num">0 / 12</span></div><div class="prog-track"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div></div>
+  <div class="map-wrap">
+    <div class="bear-wrap"><div class="bear-float" id="map-bear"><svg width="64" height="82" viewBox="0 0 68 88" fill="none"><circle cx="14" cy="16" r="9" fill="#8B5E3C"/><circle cx="14" cy="16" r="5.5" fill="#c48a5c"/><circle cx="54" cy="16" r="9" fill="#8B5E3C"/><circle cx="54" cy="16" r="5.5" fill="#c48a5c"/><ellipse cx="34" cy="26" rx="20" ry="19" fill="#a0693a"/><ellipse cx="34" cy="30" rx="13" ry="11" fill="#c48a5c"/><circle cx="27" cy="22" r="4" fill="#fff"/><circle cx="41" cy="22" r="4" fill="#fff"/><circle cx="28" cy="22" r="2.2" fill="#1e1208"/><circle cx="42" cy="22" r="2.2" fill="#1e1208"/><circle cx="28.8" cy="21.2" r=".7" fill="white"/><circle cx="42.8" cy="21.2" r=".7" fill="white"/><ellipse cx="34" cy="30" rx="4.5" ry="3" fill="#4a2810"/><path d="M29 34 Q34 39 39 34" stroke="#4a2810" stroke-width="1.5" stroke-linecap="round" fill="none"/><circle cx="23" cy="29" r="4" fill="#e07070" opacity=".35"/><circle cx="45" cy="29" r="4" fill="#e07070" opacity=".35"/><rect x="10" y="43" width="48" height="38" rx="9" fill="white"/><rect x="14" y="55" width="13" height="11" rx="4" fill="#dbeafe" stroke="#93c5fd" stroke-width=".8"/><rect x="28" y="39" width="12" height="7" rx="3" fill="#a0693a"/><path d="M58 50 Q66 44 62 36" stroke="#a0693a" stroke-width="6" stroke-linecap="round" fill="none"/><circle cx="61" cy="34" r="5" fill="#c48a5c"/><path d="M56 18 L56 30 L50 38 L64 38 L58 30 L58 18 Z" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.2"/><rect x="55" y="14" width="4.5" height="6" rx="1.5" fill="#93c5fd" stroke="#3b82f6" stroke-width="1"/><path d="M52 34 L51 38 L63 38 L62 34 Z" fill="#3b82f6" opacity=".7"/><path d="M10 50 Q4 56 6 64" stroke="#a0693a" stroke-width="6" stroke-linecap="round" fill="none"/><circle cx="7" cy="66" r="5" fill="#c48a5c"/><rect x="18" y="78" width="11" height="14" rx="5" fill="#2563eb"/><rect x="39" y="78" width="11" height="14" rx="5" fill="#2563eb"/><ellipse cx="23" cy="91" rx="8" ry="4" fill="#0f172a"/><ellipse cx="45" cy="91" rx="8" ry="4" fill="#0f172a"/></svg></div><div class="bear-bubble" id="bear-bubble">Clique no próximo módulo! 🧪</div></div>
+    <div class="section-sep"><div class="sep-dot" style="background:#3b82f6"></div>Química Geral</div><div class="tiles-grid" id="tg"></div>
+    <div class="section-sep"><div class="sep-dot" style="background:#60a5fa"></div>Química Orgânica</div><div class="tiles-grid" id="to"></div>
+    <div class="section-sep"><div class="sep-dot" style="background:#93c5fd"></div>Físico-Química</div><div class="tiles-grid" id="tf"></div>
+  </div>
+</div>
+
+<!-- MÓDULO -->
+<div class="page" id="page-modulo">
+  <div class="module-hero"><button class="back-btn" onclick="goPage('page-mapa')">← voltar ao mapa</button><h2 id="mod-title">Módulo</h2><p id="mod-sub">área</p></div>
+  <div class="module-page">
+    <!-- DIDÁTICA -->
+    <div id="mod-did-view">
+      <div id="tab-did-content"></div>
+      <button class="btn-main" id="btn-go-quest" onclick="goToQuest()" style="margin-bottom:20px">✏️ Ir para as questões →</button>
+    </div>
+    <!-- QUESTÕES (sem volta pra didática) -->
+    <div id="mod-quest-view" style="display:none">
+      <div id="tab-quest-content"></div>
+    </div>
+  </div>
+</div>
+
+<!-- LABORATÓRIO -->
+<div class="page" id="page-lab">
+  <div class="page-header"><div><h1>Laboratório</h1><p>tabela periódica interativa</p></div></div>
+  <div class="lab-wrap">
+    <div class="el-legend" id="el-legend"></div>
+    <div id="el-detail" class="el-detail-panel"></div>
+    <div class="periodic-scroll"><div class="periodic-grid" id="periodic-grid"></div></div>
+  </div>
+</div>
+
+<!-- EXPERIMENTOS -->
+<div class="page" id="page-exp">
+  <div class="page-header"><div><h1>Experimentos</h1><p>explore os elementos</p></div></div>
+  <div class="exp-wrap">
+    <div class="exp-chat" id="exp-chat"></div>
+    <div class="exp-options" id="exp-options-wrap"></div>
+    <div class="exp-input-row" id="exp-input-row" style="display:none"><input class="exp-input" id="exp-input" placeholder="Símbolo (ex: Na, Fe, O)..." maxlength="5"/><button class="exp-send" onclick="expSubmit()">Buscar</button></div>
+  </div>
+</div>
+
+<!-- ADMIN -->
+<div class="page" id="page-admin">
+  <div class="page-header"><div><h1>Admin</h1><p>painel do professor</p></div><button onclick="adminLogout()" style="background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:7px 12px;color:var(--muted2);font-size:11px;cursor:pointer;font-family:var(--mono);margin-top:8px;flex-shrink:0">Sair</button></div>
+  <div class="admin-wrap">
+    <div class="admin-section"><div class="admin-title">Progresso dos módulos</div><div id="admin-modules"></div></div>
+    <div class="admin-section"><div class="admin-title">Ações</div><button class="admin-btn" onclick="adminUnlockAll()">🔓 Desbloquear todos os módulos</button><button class="admin-btn danger" onclick="toggleResetList()">🔄 Resetar módulo específico</button><div id="reset-list" style="display:none;flex-direction:column;gap:6px;margin-top:6px"></div><button class="admin-btn danger" id="btn-reset-all" onclick="adminResetAll()" style="margin-top:2px">🗑 Apagar tudo e começar do zero</button></div>
+  </div>
+</div>
+
+<!-- OVERLAY ADMIN -->
+<div class="overlay" id="overlay-admin">
+  <div class="overlay-box">
+    <div class="overlay-title">🔐 Área Admin</div>
+    <div class="overlay-sub">Digite a senha para entrar</div>
+    <input class="overlay-input" id="admin-pw" type="password" placeholder="•••" maxlength="6" onkeydown="if(event.key==='Enter')checkAdmin()"/>
+    <div class="overlay-err" id="admin-err">Senha incorreta. Tente novamente.</div>
+    <div class="overlay-btns"><button class="btn-ghost" onclick="closeAdminOverlay()" style="flex:1;padding:11px">Cancelar</button><button class="btn-main" onclick="checkAdmin()" style="flex:1;padding:11px">Entrar</button></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- NAV -->
+<nav class="bottom-nav">
+  <button class="nav-item active" id="nav-home" onclick="goPage('page-home')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>Início</button>
+  <button class="nav-item" id="nav-mapa" onclick="goPage('page-mapa')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Mapa</button>
+  <button class="nav-item" id="nav-lab" onclick="goPage('page-lab')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2v-4M9 21H5a2 2 0 0 1-2-2v-4m0 0h18"/></svg>Laboratório</button>
+  <button class="nav-item" id="nav-exp" onclick="goPage('page-exp')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>Experimentos</button>
+  <button class="nav-item" id="nav-admin" onclick="openAdminOverlay()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Admin</button>
+</nav>
+
+<script>
+// ══ DADOS ══
+const AREAS=[
+  {id:'geral',el:'tg',tiles:[
+    {id:'g1',emoji:'⚛️',label:'Átomo',sub:'estrutura',xp:30,did:getDid(),quest:getQuest()},
+    {id:'g2',emoji:'🧪',label:'Tabela periódica',sub:'elementos',xp:30,did:getTabelaDid(),quest:getTabelaQuest()},
+    {id:'g3',emoji:'🔗',label:'Ligações',sub:'iônica/coval.',xp:40,did:getLigacoesDid(),quest:getLigacoesQuest()},
+    {id:'g4',emoji:'⚖️',label:'Estequiometria',sub:'cálculos',xp:50,did:'<div class="card"><div class="did-label">Em breve</div></div>',quest:[]},
+  ]},
+  {id:'organica',el:'to',tiles:[
+    {id:'o1',emoji:'🌿',label:'Intro orgânica',sub:'cadeias',xp:30,did:'<div class="card"><div class="did-label">Em breve</div></div>',quest:[]},
+    {id:'o2',emoji:'⬡',label:'Funções org.',sub:'grupos',xp:40,did:'<div class="card"><div class="did-label">Em breve</div></div>',quest:[]},
+    {id:'o3',emoji:'🔄',label:'Isomeria',sub:'tipos',xp:40,did:'<div class="card"><div class="did-label">Em breve</div></div>',quest:[]},
+    {id:'o4',emoji:'⚗️',label:'Reações org.',sub:'adição/subs.',xp:50,did:'<div class="card"><div class="did-label">Em breve</div></div>',quest:[]},
+  ]},
+  {id:'fisico',el:'tf',tiles:[
+    {id:'f1',emoji:'🌡️',label:'Termoquímica',sub:'entalpia',xp:40,did:'<div class="card"><div class="did-label">Em breve</div></div>',quest:[]},
+    {id:'f2',emoji:'⚡',label:'Cinética',sub:'velocidade',xp:40,did:'<div class="card"><div class="did-label">Em breve</div></div>',quest:[]},
+    {id:'f3',emoji:'↔️',label:'Equilíbrio',sub:'Kc/Le Chat.',xp:50,did:'<div class="card"><div class="did-label">Em breve</div></div>',quest:[]},
+    {id:'f4',emoji:'🔋',label:'Eletroquímica',sub:'pilhas',xp:60,did:'<div class="card"><div class="did-label">Em breve</div></div>',quest:[]},
+  ]},
+];
+const ALL=AREAS.flatMap(a=>a.tiles);
+
+// ══ ESTADO ══
+let done=new Set(JSON.parse(localStorage.getItem('lq_done')||'[]'));
+let xp=parseInt(localStorage.getItem('lq_xp')||'0');
+let totalAcc=parseInt(localStorage.getItem('lq_acc')||'0');
+let totalResp=parseInt(localStorage.getItem('lq_resp')||'0');
+let modScores=JSON.parse(localStorage.getItem('lq_scores')||'{}');
+let isAdmin=false;
+let curMod=null,curQ=0,answers=[];
+
+function save(){localStorage.setItem('lq_done',JSON.stringify([...done]));localStorage.setItem('lq_xp',xp);localStorage.setItem('lq_acc',totalAcc);localStorage.setItem('lq_resp',totalResp);localStorage.setItem('lq_scores',JSON.stringify(modScores));}
+
+// ══ NAVEGAÇÃO ══
+function goPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  const map={'page-home':'nav-home','page-mapa':'nav-mapa','page-lab':'nav-lab','page-exp':'nav-exp','page-admin':'nav-admin'};
+  const ni=document.getElementById(map[id]);if(ni)ni.classList.add('active');
+  if(id==='page-mapa')renderMap();
+  if(id==='page-home')renderHome();
+  if(id==='page-lab')renderLab();
+  if(id==='page-exp')initExp();
+  if(id==='page-admin')renderAdmin();
+  window.scrollTo(0,0);
+}
+
+// ══ ADMIN ══
+function openAdminOverlay(){if(isAdmin){goPage('page-admin');return;}document.getElementById('admin-pw').value='';document.getElementById('admin-err').style.display='none';document.getElementById('overlay-admin').classList.add('show');}
+function closeAdminOverlay(){document.getElementById('overlay-admin').classList.remove('show');}
+function checkAdmin(){const pw=document.getElementById('admin-pw').value;if(pw==='123'){isAdmin=true;closeAdminOverlay();goPage('page-admin');}else{document.getElementById('admin-err').style.display='block';}}
+function adminLogout(){isAdmin=false;goPage('page-home');}
+function adminUnlockAll(){ALL.forEach(t=>done.add(t.id));xp=ALL.reduce((s,t)=>s+t.xp,0);save();renderMap();showToast('Todos os módulos desbloqueados!');}
+function adminResetAll(){
+  const btn=document.getElementById('btn-reset-all');
+  if(btn.dataset.confirm!=='yes'){
+    btn.textContent='⚠️ Tem certeza? Clique de novo para confirmar!';
+    btn.style.background='rgba(239,68,68,.2)';
+    btn.style.borderColor='#ef4444';
+    btn.style.color='#fca5a5';
+    btn.dataset.confirm='yes';
+    setTimeout(()=>{btn.textContent='🗑 Apagar tudo e começar do zero';btn.style.background='';btn.style.borderColor='';btn.style.color='';btn.dataset.confirm='';},3000);
+    return;
+  }
+  done.clear();xp=0;totalAcc=0;totalResp=0;modScores={};
+  save();renderMap();renderHome();renderAdmin();
+  showToast('✓ Tudo apagado! Começando do zero.');
+}
+function toggleResetList(){
+  const list=document.getElementById('reset-list');
+  if(list.style.display==='flex'){list.style.display='none';return;}
+  list.innerHTML=ALL.map((t,i)=>`<button class="admin-btn danger" style="font-size:11px;padding:8px 12px" onclick="adminResetModule('${t.id}')">${t.emoji} ${t.label}</button>`).join('');
+  list.style.display='flex';
+}
+function adminResetModule(id){const t=ALL.find(x=>x.id===id);if(!t)return;done.delete(t.id);delete modScores[t.id];xp=Math.max(0,xp-t.xp);save();renderMap();renderAdmin();document.getElementById('reset-list').style.display='none';showToast('🔄 "'+t.label+'" resetado!');}
+function renderAdmin(){
+  const wrap=document.getElementById('admin-modules');
+  wrap.innerHTML=ALL.map(t=>{
+    const sc=modScores[t.id];const isDone=done.has(t.id);
+    const badge=isDone?'<span class="admin-badge badge-pass">aprovado</span>':sc!==undefined?`<span class="admin-badge badge-fail">${sc}/5 acertos</span>`:'<span class="admin-badge badge-pend">pendente</span>';
+    return `<div class="student-row"><div><div class="student-name">${t.emoji} ${t.label}</div><div class="student-score">${sc!==undefined?sc+' acerto(s)':'não respondido'}</div></div>${badge}</div>`;
+  }).join('');
+}
+
+// ══ HOME ══
+function renderHome(){document.getElementById('hs-mod').textContent=done.size;document.getElementById('hs-xp').textContent=xp;const p=Math.round(done.size/ALL.length*100);document.getElementById('hs-prog').textContent=p+'%';}
+
+// ══ MAPA ══
+function renderMap(){
+  let di=0;ALL.forEach((t,i)=>{if(done.has(t.id))di=i+1;});
+  AREAS.forEach(area=>{
+    const cont=document.getElementById(area.el);
+    cont.innerHTML=area.tiles.map(t=>{
+      const gi=ALL.indexOf(t);const isDone=done.has(t.id);const isCur=gi===di;const isLock=!isDone&&!isCur;
+      let cls='tile '+(isDone?'done':isCur?'unlocked':'locked');
+      return `<div class="${cls}" onclick="clickTile('${t.id}',${isLock})">
+        ${isDone?'<div class="tile-check"></div>':''}${isLock?'<div class="tile-lock">🔒</div>':''}
+        <div class="tile-emoji">${t.emoji}</div><div class="tile-label">${t.label}</div><div class="tile-sub">${t.sub}</div></div>`;
+    }).join('');
+  });
+  const d=done.size,total=ALL.length;
+  document.getElementById('prog-fill').style.width=Math.round(d/total*100)+'%';
+  document.getElementById('prog-num').textContent=d+' / '+total;
+  document.getElementById('xp-val').textContent=xp+' XP';
+  document.getElementById('lvl-text').textContent=d<4?'Nível 1 — Iniciante':d<9?'Nível 2 — Intermediário':'Nível 3 — Avançado';
+  const cur=ALL[di];document.getElementById('bear-bubble').textContent=cur?'Próximo: '+cur.label+' '+cur.emoji:'Tudo concluído! 🏆';
+}
+function clickTile(id,locked){if(locked){showToast('Complete o anterior primeiro! 🔒');return;}const t=ALL.find(x=>x.id===id);if(!t)return;openModule(t);}
+
+// ══ MÓDULO ══
+function openModule(t){
+  curMod=t;curQ=0;answers=new Array(t.quest.length).fill(null);
+  document.getElementById('mod-title').textContent=t.emoji+' '+t.label;
+  document.getElementById('mod-sub').textContent=t.sub;
+  document.getElementById('tab-did-content').innerHTML=t.did;setTimeout(buildModTable,50);
+  // show didática, hide questões
+  document.getElementById('mod-did-view').style.display='block';
+  document.getElementById('mod-quest-view').style.display='none';
+  // se admin e sem questões, mostra botão direto
+  const btnQ=document.getElementById('btn-go-quest');
+  if(t.quest.length===0&&isAdmin){btnQ.textContent='✓ Marcar como concluído (Admin)';btnQ.onclick=markDone;}
+  else{btnQ.textContent='✏️ Ir para as questões →';btnQ.onclick=goToQuest;}
+  goPage('page-modulo');
+}
+function goToQuest(){
+  document.getElementById('mod-did-view').style.display='none';
+  document.getElementById('mod-quest-view').style.display='block';
+  renderQuestion();
+  window.scrollTo(0,0);
+}
+function switchTab(tab){
+  // mantido para compatibilidade mas não usado mais nas abas
+  if(tab==='quest')goToQuest();
+}
+
+// ══ QUESTÕES ══
+function renderQuestion(){
+  const cont=document.getElementById('tab-quest-content');
+  if(!curMod||curMod.quest.length===0){cont.innerHTML=`<div class="card"><div class="did-label">Em breve</div><div class="did-intro">Questões sendo preparadas.</div><button class="btn-main" onclick="markDone()" style="margin-top:14px">Marcar como concluído ✓</button></div>`;return;}
+  if(curQ>=curMod.quest.length){renderScore();return;}
+  const q=curMod.quest[curQ];const ans=answers[curQ];const L=['A','B','C','D'];
+  const dots=curMod.quest.map((_,i)=>{let c='q-dot';if(answers[i]!==null)c+=' done';else if(i===curQ)c+=' cur';return`<div class="${c}"></div>`;}).join('');
+  const opts=q.opts.map((op,i)=>{let c='opt';let d='';if(ans!==null){d='disabled';if(i===q.c)c+=' correct';else if(i===ans)c+=' wrong';}return`<button class="${c}" ${d} onclick="answerQ(${i})"><div class="opt-l">${L[i]}</div>${op}</button>`;}).join('');
+  const res=ans!==null?`<div class="res-box show"><div class="res-label">✦ Resolução</div><p>${q.res}</p></div>`:'';
+  const isLast=curQ===curMod.quest.length-1;const allAns=answers.every(a=>a!==null);
+  const nextBtn=isLast&&allAns?`<button class="btn-main" onclick="renderScore()">Ver resultado 🏆</button>`:isLast?`<button class="btn-main" disabled>Responda para continuar</button>`:`<button class="btn-main" ${ans===null?'disabled':''} onclick="nextQ()">Próxima →</button>`;
+  cont.innerHTML=`<div class="q-dots">${dots}</div><div class="q-card"><div class="q-num">Questão ${curQ+1} de ${curMod.quest.length}</div><div class="q-text">${q.q}</div><div class="opts">${opts}</div>${res}</div><div class="nav-row"><button class="btn-ghost" ${curQ===0?'disabled':''} onclick="prevQ()">← Anterior</button>${nextBtn}</div>`;
+}
+function answerQ(i){if(answers[curQ]!==null)return;const q=curMod.quest[curQ];answers[curQ]=i;totalResp++;if(i===q.c)totalAcc++;save();renderQuestion();}
+function nextQ(){curQ++;renderQuestion();}function prevQ(){curQ--;renderQuestion();}
+
+function renderScore(){
+  const correct=answers.filter((a,i)=>a===curMod.quest[i]?.c).length;
+  const total=curMod.quest.length;const pct=Math.round(correct/total*100);
+  const passed=correct>=3||isAdmin;
+  const stars=pct===100?'⭐⭐⭐':pct>=60?'⭐⭐':'⭐';
+  const msg=pct===100?'Perfeito! Dominou o módulo!':passed?'Muito bem! Você passou!':'Ainda não foi dessa vez...';
+  modScores[curMod.id]=correct;save();
+  const cont=document.getElementById('tab-quest-content');
+  const actionBtn=passed
+    ?`<button class="btn-main" onclick="markDone()" style="margin-bottom:10px">Concluir e voltar ao mapa ✓</button>`
+    :`<div class="card score-fail">⚠️ Você precisa de pelo menos 3 acertos em 5 para desbloquear o próximo módulo.<br>Mas pode refazer quantas vezes quiser!</div>`;
+  cont.innerHTML=`
+    <div class="card score-wrap">
+      <div class="score-stars">${stars}</div><div class="score-num">${correct}/${total}</div>
+      <div class="score-sub">${pct}% de acerto</div><div class="score-msg">${msg}</div>
+      ${passed&&!isAdmin?`<div class="score-xp">+${curMod.xp} XP ganhos</div>`:passed&&isAdmin?`<div class="score-xp" style="color:#f59e0b">✓ Admin: aprovado sem questões</div>`:''}
+    </div>
+    ${actionBtn}
+    <button class="btn-ghost" onclick="curQ=0;answers=new Array(curMod.quest.length).fill(null);renderQuestion()" style="margin-top:8px">🔄 Refazer módulo</button>`;
+}
+function markDone(){
+  if(!done.has(curMod.id)){
+    done.add(curMod.id);
+    if(!isAdmin)xp+=curMod.xp;
+    save();
+  }
+  const bear=document.getElementById('map-bear');if(bear){bear.classList.add('pop');setTimeout(()=>bear.classList.remove('pop'),800);}
+  showToast(isAdmin?'✓ Admin: '+curMod.label+' desbloqueado':'+'+curMod.xp+' XP — '+curMod.label+' concluído! 🎉');
+  goPage('page-mapa');
+}
+
+// ══ LABORATÓRIO ══
+const ELS=[
+  // Período 1
+  {z:1,sym:'H',name:'Hidrogênio',mass:1.008,cat:'nonmetal',g:1,p:1,col:1,row:1},
+  {z:2,sym:'He',name:'Hélio',mass:4.003,cat:'noble',g:18,p:1,col:18,row:1},
+  // Período 2
+  {z:3,sym:'Li',name:'Lítio',mass:6.941,cat:'alkali',g:1,p:2,col:1,row:2},
+  {z:4,sym:'Be',name:'Berílio',mass:9.012,cat:'alkaline',g:2,p:2,col:2,row:2},
+  {z:5,sym:'B',name:'Boro',mass:10.81,cat:'metalloid',g:13,p:2,col:13,row:2},
+  {z:6,sym:'C',name:'Carbono',mass:12.01,cat:'nonmetal',g:14,p:2,col:14,row:2},
+  {z:7,sym:'N',name:'Nitrogênio',mass:14.01,cat:'nonmetal',g:15,p:2,col:15,row:2},
+  {z:8,sym:'O',name:'Oxigênio',mass:16.00,cat:'nonmetal',g:16,p:2,col:16,row:2},
+  {z:9,sym:'F',name:'Flúor',mass:19.00,cat:'halogen',g:17,p:2,col:17,row:2},
+  {z:10,sym:'Ne',name:'Neônio',mass:20.18,cat:'noble',g:18,p:2,col:18,row:2},
+  // Período 3
+  {z:11,sym:'Na',name:'Sódio',mass:22.99,cat:'alkali',g:1,p:3,col:1,row:3},
+  {z:12,sym:'Mg',name:'Magnésio',mass:24.31,cat:'alkaline',g:2,p:3,col:2,row:3},
+  {z:13,sym:'Al',name:'Alumínio',mass:26.98,cat:'post-transition',g:13,p:3,col:13,row:3},
+  {z:14,sym:'Si',name:'Silício',mass:28.09,cat:'metalloid',g:14,p:3,col:14,row:3},
+  {z:15,sym:'P',name:'Fósforo',mass:30.97,cat:'nonmetal',g:15,p:3,col:15,row:3},
+  {z:16,sym:'S',name:'Enxofre',mass:32.07,cat:'nonmetal',g:16,p:3,col:16,row:3},
+  {z:17,sym:'Cl',name:'Cloro',mass:35.45,cat:'halogen',g:17,p:3,col:17,row:3},
+  {z:18,sym:'Ar',name:'Argônio',mass:39.95,cat:'noble',g:18,p:3,col:18,row:3},
+  // Período 4
+  {z:19,sym:'K',name:'Potássio',mass:39.10,cat:'alkali',g:1,p:4,col:1,row:4},
+  {z:20,sym:'Ca',name:'Cálcio',mass:40.08,cat:'alkaline',g:2,p:4,col:2,row:4},
+  {z:21,sym:'Sc',name:'Escândio',mass:44.96,cat:'transition',g:3,p:4,col:3,row:4},
+  {z:22,sym:'Ti',name:'Titânio',mass:47.87,cat:'transition',g:4,p:4,col:4,row:4},
+  {z:23,sym:'V',name:'Vanádio',mass:50.94,cat:'transition',g:5,p:4,col:5,row:4},
+  {z:24,sym:'Cr',name:'Cromo',mass:52.00,cat:'transition',g:6,p:4,col:6,row:4},
+  {z:25,sym:'Mn',name:'Manganês',mass:54.94,cat:'transition',g:7,p:4,col:7,row:4},
+  {z:26,sym:'Fe',name:'Ferro',mass:55.85,cat:'transition',g:8,p:4,col:8,row:4},
+  {z:27,sym:'Co',name:'Cobalto',mass:58.93,cat:'transition',g:9,p:4,col:9,row:4},
+  {z:28,sym:'Ni',name:'Níquel',mass:58.69,cat:'transition',g:10,p:4,col:10,row:4},
+  {z:29,sym:'Cu',name:'Cobre',mass:63.55,cat:'transition',g:11,p:4,col:11,row:4},
+  {z:30,sym:'Zn',name:'Zinco',mass:65.38,cat:'transition',g:12,p:4,col:12,row:4},
+  {z:31,sym:'Ga',name:'Gálio',mass:69.72,cat:'post-transition',g:13,p:4,col:13,row:4},
+  {z:32,sym:'Ge',name:'Germânio',mass:72.63,cat:'metalloid',g:14,p:4,col:14,row:4},
+  {z:33,sym:'As',name:'Arsênio',mass:74.92,cat:'metalloid',g:15,p:4,col:15,row:4},
+  {z:34,sym:'Se',name:'Selênio',mass:78.97,cat:'nonmetal',g:16,p:4,col:16,row:4},
+  {z:35,sym:'Br',name:'Bromo',mass:79.90,cat:'halogen',g:17,p:4,col:17,row:4},
+  {z:36,sym:'Kr',name:'Criptônio',mass:83.80,cat:'noble',g:18,p:4,col:18,row:4},
+  // Período 5
+  {z:37,sym:'Rb',name:'Rubídio',mass:85.47,cat:'alkali',g:1,p:5,col:1,row:5},
+  {z:38,sym:'Sr',name:'Estrôncio',mass:87.62,cat:'alkaline',g:2,p:5,col:2,row:5},
+  {z:39,sym:'Y',name:'Ítrio',mass:88.91,cat:'transition',g:3,p:5,col:3,row:5},
+  {z:40,sym:'Zr',name:'Zircônio',mass:91.22,cat:'transition',g:4,p:5,col:4,row:5},
+  {z:41,sym:'Nb',name:'Nióbio',mass:92.91,cat:'transition',g:5,p:5,col:5,row:5},
+  {z:42,sym:'Mo',name:'Molibdênio',mass:95.96,cat:'transition',g:6,p:5,col:6,row:5},
+  {z:43,sym:'Tc',name:'Tecnécio',mass:98.00,cat:'transition',g:7,p:5,col:7,row:5},
+  {z:44,sym:'Ru',name:'Rutênio',mass:101.1,cat:'transition',g:8,p:5,col:8,row:5},
+  {z:45,sym:'Rh',name:'Ródio',mass:102.9,cat:'transition',g:9,p:5,col:9,row:5},
+  {z:46,sym:'Pd',name:'Paládio',mass:106.4,cat:'transition',g:10,p:5,col:10,row:5},
+  {z:47,sym:'Ag',name:'Prata',mass:107.9,cat:'transition',g:11,p:5,col:11,row:5},
+  {z:48,sym:'Cd',name:'Cádmio',mass:112.4,cat:'transition',g:12,p:5,col:12,row:5},
+  {z:49,sym:'In',name:'Índio',mass:114.8,cat:'post-transition',g:13,p:5,col:13,row:5},
+  {z:50,sym:'Sn',name:'Estanho',mass:118.7,cat:'post-transition',g:14,p:5,col:14,row:5},
+  {z:51,sym:'Sb',name:'Antimônio',mass:121.8,cat:'metalloid',g:15,p:5,col:15,row:5},
+  {z:52,sym:'Te',name:'Telúrio',mass:127.6,cat:'metalloid',g:16,p:5,col:16,row:5},
+  {z:53,sym:'I',name:'Iodo',mass:126.9,cat:'halogen',g:17,p:5,col:17,row:5},
+  {z:54,sym:'Xe',name:'Xenônio',mass:131.3,cat:'noble',g:18,p:5,col:18,row:5},
+  // Período 6
+  {z:55,sym:'Cs',name:'Césio',mass:132.9,cat:'alkali',g:1,p:6,col:1,row:6},
+  {z:56,sym:'Ba',name:'Bário',mass:137.3,cat:'alkaline',g:2,p:6,col:2,row:6},
+  {z:57,sym:'La',name:'Lantânio',mass:138.9,cat:'lanthanide',g:3,p:6,col:3,row:8},
+  {z:58,sym:'Ce',name:'Cério',mass:140.1,cat:'lanthanide',g:4,p:6,col:4,row:8},
+  {z:59,sym:'Pr',name:'Praseodímio',mass:140.9,cat:'lanthanide',g:5,p:6,col:5,row:8},
+  {z:60,sym:'Nd',name:'Neodímio',mass:144.2,cat:'lanthanide',g:6,p:6,col:6,row:8},
+  {z:61,sym:'Pm',name:'Promécio',mass:145.0,cat:'lanthanide',g:7,p:6,col:7,row:8},
+  {z:62,sym:'Sm',name:'Samário',mass:150.4,cat:'lanthanide',g:8,p:6,col:8,row:8},
+  {z:63,sym:'Eu',name:'Európio',mass:152.0,cat:'lanthanide',g:9,p:6,col:9,row:8},
+  {z:64,sym:'Gd',name:'Gadolínio',mass:157.3,cat:'lanthanide',g:10,p:6,col:10,row:8},
+  {z:65,sym:'Tb',name:'Térbio',mass:158.9,cat:'lanthanide',g:11,p:6,col:11,row:8},
+  {z:66,sym:'Dy',name:'Disprósio',mass:162.5,cat:'lanthanide',g:12,p:6,col:12,row:8},
+  {z:67,sym:'Ho',name:'Hólmio',mass:164.9,cat:'lanthanide',g:13,p:6,col:13,row:8},
+  {z:68,sym:'Er',name:'Érbio',mass:167.3,cat:'lanthanide',g:14,p:6,col:14,row:8},
+  {z:69,sym:'Tm',name:'Túlio',mass:168.9,cat:'lanthanide',g:15,p:6,col:15,row:8},
+  {z:70,sym:'Yb',name:'Itérbio',mass:173.0,cat:'lanthanide',g:16,p:6,col:16,row:8},
+  {z:71,sym:'Lu',name:'Lutécio',mass:175.0,cat:'lanthanide',g:17,p:6,col:17,row:8},
+  {z:72,sym:'Hf',name:'Háfnio',mass:178.5,cat:'transition',g:4,p:6,col:4,row:6},
+  {z:73,sym:'Ta',name:'Tântalo',mass:180.9,cat:'transition',g:5,p:6,col:5,row:6},
+  {z:74,sym:'W',name:'Tungstênio',mass:183.8,cat:'transition',g:6,p:6,col:6,row:6},
+  {z:75,sym:'Re',name:'Rênio',mass:186.2,cat:'transition',g:7,p:6,col:7,row:6},
+  {z:76,sym:'Os',name:'Ósmio',mass:190.2,cat:'transition',g:8,p:6,col:8,row:6},
+  {z:77,sym:'Ir',name:'Irídio',mass:192.2,cat:'transition',g:9,p:6,col:9,row:6},
+  {z:78,sym:'Pt',name:'Platina',mass:195.1,cat:'transition',g:10,p:6,col:10,row:6},
+  {z:79,sym:'Au',name:'Ouro',mass:197.0,cat:'transition',g:11,p:6,col:11,row:6},
+  {z:80,sym:'Hg',name:'Mercúrio',mass:200.6,cat:'transition',g:12,p:6,col:12,row:6},
+  {z:81,sym:'Tl',name:'Tálio',mass:204.4,cat:'post-transition',g:13,p:6,col:13,row:6},
+  {z:82,sym:'Pb',name:'Chumbo',mass:207.2,cat:'post-transition',g:14,p:6,col:14,row:6},
+  {z:83,sym:'Bi',name:'Bismuto',mass:208.9,cat:'post-transition',g:15,p:6,col:15,row:6},
+  {z:84,sym:'Po',name:'Polônio',mass:209.0,cat:'metalloid',g:16,p:6,col:16,row:6},
+  {z:85,sym:'At',name:'Astato',mass:210.0,cat:'halogen',g:17,p:6,col:17,row:6},
+  {z:86,sym:'Rn',name:'Radônio',mass:222.0,cat:'noble',g:18,p:6,col:18,row:6},
+  // Período 7
+  {z:87,sym:'Fr',name:'Frâncio',mass:223.0,cat:'alkali',g:1,p:7,col:1,row:7},
+  {z:88,sym:'Ra',name:'Rádio',mass:226.0,cat:'alkaline',g:2,p:7,col:2,row:7},
+  {z:89,sym:'Ac',name:'Actínio',mass:227.0,cat:'actinide',g:3,p:7,col:3,row:9},
+  {z:90,sym:'Th',name:'Tório',mass:232.0,cat:'actinide',g:4,p:7,col:4,row:9},
+  {z:91,sym:'Pa',name:'Protactínio',mass:231.0,cat:'actinide',g:5,p:7,col:5,row:9},
+  {z:92,sym:'U',name:'Urânio',mass:238.0,cat:'actinide',g:6,p:7,col:6,row:9},
+  {z:93,sym:'Np',name:'Netúnio',mass:237.0,cat:'actinide',g:7,p:7,col:7,row:9},
+  {z:94,sym:'Pu',name:'Plutônio',mass:244.0,cat:'actinide',g:8,p:7,col:8,row:9},
+  {z:95,sym:'Am',name:'Amerício',mass:243.0,cat:'actinide',g:9,p:7,col:9,row:9},
+  {z:96,sym:'Cm',name:'Cúrio',mass:247.0,cat:'actinide',g:10,p:7,col:10,row:9},
+  {z:97,sym:'Bk',name:'Berquélio',mass:247.0,cat:'actinide',g:11,p:7,col:11,row:9},
+  {z:98,sym:'Cf',name:'Califórnio',mass:251.0,cat:'actinide',g:12,p:7,col:12,row:9},
+  {z:99,sym:'Es',name:'Einstênio',mass:252.0,cat:'actinide',g:13,p:7,col:13,row:9},
+  {z:100,sym:'Fm',name:'Férmio',mass:257.0,cat:'actinide',g:14,p:7,col:14,row:9},
+  {z:101,sym:'Md',name:'Mendelévio',mass:258.0,cat:'actinide',g:15,p:7,col:15,row:9},
+  {z:102,sym:'No',name:'Nobélio',mass:259.0,cat:'actinide',g:16,p:7,col:16,row:9},
+  {z:103,sym:'Lr',name:'Laurêncio',mass:262.0,cat:'actinide',g:17,p:7,col:17,row:9},
+  {z:104,sym:'Rf',name:'Rutherfórdio',mass:267.0,cat:'transition',g:4,p:7,col:4,row:7},
+  {z:105,sym:'Db',name:'Dúbnio',mass:268.0,cat:'transition',g:5,p:7,col:5,row:7},
+  {z:106,sym:'Sg',name:'Seabórgio',mass:271.0,cat:'transition',g:6,p:7,col:6,row:7},
+  {z:107,sym:'Bh',name:'Bóhrio',mass:272.0,cat:'transition',g:7,p:7,col:7,row:7},
+  {z:108,sym:'Hs',name:'Hássio',mass:270.0,cat:'transition',g:8,p:7,col:8,row:7},
+  {z:109,sym:'Mt',name:'Meitnério',mass:276.0,cat:'transition',g:9,p:7,col:9,row:7},
+  {z:110,sym:'Ds',name:'Darmstádio',mass:281.0,cat:'transition',g:10,p:7,col:10,row:7},
+  {z:111,sym:'Rg',name:'Roentgênio',mass:280.0,cat:'transition',g:11,p:7,col:11,row:7},
+  {z:112,sym:'Cn',name:'Copernício',mass:285.0,cat:'transition',g:12,p:7,col:12,row:7},
+  {z:113,sym:'Nh',name:'Nihônio',mass:284.0,cat:'post-transition',g:13,p:7,col:13,row:7},
+  {z:114,sym:'Fl',name:'Fleróvio',mass:289.0,cat:'post-transition',g:14,p:7,col:14,row:7},
+  {z:115,sym:'Mc',name:'Moscóvio',mass:288.0,cat:'post-transition',g:15,p:7,col:15,row:7},
+  {z:116,sym:'Lv',name:'Livermório',mass:293.0,cat:'post-transition',g:16,p:7,col:16,row:7},
+  {z:117,sym:'Ts',name:'Tenessino',mass:294.0,cat:'halogen',g:17,p:7,col:17,row:7},
+  {z:118,sym:'Og',name:'Oganessônio',mass:294.0,cat:'noble',g:18,p:7,col:18,row:7},
+];
+const CAT_L={'alkali':'Metal alcalino','alkaline':'Metal alcalino-terroso','transition':'Metal de transição','post-transition':'Metal pós-transição','metalloid':'Semimetal','nonmetal':'Não-metal','halogen':'Halogênio','noble':'Gás nobre','lanthanide':'Lantanídeo','actinide':'Actinídeo'};
+const CAT_C={'alkali':'#7c3aed','alkaline':'#d97706','transition':'#2563eb','post-transition':'#16a34a','metalloid':'#ca8a04','nonmetal':'#dc2626','halogen':'#db2777','noble':'#9333ea','lanthanide':'#0d9488','actinide':'#b91c1c'};
+const CAT_TEXT={'alkali':'#1e0a2e','alkaline':'#1a1000','transition':'#001020','post-transition':'#001a08','metalloid':'#1a0e00','nonmetal':'#1a0000','halogen':'#1a0008','noble':'#0a0018','lanthanide':'#001414','actinide':'#1a0404'};
+
+function renderLab(){
+  if(document.getElementById('periodic-grid').innerHTML!=='')return;
+  const grid=document.getElementById('periodic-grid');
+  // 9 rows: 7 períodos + gap + lantanídeos + actinídeos
+  const ROWS=9,COLS=18;
+  const cells=Array(ROWS).fill(null).map(()=>Array(COLS).fill(null));
+  ELS.forEach(el=>{if(el.row<=ROWS&&el.col<=COLS)cells[el.row-1][el.col-1]=el;});
+  let html='';
+  for(let r=0;r<ROWS;r++){
+    // gap row between period 7 and lanthanides
+    if(r===7){
+      for(let c=0;c<COLS;c++)html+=`<div class="el empty" style="height:4px;min-height:4px"></div>`;
+    }
+    for(let c=0;c<COLS;c++){
+      const el=cells[r][c];
+      if(el){
+        const bg=CAT_C[el.cat]||'#111';
+        const tx=CAT_TEXT[el.cat]||'#000';
+        html+=`<div class="el ${el.cat}" onclick="showEl(${el.z})" title="${el.name}"><div class="el-num">${el.z}</div><div class="el-sym">${el.sym}</div><div class="el-name">${el.name.length>8?el.name.substring(0,7)+'…':el.name}</div></div>`;
+      } else {
+        html+=`<div class="el empty"></div>`;
+      }
+    }
+  }
+  grid.innerHTML=html;
+  document.getElementById('el-legend').innerHTML=Object.entries(CAT_L).map(([k,v])=>`<div class="el-leg-item"><div class="el-leg-dot" style="background:${CAT_C[k]};border:1px solid ${CAT_C[k]}"></div>${v}</div>`).join('');
+}
+function showEl(z){
+  const el=ELS.find(e=>e.z===z);if(!el)return;
+  const n=Math.round(el.mass)-el.z;
+  const panel=document.getElementById('el-detail');panel.className='el-detail-panel show';
+  panel.innerHTML=`
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px">
+    <div style="display:flex;align-items:center;gap:14px">
+      <div style="width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,${CAT_C[el.cat]}44,${CAT_C[el.cat]}22);border:2px solid ${CAT_C[el.cat]};display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0">
+        <div style="font-size:7px;color:${CAT_C[el.cat]};font-family:var(--mono)">${el.z}</div>
+        <div style="font-size:20px;font-weight:800;color:var(--text);font-family:var(--mono);line-height:1">${el.sym}</div>
+      </div>
+      <div><div style="font-size:16px;font-weight:700;color:var(--text)">${el.name}</div><div style="font-size:11px;color:${CAT_C[el.cat]};font-family:var(--mono);margin-top:2px">${CAT_L[el.cat]||el.cat}</div></div>
+    </div>
+    <button onclick="closeEl()" style="background:var(--bg3);border:1px solid var(--border2);border-radius:8px;width:32px;height:32px;color:var(--muted2);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0">✕</button>
+  </div>
+  <div class="el-detail-row">
+    <div class="el-detail-item"><div class="label">Nº atômico (Z)</div><div class="value">${el.z}</div></div>
+    <div class="el-detail-item"><div class="label">Massa atômica</div><div class="value">${el.mass} u</div></div>
+    <div class="el-detail-item"><div class="label">Prótons (p⁺)</div><div class="value">${el.z}</div></div>
+    <div class="el-detail-item"><div class="label">Nêutrons (n⁰)</div><div class="value">≈ ${n}</div></div>
+    <div class="el-detail-item"><div class="label">Elétrons (e⁻)</div><div class="value">${el.z}</div></div>
+    <div class="el-detail-item"><div class="label">Período / Grupo</div><div class="value">${el.p} / ${el.g}</div></div>
+  </div>`;
+  setTimeout(()=>panel.scrollIntoView({behavior:'smooth',block:'start'}),50);
+}
+function closeEl(){const panel=document.getElementById('el-detail');panel.className='el-detail-panel';panel.innerHTML='';}
+
+// ══ EXPERIMENTOS ══
+let expState='menu';
+function initExp(){
+  if(document.getElementById('exp-chat').children.length>0)return;
+  addBearMsg('Olá! 🐻 O que você quer explorar?');
+  showOpts([
+    {l:'⚛️ Prótons, nêutrons e elétrons',a:()=>askEl('part')},
+    {l:'🔗 Junção de dois elementos',a:()=>askComp()},
+    {l:'📋 Propriedades do elemento',a:()=>askEl('prop')},
+    {l:'🔢 Configuração eletrônica',a:()=>askEl('conf')},
+  ]);
+}
+function addBearMsg(t){const d=document.createElement('div');d.className='exp-msg bear';d.innerHTML=t;document.getElementById('exp-chat').appendChild(d);document.getElementById('exp-chat').scrollTop=9999;}
+function addUserMsg(t){const d=document.createElement('div');d.className='exp-msg user';d.textContent=t;document.getElementById('exp-chat').appendChild(d);document.getElementById('exp-chat').scrollTop=9999;}
+function showOpts(opts){
+  const w=document.getElementById('exp-options-wrap');document.getElementById('exp-input-row').style.display='none';
+  w.innerHTML='';opts.forEach(o=>{const b=document.createElement('button');b.className='exp-opt';b.textContent=o.l;b.onclick=o.a;w.appendChild(b);});
+}
+function showInp(ph){document.getElementById('exp-options-wrap').innerHTML='';document.getElementById('exp-input-row').style.display='flex';const inp=document.getElementById('exp-input');inp.placeholder=ph||'Símbolo (ex: Na)';inp.value='';inp.focus();}
+function askEl(type){const labels={'part':'Prótons, nêutrons e elétrons','prop':'Propriedades','conf':'Configuração eletrônica'};addUserMsg(labels[type]);expState=type;addBearMsg('Qual elemento? Digite o símbolo:');showInp('Ex: H, Na, Fe, O, Au...');}
+function askComp(){addUserMsg('Junção de dois elementos');expState='comp';addBearMsg('Digite dois símbolos separados por + (ex: <strong>Na + Cl</strong>):');showInp('Ex: Na + Cl');}
+function expSubmit(){
+  const v=document.getElementById('exp-input').value.trim();if(!v)return;document.getElementById('exp-input').value='';
+  if(expState==='comp'){addUserMsg(v);handleComp(v);}
+  else{const sym=v.replace(/[^a-zA-Z]/g,'');addUserMsg(sym);
+    const el=ELS.find(e=>e.sym.toLowerCase()===sym.toLowerCase());
+    if(!el){addBearMsg('Hmm, não encontrei esse símbolo. Tente: H, O, Na, Fe, Ca, Cu, Au...');showInp();return;}
+    if(expState==='part')showPart(el);else if(expState==='prop')showProp(el);else if(expState==='conf')showConf(el);
+  }
+}
+function showPart(el){const n=Math.round(el.mass)-el.z;addBearMsg(`<strong>${el.name} (${el.sym})</strong><br><br>⚡ Prótons: <strong>${el.z} p⁺</strong><br>⚪ Nêutrons: <strong>≈${n} n⁰</strong><br>🔵 Elétrons: <strong>${el.z} e⁻</strong><br><br>Z = <strong>${el.z}</strong> | A ≈ <strong>${Math.round(el.mass)}</strong>`);showMenu();}
+function showProp(el){addBearMsg(`<strong>${el.name} (${el.sym})</strong><br><br>Categoria: <strong>${CAT_L[el.cat]||el.cat}</strong><br>Grupo: <strong>${el.g}</strong> | Período: <strong>${el.p}</strong><br>Massa: <strong>${el.mass} u</strong> | Z: <strong>${el.z}</strong>`);showMenu();}
+function showConf(el){
+  const shells=[2,8,18,32,32,18,8];let rem=el.z,layers=[];
+  for(const s of shells){if(rem<=0)break;const n=Math.min(rem,s);layers.push(n);rem-=n;}
+  const conf=layers.map((n,i)=>`Camada ${i+1}: <strong>${n} e⁻</strong>`).join('<br>');
+  addBearMsg(`<strong>Config. eletrônica do ${el.name}:</strong><br><br>${conf}<br><br>Elétrons de valência: <strong>${layers[layers.length-1]}</strong>`);showMenu();
+}
+function handleComp(v){
+  const parts=v.split(/[+,\s]+/).filter(Boolean);
+  if(parts.length<2){addBearMsg('Digite dois símbolos separados por + (ex: H + O)');showInp();return;}
+  const e1=ELS.find(e=>e.sym.toLowerCase()===parts[0].toLowerCase());
+  const e2=ELS.find(e=>e.sym.toLowerCase()===parts[1].toLowerCase());
+  if(!e1||!e2){addBearMsg('Não encontrei um dos elementos. Confira os símbolos!');showInp('Ex: Na + Cl');return;}
+  const known={
+    'H+O':{f:'H₂O',n:'Água',t:'Ligação covalente polar. O oxigênio atrai mais os elétrons compartilhados.'},
+    'O+H':{f:'H₂O',n:'Água',t:'Ligação covalente polar.'},
+    'H+H':{f:'H₂',n:'Gás hidrogênio',t:'Ligação covalente simples apolar. Um par de elétrons compartilhado.'},
+    'H+Cl':{f:'HCl',n:'Ácido clorídrico',t:'Ligação covalente polar. Cl é muito mais eletronegativo que H.'},
+    'Cl+H':{f:'HCl',n:'Ácido clorídrico',t:'Ligação covalente polar.'},
+    'H+N':{f:'NH₃',n:'Amônia',t:'Ligação covalente polar. N tem 1 par de elétrons livres e faz 3 ligações com H.'},
+    'N+H':{f:'NH₃',n:'Amônia',t:'Ligação covalente polar.'},
+    'H+S':{f:'H₂S',n:'Gás sulfídrico',t:'Ligação covalente polar. Parecido com H₂O, mas S é menos eletronegativo que O.'},
+    'S+H':{f:'H₂S',n:'Gás sulfídrico',t:'Ligação covalente polar.'},
+    'C+H':{f:'CH₄',n:'Metano (gás natural)',t:'Ligação covalente apolar. C faz 4 ligações simples com H. Geometria tetraédrica.'},
+    'H+C':{f:'CH₄',n:'Metano',t:'Ligação covalente apolar.'},
+    'C+O':{f:'CO₂',n:'Dióxido de carbono',t:'Ligação covalente com 2 duplas ligações C=O. Apolar pois os dipolos se cancelam.'},
+    'O+C':{f:'CO₂',n:'Dióxido de carbono',t:'Ligação covalente. 2 duplas ligações C=O.'},
+    'Na+Cl':{f:'NaCl',n:'Cloreto de sódio (sal de cozinha)',t:'Ligação iônica. Na doa 1 e⁻ para o Cl → Na⁺ + Cl⁻. Atração eletrostática.'},
+    'Cl+Na':{f:'NaCl',n:'Cloreto de sódio',t:'Ligação iônica.'},
+    'K+Cl':{f:'KCl',n:'Cloreto de potássio',t:'Ligação iônica. K doa 1 e⁻ para o Cl → K⁺ + Cl⁻.'},
+    'Cl+K':{f:'KCl',n:'Cloreto de potássio',t:'Ligação iônica.'},
+    'Ca+O':{f:'CaO',n:'Óxido de cálcio (cal virgem)',t:'Ligação iônica. Ca doa 2 e⁻ para o O → Ca²⁺ + O²⁻.'},
+    'O+Ca':{f:'CaO',n:'Óxido de cálcio',t:'Ligação iônica.'},
+    'Mg+O':{f:'MgO',n:'Óxido de magnésio',t:'Ligação iônica. Mg²⁺ + O²⁻. Muito resistente ao calor.'},
+    'O+Mg':{f:'MgO',n:'Óxido de magnésio',t:'Ligação iônica.'},
+    'Fe+O':{f:'Fe₂O₃',n:'Óxido de ferro III (ferrugem)',t:'Ligação iônica. Fe³⁺ e O²⁻. Processo de oxidação do ferro.'},
+    'O+Fe':{f:'Fe₂O₃',n:'Ferrugem',t:'Ligação iônica. Fe³⁺ e O²⁻.'},
+    'Al+O':{f:'Al₂O₃',n:'Óxido de alumínio (alumina)',t:'Ligação iônica. Al³⁺ e O²⁻. Extremamente duro e resistente.'},
+    'O+Al':{f:'Al₂O₃',n:'Alumina',t:'Ligação iônica.'},
+    'N+O':{f:'NO₂',n:'Dióxido de nitrogênio',t:'Ligação covalente polar. Gás marrom-avermelhado, tóxico, presente na poluição.'},
+    'O+N':{f:'NO₂',n:'Dióxido de nitrogênio',t:'Ligação covalente polar.'},
+    'S+O':{f:'SO₂',n:'Dióxido de enxofre',t:'Ligação covalente polar. Gás causador da chuva ácida quando reage com água.'},
+    'O+S':{f:'SO₂',n:'Dióxido de enxofre',t:'Ligação covalente polar.'},
+    'N+N':{f:'N₂',n:'Gás nitrogênio',t:'Ligação covalente tripla (N≡N). Muito estável, compõe 78% da atmosfera.'},
+    'O+O':{f:'O₂',n:'Gás oxigênio',t:'Ligação covalente dupla (O=O). Compõe 21% da atmosfera, essencial à vida.'},
+    'Ca+Cl':{f:'CaCl₂',n:'Cloreto de cálcio',t:'Ligação iônica. Ca doa 2 e⁻ (um para cada Cl) → Ca²⁺ + 2Cl⁻.'},
+    'Cl+Ca':{f:'CaCl₂',n:'Cloreto de cálcio',t:'Ligação iônica.'},
+    'Na+O':{f:'Na₂O',n:'Óxido de sódio',t:'Ligação iônica. 2 Na⁺ + O²⁻. Reage com água formando NaOH (soda cáustica).'},
+    'O+Na':{f:'Na₂O',n:'Óxido de sódio',t:'Ligação iônica.'},
+  };
+  const key=`${e1.sym}+${e2.sym}`;const comp=known[key];
+  addBearMsg(`<strong>${e1.name} + ${e2.name}</strong><br><br>${comp
+    ?`Fórmula: <strong>${comp.f}</strong><br>Nome: <strong>${comp.n}</strong><br><br>${comp.t}`
+    :`${e1.sym} é <strong>${CAT_L[e1.cat]||e1.cat}</strong> (grupo ${e1.g}, período ${e1.p})<br>${e2.sym} é <strong>${CAT_L[e2.cat]||e2.cat}</strong> (grupo ${e2.g}, período ${e2.p})<br><br>Essa combinação pode formar óxidos, sais, hidróxidos ou ácidos dependendo das valências. Consulte a tabela de valências para a fórmula exata!`}`);showMenu();
+}
+function showMenu(){addBearMsg('Quer explorar mais?');showOpts([{l:'⚛️ Outro elemento',a:()=>askEl('part')},{l:'🔗 Junção de elementos',a:()=>askComp()},{l:'📋 Propriedades',a:()=>askEl('prop')},{l:'🔄 Recomeçar',a:()=>{expState='menu';document.getElementById('exp-chat').innerHTML='';initExp();}}]);}
+document.addEventListener('keydown',e=>{if(document.activeElement===document.getElementById('exp-input')&&e.key==='Enter')expSubmit();});
+
+// ══ DIDÁTICA ÁTOMO ══
+function getTabelaDid(){return`
+<div class="card"><div class="did-label">O que é a Tabela Periódica?</div><div class="did-intro">A Tabela Periódica organiza os 118 elementos conhecidos por ordem crescente de número atômico (Z). Criada por Mendeleev em 1869, ela revela padrões e propriedades dos elementos.</div>
+<div id="mod-periodic-wrap" style="overflow-x:auto;padding:12px;background:#fff;border-radius:16px;box-shadow:0 0 0 2px #2563eb,0 0 0 4px #bfdbfe,0 8px 32px rgba(37,99,235,.15);margin:12px 0">
+  <div id="mod-periodic-grid" style="display:grid;grid-template-columns:repeat(18,minmax(24px,1fr));gap:2px;min-width:480px"></div>
+</div>
+<div id="mod-el-detail" style="display:none;background:var(--card);border:1px solid var(--border2);border-radius:14px;padding:16px;margin-bottom:14px"></div>
+<div class="did-step"><div class="step-n">1</div><div class="step-c"><h4>Períodos (linhas horizontais)</h4><p>Existem <strong>7 períodos</strong>. O número do período indica a quantidade de <strong>camadas eletrônicas</strong> do elemento. Ex: Na está no período 3 → tem 3 camadas.</p></div></div>
+<div class="did-step"><div class="step-n">2</div><div class="step-c"><h4>Grupos/Famílias (colunas verticais)</h4><p>Existem <strong>18 grupos</strong>. Elementos do mesmo grupo têm o mesmo número de <strong>elétrons de valência</strong> e propriedades químicas parecidas.</p></div></div>
+<div class="formula">Período = nº de camadas | Grupo = elétrons de valência</div></div>
+
+<div class="card"><div class="did-label">Famílias importantes</div>
+<div class="did-step"><div class="step-n">1</div><div class="step-c"><h4>Metais Alcalinos — Grupo 1 (IA)</h4><p>Li, Na, K, Rb, Cs, Fr<br><strong>1 elétron de valência</strong> → muito reativos. Reagem violentamente com água formando hidróxidos + H₂.</p></div></div>
+<div class="did-step"><div class="step-n">2</div><div class="step-c"><h4>Halogênios — Grupo 17 (VIIA)</h4><p>F, Cl, Br, I, At<br><strong>7 elétrons de valência</strong> → precisam de 1 e⁻ para completar o octeto. Muito eletronegativos.</p></div></div>
+<div class="did-step"><div class="step-n">3</div><div class="step-c"><h4>Gases Nobres — Grupo 18 (VIIIA)</h4><p>He, Ne, Ar, Kr, Xe, Rn<br><strong>8 elétrons de valência</strong> (He tem 2) → camada completa → praticamente inertes.</p></div></div>
+<div class="did-step"><div class="step-n">4</div><div class="step-c"><h4>Metais de Transição — Grupos 3–12</h4><p>Fe, Cu, Zn, Ag, Au, Pt...<br>Camada d incompleta. Formam compostos coloridos, têm múltiplos estados de oxidação.</p></div></div></div>
+
+<div class="card"><div class="did-label">Propriedades periódicas</div>
+<div class="svg-block"><svg width="100%" viewBox="0 0 340 160" fill="none"><rect width="340" height="160" fill="#000"/>
+<text x="170" y="18" text-anchor="middle" fill="#3b82f6" font-size="11" font-weight="700" font-family="monospace">TENDÊNCIAS NA TABELA</text>
+<!-- Eletronegatividade -->
+<rect x="10" y="30" width="150" height="55" rx="8" fill="#050d1f" stroke="#1e3a5f" stroke-width="1"/>
+<text x="85" y="45" text-anchor="middle" fill="#93c5fd" font-size="9" font-family="monospace" font-weight="700">ELETRONEGATIVIDADE</text>
+<text x="20" y="62" fill="#475569" font-size="8">menor →</text>
+<defs><linearGradient id="eg" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#1e3a5f"/><stop offset="100%" stop-color="#3b82f6"/></linearGradient></defs>
+<rect x="20" y="67" width="130" height="8" rx="4" fill="url(#eg)"/>
+<text x="85" y="82" text-anchor="middle" fill="#475569" font-size="7">aumenta → (direita e cima)</text>
+<!-- Raio -->
+<rect x="178" y="30" width="150" height="55" rx="8" fill="#050d1f" stroke="#1e3a5f" stroke-width="1"/>
+<text x="253" y="45" text-anchor="middle" fill="#93c5fd" font-size="9" font-family="monospace" font-weight="700">RAIO ATÔMICO</text>
+<circle cx="205" cy="62" r="14" fill="#1e3a5f" stroke="#3b82f6" stroke-width="1"/>
+<circle cx="240" cy="65" r="11" fill="#1e3a5f" stroke="#2563eb" stroke-width="1"/>
+<circle cx="270" cy="68" r="8" fill="#1e3a5f" stroke="#60a5fa" stroke-width="1"/>
+<circle cx="295" cy="70" r="5" fill="#1e3a5f" stroke="#93c5fd" stroke-width="1"/>
+<text x="253" y="85" text-anchor="middle" fill="#475569" font-size="7">diminui → (direita)</text>
+<!-- Baixo -->
+<rect x="10" y="98" width="150" height="50" rx="8" fill="#050d1f" stroke="#1e3a5f" stroke-width="1"/>
+<text x="85" y="113" text-anchor="middle" fill="#93c5fd" font-size="9" font-family="monospace" font-weight="700">ENERGIA IONIZAÇÃO</text>
+<text x="85" y="128" text-anchor="middle" fill="#475569" font-size="7">energia p/ remover 1 e⁻</text>
+<text x="85" y="142" text-anchor="middle" fill="#3b82f6" font-size="8">aumenta → (direita e cima)</text>
+<rect x="178" y="98" width="150" height="50" rx="8" fill="#050d1f" stroke="#1e3a5f" stroke-width="1"/>
+<text x="253" y="113" text-anchor="middle" fill="#93c5fd" font-size="9" font-family="monospace" font-weight="700">CARÁTER METÁLICO</text>
+<text x="253" y="128" text-anchor="middle" fill="#475569" font-size="7">capacidade de perder e⁻</text>
+<text x="253" y="142" text-anchor="middle" fill="#3b82f6" font-size="8">aumenta ↓ (baixo e esquerda)</text>
+</svg></div>
+<div class="did-step"><div class="step-n">5</div><div class="step-c"><h4>Regra do Octeto</h4><p>Átomos tendem a ganhar, perder ou compartilhar elétrons para ter <strong>8 e⁻ na camada de valência</strong> (como os gases nobres). Isso explica como as ligações se formam!</p></div></div></div>
+`;}
+
+function getTabelaQuest(){return[
+  {q:'O sódio (Na) está no Período 3 da tabela periódica. O que isso indica?',opts:['Tem 3 prótons','Tem 3 elétrons de valência','Tem 3 camadas eletrônicas','Pertence ao grupo 3'],c:2,res:'<strong>3 camadas eletrônicas.</strong> O número do período sempre indica a quantidade de camadas (níveis) eletrônicos do átomo. Na tem configuração 2,8,1 — três camadas.'},
+  {q:'Elementos do mesmo grupo (família) têm em comum:',opts:['Mesmo número de prótons','Mesmo número de nêutrons','Mesma quantidade de elétrons de valência','Mesma massa atômica'],c:2,res:'<strong>Mesma quantidade de elétrons de valência.</strong> Por isso têm propriedades químicas parecidas. Ex: F, Cl, Br (Grupo 17) todos têm 7 e⁻ de valência e formam íons com carga −1.'},
+  {q:'Qual família é conhecida por ser praticamente inerte (não reage)?',opts:['Metais alcalinos','Halogênios','Calcogênios','Gases nobres'],c:3,res:'<strong>Gases nobres (Grupo 18).</strong> He, Ne, Ar, Kr, Xe, Rn têm a camada de valência completa (8 e⁻, exceto He com 2). Não precisam ganhar/perder elétrons → quase não reagem.'},
+  {q:'A eletronegatividade de um elemento indica:',opts:['Sua massa atômica','Capacidade de atrair elétrons numa ligação','Número de prótons no núcleo','Tamanho do raio atômico'],c:1,res:'<strong>Capacidade de atrair elétrons.</strong> Aumenta da esquerda para a direita e de baixo para cima na tabela. O flúor (F) é o elemento mais eletronegativo de todos.'},
+  {q:'O cloro (Cl, Z=17) precisa de quantos elétrons para completar o octeto?',opts:['1 elétron','2 elétrons','7 elétrons','8 elétrons'],c:0,res:'<strong>1 elétron.</strong> Cl está no grupo 17 → tem 7 e⁻ de valência. Para completar o octeto (8) precisa de apenas 1 e⁻ a mais, formando Cl⁻ (ânion cloreto).'},
+];}
+
+function getLigacoesDid(){return`
+<div class="card"><div class="did-label">Por que os átomos se ligam?</div><div class="did-intro">Os átomos formam ligações para atingir maior estabilidade — geralmente completando 8 elétrons na camada de valência (Regra do Octeto). Existem 3 tipos principais de ligação química.</div>
+<div class="svg-block"><svg width="100%" viewBox="0 0 340 120" fill="none"><rect width="340" height="120" fill="#000"/>
+<!-- Iônica -->
+<rect x="8" y="14" width="98" height="92" rx="8" fill="#050d1f" stroke="#7c3aed" stroke-width="1"/>
+<text x="57" y="28" text-anchor="middle" fill="#a78bfa" font-size="9" font-weight="700" font-family="monospace">IÔNICA</text>
+<circle cx="38" cy="62" r="16" fill="#1a0a2e" stroke="#7c3aed" stroke-width="1.2"/>
+<text x="38" y="58" text-anchor="middle" fill="#c4b5fd" font-size="7" font-family="monospace" font-weight="700">Na</text>
+<text x="38" y="68" text-anchor="middle" fill="#c4b5fd" font-size="6" font-family="monospace">11e⁻</text>
+<circle cx="78" cy="62" r="16" fill="#1a000a" stroke="#db2777" stroke-width="1.2"/>
+<text x="78" y="58" text-anchor="middle" fill="#f9a8d4" font-size="7" font-family="monospace" font-weight="700">Cl</text>
+<text x="78" y="68" text-anchor="middle" fill="#f9a8d4" font-size="6" font-family="monospace">17e⁻</text>
+<circle cx="50" cy="62" r="4" fill="#fbbf24"/>
+<text x="57" y="92" text-anchor="middle" fill="#475569" font-size="7">doação de e⁻</text>
+<text x="57" y="102" text-anchor="middle" fill="#475569" font-size="7">Na⁺ + Cl⁻ → NaCl</text>
+<!-- Covalente -->
+<rect x="122" y="14" width="98" height="92" rx="8" fill="#050d1f" stroke="#2563eb" stroke-width="1"/>
+<text x="171" y="28" text-anchor="middle" fill="#93c5fd" font-size="9" font-weight="700" font-family="monospace">COVALENTE</text>
+<circle cx="152" cy="62" r="16" fill="#0d1a2e" stroke="#2563eb" stroke-width="1.2"/>
+<text x="152" y="58" text-anchor="middle" fill="#93c5fd" font-size="7" font-family="monospace" font-weight="700">H</text>
+<text x="152" y="68" text-anchor="middle" fill="#93c5fd" font-size="6" font-family="monospace">1e⁻</text>
+<circle cx="191" cy="62" r="16" fill="#0d1a2e" stroke="#2563eb" stroke-width="1.2"/>
+<text x="191" y="58" text-anchor="middle" fill="#93c5fd" font-size="7" font-family="monospace" font-weight="700">H</text>
+<text x="191" y="68" text-anchor="middle" fill="#93c5fd" font-size="6" font-family="monospace">1e⁻</text>
+<line x1="168" y1="62" x2="175" y2="62" stroke="#60a5fa" stroke-width="2.5"/>
+<text x="171" y="92" text-anchor="middle" fill="#475569" font-size="7">compartilhamento</text>
+<text x="171" y="102" text-anchor="middle" fill="#475569" font-size="7">H−H → H₂</text>
+<!-- Metálica -->
+<rect x="236" y="14" width="98" height="92" rx="8" fill="#050d1f" stroke="#16a34a" stroke-width="1"/>
+<text x="285" y="28" text-anchor="middle" fill="#86efac" font-size="9" font-weight="700" font-family="monospace">METÁLICA</text>
+<circle cx="258" cy="52" r="10" fill="#001a0a" stroke="#16a34a" stroke-width="1"/>
+<circle cx="285" cy="52" r="10" fill="#001a0a" stroke="#16a34a" stroke-width="1"/>
+<circle cx="312" cy="52" r="10" fill="#001a0a" stroke="#16a34a" stroke-width="1"/>
+<circle cx="258" cy="75" r="10" fill="#001a0a" stroke="#16a34a" stroke-width="1"/>
+<circle cx="285" cy="75" r="10" fill="#001a0a" stroke="#16a34a" stroke-width="1"/>
+<circle cx="312" cy="75" r="10" fill="#001a0a" stroke="#16a34a" stroke-width="1"/>
+<circle cx="270" cy="60" r="3" fill="#fbbf24" opacity=".8"/>
+<circle cx="298" cy="66" r="3" fill="#fbbf24" opacity=".8"/>
+<circle cx="275" cy="80" r="3" fill="#fbbf24" opacity=".8"/>
+<text x="285" y="100" text-anchor="middle" fill="#475569" font-size="7">mar de elétrons livres</text>
+</svg></div>
+<div class="did-step"><div class="step-n">1</div><div class="step-c"><h4>Ligação Iônica</h4><p>Ocorre entre <strong>metal + não-metal</strong>. Um átomo <strong>doa</strong> elétrons e o outro <strong>recebe</strong>, formando íons com cargas opostas que se atraem.<br>Ex: NaCl (sal de cozinha), MgO, CaCl₂</p></div></div>
+<div class="did-step"><div class="step-n">2</div><div class="step-c"><h4>Ligação Covalente</h4><p>Ocorre entre <strong>não-metal + não-metal</strong>. Os átomos <strong>compartilham</strong> pares de elétrons.<br>Ex: H₂O, CO₂, CH₄, NH₃, H₂</p></div></div>
+<div class="did-step"><div class="step-n">3</div><div class="step-c"><h4>Ligação Metálica</h4><p>Ocorre entre <strong>metais</strong>. Elétrons de valência ficam livres, formando um "mar de elétrons". Explica condutividade elétrica e maleabilidade dos metais.</p></div></div></div>
+
+<div class="card"><div class="did-label">Ligação Iônica — Detalhe</div>
+<div class="svg-block"><svg width="100%" viewBox="0 0 340 150" fill="none"><rect width="340" height="150" fill="#000"/>
+<text x="85" y="18" text-anchor="middle" fill="#64748b" font-size="10">Antes: neutros</text>
+<circle cx="55" cy="72" r="24" fill="#1a0a2e" stroke="#7c3aed" stroke-width="1.2"/>
+<text x="55" y="68" text-anchor="middle" fill="#c4b5fd" font-size="10" font-family="monospace" font-weight="700">Na</text>
+<text x="55" y="80" text-anchor="middle" fill="#c4b5fd" font-size="8" font-family="monospace">11p⁺ 11e⁻</text>
+<circle cx="115" cy="72" r="24" fill="#1a000a" stroke="#db2777" stroke-width="1.2"/>
+<text x="115" y="68" text-anchor="middle" fill="#f9a8d4" font-size="10" font-family="monospace" font-weight="700">Cl</text>
+<text x="115" y="80" text-anchor="middle" fill="#f9a8d4" font-size="8" font-family="monospace">17p⁺ 17e⁻</text>
+<circle cx="139" cy="72" r="5" fill="#fbbf24" stroke="#f59e0b" stroke-width="1"/>
+<defs><marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#f97316" stroke-width="1.5" stroke-linecap="round"/></marker></defs>
+<line x1="160" y1="72" x2="188" y2="72" stroke="#f97316" stroke-width="1.5" marker-end="url(#arr)"/>
+<text x="174" y="65" text-anchor="middle" fill="#f97316" font-size="9">e⁻ →</text>
+<text x="255" y="18" text-anchor="middle" fill="#64748b" font-size="10">Depois: íons</text>
+<circle cx="225" cy="72" r="22" fill="#0d0520" stroke="#7c3aed" stroke-width="1.5"/>
+<text x="225" y="67" text-anchor="middle" fill="#c4b5fd" font-size="10" font-family="monospace" font-weight="700">Na⁺</text>
+<text x="225" y="79" text-anchor="middle" fill="#c4b5fd" font-size="8" font-family="monospace">11p⁺ 10e⁻</text>
+<circle cx="292" cy="72" r="26" fill="#1a000a" stroke="#db2777" stroke-width="1.5"/>
+<text x="292" y="67" text-anchor="middle" fill="#f9a8d4" font-size="10" font-family="monospace" font-weight="700">Cl⁻</text>
+<text x="292" y="79" text-anchor="middle" fill="#f9a8d4" font-size="8" font-family="monospace">17p⁺ 18e⁻</text>
+<text x="258" y="72" text-anchor="middle" fill="#fbbf24" font-size="16" font-weight="700">+</text>
+<text x="258" y="84" text-anchor="middle" fill="#fbbf24" font-size="8">atração!</text>
+<text x="85" y="110" text-anchor="middle" fill="#475569" font-size="9" font-family="monospace">Cl tem 7 e⁻ valência → quer 1 a mais</text>
+<text x="255" y="110" text-anchor="middle" fill="#475569" font-size="9" font-family="monospace">Na tem 1 e⁻ valência → quer perder</text>
+<text x="170" y="138" text-anchor="middle" fill="#3b82f6" font-size="10" font-family="monospace">Na⁺ + Cl⁻ → NaCl (reticulado iônico)</text>
+</svg></div></div>
+
+<div class="card"><div class="did-label">Ligação Covalente — Tipos</div>
+<div class="svg-block"><svg width="100%" viewBox="0 0 340 140" fill="none"><rect width="340" height="140" fill="#000"/>
+<text x="56" y="18" text-anchor="middle" fill="#93c5fd" font-size="9" font-weight="700" font-family="monospace">SIMPLES</text>
+<circle cx="30" cy="60" r="20" fill="#0d1a2e" stroke="#2563eb" stroke-width="1.2"/><text x="30" y="64" text-anchor="middle" fill="#93c5fd" font-size="9" font-family="monospace" font-weight="700">H</text>
+<circle cx="82" cy="60" r="20" fill="#0d1a2e" stroke="#2563eb" stroke-width="1.2"/><text x="82" y="64" text-anchor="middle" fill="#93c5fd" font-size="9" font-family="monospace" font-weight="700">H</text>
+<line x1="50" y1="60" x2="62" y2="60" stroke="#60a5fa" stroke-width="2.5"/>
+<text x="56" y="98" text-anchor="middle" fill="#475569" font-size="8" font-family="monospace">H−H = H₂</text>
+<text x="56" y="110" text-anchor="middle" fill="#334155" font-size="7">1 par compartilhado</text>
+<text x="56" y="120" text-anchor="middle" fill="#334155" font-size="7">ligação sigma (σ)</text>
+<text x="170" y="18" text-anchor="middle" fill="#93c5fd" font-size="9" font-weight="700" font-family="monospace">DUPLA</text>
+<circle cx="144" cy="60" r="20" fill="#0d1a2e" stroke="#2563eb" stroke-width="1.2"/><text x="144" y="64" text-anchor="middle" fill="#93c5fd" font-size="9" font-family="monospace" font-weight="700">O</text>
+<circle cx="196" cy="60" r="20" fill="#0d1a2e" stroke="#2563eb" stroke-width="1.2"/><text x="196" y="64" text-anchor="middle" fill="#93c5fd" font-size="9" font-family="monospace" font-weight="700">O</text>
+<line x1="164" y1="56" x2="176" y2="56" stroke="#60a5fa" stroke-width="2"/>
+<line x1="164" y1="64" x2="176" y2="64" stroke="#60a5fa" stroke-width="2"/>
+<text x="170" y="98" text-anchor="middle" fill="#475569" font-size="8" font-family="monospace">O=O = O₂</text>
+<text x="170" y="110" text-anchor="middle" fill="#334155" font-size="7">2 pares compartilhados</text>
+<text x="170" y="120" text-anchor="middle" fill="#334155" font-size="7">1σ + 1π</text>
+<text x="284" y="18" text-anchor="middle" fill="#93c5fd" font-size="9" font-weight="700" font-family="monospace">TRIPLA</text>
+<circle cx="258" cy="60" r="20" fill="#0d1a2e" stroke="#2563eb" stroke-width="1.2"/><text x="258" y="64" text-anchor="middle" fill="#93c5fd" font-size="9" font-family="monospace" font-weight="700">N</text>
+<circle cx="310" cy="60" r="20" fill="#0d1a2e" stroke="#2563eb" stroke-width="1.2"/><text x="310" y="64" text-anchor="middle" fill="#93c5fd" font-size="9" font-family="monospace" font-weight="700">N</text>
+<line x1="278" y1="54" x2="290" y2="54" stroke="#60a5fa" stroke-width="2"/>
+<line x1="278" y1="60" x2="290" y2="60" stroke="#60a5fa" stroke-width="2"/>
+<line x1="278" y1="66" x2="290" y2="66" stroke="#60a5fa" stroke-width="2"/>
+<text x="284" y="98" text-anchor="middle" fill="#475569" font-size="8" font-family="monospace">N≡N = N₂</text>
+<text x="284" y="110" text-anchor="middle" fill="#334155" font-size="7">3 pares compartilhados</text>
+<text x="284" y="120" text-anchor="middle" fill="#334155" font-size="7">1σ + 2π</text>
+</svg></div>
+<div class="did-step"><div class="step-n">4</div><div class="step-c"><h4>Polar vs Apolar</h4><p><strong>Apolar:</strong> mesmos átomos ou distribuição simétrica de cargas (H₂, O₂, CO₂, CH₄)<br><strong>Polar:</strong> átomos diferentes com eletronegatividades distintas → dipolo elétrico (H₂O, HCl, NH₃)</p></div></div></div>
+`;}
+
+function getLigacoesQuest(){return[
+  {q:'Qual tipo de ligação ocorre entre Na e Cl para formar o NaCl?',opts:['Covalente apolar','Covalente polar','Iônica','Metálica'],c:2,res:'<strong>Ligação iônica.</strong> Ocorre entre metal (Na) e não-metal (Cl). O Na doa 1 elétron para o Cl, formando Na⁺ e Cl⁻. A atração entre íons opostos mantém o composto unido.'},
+  {q:'Na molécula de H₂O, o tipo de ligação entre H e O é:',opts:['Iônica','Covalente polar','Covalente apolar','Metálica'],c:1,res:'<strong>Covalente polar.</strong> H e O são não-metais → compartilham elétrons (covalente). Como O é muito mais eletronegativo que H, puxa os elétrons mais para si → ligação polar.'},
+  {q:'O que caracteriza a ligação metálica?',opts:['Doação de elétrons entre metais','Compartilhamento de elétrons','Mar de elétrons livres entre cátions','Atração entre íons opostos'],c:2,res:'<strong>Mar de elétrons livres.</strong> Os metais cedem seus elétrons de valência para um "pool" coletivo. Esses elétrons livres explicam condutividade elétrica, térmica e maleabilidade dos metais.'},
+  {q:'A ligação dupla (como em O=O) é composta por:',opts:['2 ligações sigma','1 sigma e 1 pi','2 ligações pi','1 sigma e 2 pi'],c:1,res:'<strong>1 sigma (σ) + 1 pi (π).</strong> Toda ligação começa com uma σ (sobreposição frontal de orbitais). A segunda ligação é π (sobreposição lateral). A tripla = 1σ + 2π.'},
+  {q:'O CO₂ tem ligações covalentes polares, mas a molécula é apolar. Por quê?',opts:['Porque C e O têm igual eletronegatividade','Porque a geometria linear cancela os dipolos','Porque não há pares de elétrons livres','Porque é um gás'],c:1,res:'<strong>A geometria linear cancela os dipolos.</strong> Cada ligação C=O é polar, mas como estão em direções opostas (180°), os vetores de dipolo se anulam. Resultado: molécula apolar, mesmo com ligações polares.'},
+];}
+
+function getDid(){return`
+<div class="card"><div class="did-label">O que é um átomo?</div><div class="did-intro">O átomo é a menor unidade de matéria que mantém as propriedades de um elemento. É formado por núcleo (p⁺ e n⁰) e eletrosfera (e⁻).</div>
+<div class="svg-block"><svg width="100%" viewBox="0 0 340 200" fill="none"><rect width="340" height="200" fill="#000"/>
+<ellipse cx="110" cy="100" rx="70" ry="28" stroke="#1e3a5f" stroke-width="1" stroke-dasharray="4 3"/>
+<ellipse cx="110" cy="100" rx="95" ry="38" stroke="#1e3a5f" stroke-width="1" stroke-dasharray="4 3"/>
+<circle cx="110" cy="100" r="24" fill="#0d1a2e" stroke="#2563eb" stroke-width="1.5"/>
+<circle cx="103" cy="94" r="7" fill="#ef4444"/><text x="103" y="98" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="7" font-family="monospace">p⁺</text>
+<circle cx="117" cy="94" r="7" fill="#ef4444"/><text x="117" y="98" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="7" font-family="monospace">p⁺</text>
+<circle cx="110" cy="107" r="7" fill="#6b7280"/><text x="110" y="111" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="7" font-family="monospace">n⁰</text>
+<g style="transform-origin:110px 100px;animation:o1 2.4s linear infinite"><circle cx="180" cy="100" r="5.5" fill="#3b82f6" stroke="#93c5fd" stroke-width=".8"/><text x="180" y="100" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="6" font-family="monospace">e⁻</text></g>
+<g style="transform-origin:110px 100px;animation:o2 3.6s linear infinite"><circle cx="205" cy="100" r="5.5" fill="#3b82f6" stroke="#93c5fd" stroke-width=".8"/></g>
+<g style="transform-origin:110px 100px;animation:o3 3.6s linear infinite"><circle cx="205" cy="100" r="5" fill="#60a5fa" stroke="#93c5fd" stroke-width=".8"/></g>
+<line x1="136" y1="86" x2="185" y2="48" stroke="#334155" stroke-width=".8"/>
+<text x="188" y="44" fill="#64748b" font-size="10">Núcleo (p⁺+n⁰)</text>
+<line x1="180" y1="118" x2="200" y2="148" stroke="#334155" stroke-width=".8"/>
+<text x="204" y="152" fill="#64748b" font-size="10">Eletrosfera (e⁻)</text>
+<rect x="4" y="140" width="90" height="54" rx="8" fill="#0d1a2e" stroke="#1e3a5f" stroke-width="1"/>
+<text x="49" y="157" text-anchor="middle" fill="#93c5fd" font-size="11" font-family="monospace">Z = p⁺</text>
+<text x="49" y="173" text-anchor="middle" fill="#93c5fd" font-size="11" font-family="monospace">A = p⁺+n⁰</text>
+<text x="49" y="189" text-anchor="middle" fill="#93c5fd" font-size="11" font-family="monospace">n⁰ = A−Z</text>
+<style>@keyframes o1{from{transform:rotate(0)}to{transform:rotate(360deg)}}@keyframes o2{from{transform:rotate(120deg)}to{transform:rotate(480deg)}}@keyframes o3{from{transform:rotate(240deg)}to{transform:rotate(600deg)}}</style>
+</svg></div>
+<div class="did-step"><div class="step-n">1</div><div class="step-c"><h4>Partículas subatômicas</h4><p><strong>Próton (p⁺)</strong> — positivo, no núcleo<br><strong>Nêutron (n⁰)</strong> — neutro, no núcleo<br><strong>Elétron (e⁻)</strong> — negativo, na eletrosfera</p></div></div>
+<div class="did-step"><div class="step-n">2</div><div class="step-c"><h4>Número Atômico Z e Massa A</h4><p><strong>Z</strong> = nº de prótons → define o elemento!<br><strong>A</strong> = p⁺ + n⁰ | Átomo neutro: e⁻ = p⁺</p></div></div>
+<div class="formula">Z = p⁺ | A = p⁺ + n⁰ | n⁰ = A − Z</div></div>
+
+<div class="card"><div class="did-label">Formação de íons</div>
+<div class="svg-block"><svg width="100%" viewBox="0 0 340 170" fill="none"><rect width="340" height="170" fill="#000"/>
+<text x="80" y="16" text-anchor="middle" fill="#64748b" font-size="10">Na neutro (11p⁺/11e⁻)</text>
+<circle cx="80" cy="80" r="22" fill="#0d1a2e" stroke="#2563eb" stroke-width="1.2"/>
+<text x="80" y="84" text-anchor="middle" dominant-baseline="central" fill="#93c5fd" font-size="9" font-family="monospace">11p⁺</text>
+<ellipse cx="80" cy="80" rx="46" ry="18" stroke="#1e3a5f" stroke-width="1" stroke-dasharray="3 2" fill="none"/>
+<ellipse cx="80" cy="80" rx="66" ry="27" stroke="#1e3a5f" stroke-width="1" stroke-dasharray="3 2" fill="none"/>
+<circle cx="126" cy="80" r="5" fill="#3b82f6" stroke="#93c5fd" stroke-width=".8"/>
+<circle cx="80" cy="53" r="5" fill="#3b82f6" stroke="#93c5fd" stroke-width=".8"/>
+<circle cx="146" cy="80" r="5" fill="#3b82f6" stroke="#93c5fd" stroke-width=".8"/>
+<circle cx="14" cy="80" r="5" fill="#3b82f6" stroke="#93c5fd" stroke-width=".8"/>
+<circle cx="80" cy="107" r="5" fill="#22c55e" stroke="#86efac" stroke-width="1"/>
+<text x="80" y="124" text-anchor="middle" fill="#86efac" font-size="9">valência</text>
+<text x="185" y="72" text-anchor="middle" fill="#f97316" font-size="11">perde 1 e⁻</text>
+<defs><marker id="ao" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#f97316" stroke-width="1.5" stroke-linecap="round"/></marker></defs>
+<line x1="152" y1="80" x2="218" y2="80" stroke="#f97316" stroke-width="1.2" marker-end="url(#ao)"/>
+<circle cx="180" cy="105" r="6" fill="#22c55e" stroke="#86efac" stroke-width="1"/>
+<text x="180" y="122" text-anchor="middle" fill="#86efac" font-size="9">saiu!</text>
+<text x="280" y="16" text-anchor="middle" fill="#f97316" font-size="10">Na⁺ (cátion) — carga +</text>
+<circle cx="280" cy="90" r="22" fill="#1a0a00" stroke="#f97316" stroke-width="1.5"/>
+<text x="280" y="94" text-anchor="middle" dominant-baseline="central" fill="#fb923c" font-size="9" font-family="monospace">11p⁺</text>
+<ellipse cx="280" cy="90" rx="46" ry="18" stroke="#431407" stroke-width="1" stroke-dasharray="3 2" fill="none"/>
+<ellipse cx="280" cy="90" rx="66" ry="27" stroke="#431407" stroke-width="1" stroke-dasharray="3 2" fill="none"/>
+<circle cx="326" cy="90" r="5" fill="#3b82f6" stroke="#93c5fd" stroke-width=".8"/>
+<circle cx="280" cy="63" r="5" fill="#3b82f6" stroke="#93c5fd" stroke-width=".8"/>
+<circle cx="214" cy="90" r="5" fill="#3b82f6" stroke="#93c5fd" stroke-width=".8"/>
+<circle cx="280" cy="117" r="6" fill="none" stroke="#334155" stroke-width="1" stroke-dasharray="2 2"/>
+<rect x="306" y="74" width="24" height="24" rx="6" fill="#431407" stroke="#f97316" stroke-width="1.5"/>
+<text x="318" y="90" text-anchor="middle" dominant-baseline="central" fill="#fb923c" font-size="14">+</text>
+</svg></div>
+<div class="did-step"><div class="step-n">3</div><div class="step-c"><h4>Íons</h4><p><strong>Cátion</strong>: perdeu e⁻ → carga positiva<br><strong>Ânion</strong>: ganhou e⁻ → carga negativa<br>Os prótons nunca mudam!</p></div></div></div>
+
+<div class="card"><div class="did-label">Isótopos, Isóbaros e Isótonos</div>
+<div class="svg-block"><svg width="100%" viewBox="0 0 340 178" fill="none"><rect width="340" height="178" fill="#000"/>
+<text x="80" y="18" text-anchor="middle" fill="#3b82f6" font-size="13" font-weight="500">¹²C</text>
+<circle cx="80" cy="78" r="32" fill="#0d1a2e" stroke="#2563eb" stroke-width="1.5"/>
+<circle cx="69" cy="70" r="7" fill="#ef4444"/><text x="69" y="74" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="7" font-family="monospace">p⁺</text>
+<circle cx="85" cy="70" r="7" fill="#ef4444"/><text x="85" y="74" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="7" font-family="monospace">p⁺</text>
+<circle cx="69" cy="86" r="7" fill="#6b7280"/><text x="69" y="90" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="7" font-family="monospace">n⁰</text>
+<circle cx="85" cy="86" r="7" fill="#6b7280"/><text x="85" y="90" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="7" font-family="monospace">n⁰</text>
+<text x="80" y="124" text-anchor="middle" fill="#475569" font-size="10" font-family="monospace">Z=6, A=12</text>
+<text x="220" y="18" text-anchor="middle" fill="#3b82f6" font-size="13" font-weight="500">¹⁴C</text>
+<circle cx="220" cy="78" r="32" fill="#0d1a2e" stroke="#2563eb" stroke-width="1.5"/>
+<circle cx="209" cy="66" r="7" fill="#ef4444"/><text x="209" y="70" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="7" font-family="monospace">p⁺</text>
+<circle cx="225" cy="66" r="7" fill="#ef4444"/><text x="225" y="70" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="7" font-family="monospace">p⁺</text>
+<circle cx="209" cy="80" r="7" fill="#6b7280"/><circle cx="225" cy="80" r="7" fill="#6b7280"/><circle cx="215" cy="93" r="7" fill="#6b7280"/><circle cx="229" cy="93" r="7" fill="#6b7280"/>
+<text x="220" y="124" text-anchor="middle" fill="#475569" font-size="10" font-family="monospace">Z=6, A=14</text>
+<path d="M112 78 Q150 42 188 78" stroke="#3b82f6" stroke-width="1.2" stroke-dasharray="4 3" fill="none"/>
+<text x="150" y="34" text-anchor="middle" fill="#3b82f6" font-size="10">mesmo Z=6 → ISÓTOPOS</text>
+<rect x="4" y="146" width="100" height="22" rx="6" fill="#0d1a2e"/><text x="54" y="161" text-anchor="middle" fill="#3b82f6" font-size="10" font-family="monospace">Isótopos: =Z ≠A</text>
+<rect x="114" y="146" width="108" height="22" rx="6" fill="#0d0f1a"/><text x="168" y="161" text-anchor="middle" fill="#818cf8" font-size="10" font-family="monospace">Isóbaros: =A ≠Z</text>
+<rect x="230" y="146" width="106" height="22" rx="6" fill="#0a1a0a"/><text x="283" y="161" text-anchor="middle" fill="#34d399" font-size="10" font-family="monospace">Isótonos: =n⁰ ≠Z</text>
+</svg></div></div>
+
+<div class="card"><div class="did-label">Modelos atômicos</div>
+<div class="svg-block"><svg width="100%" viewBox="0 0 340 158" fill="none"><rect width="340" height="158" fill="#000"/>
+<line x1="20" y1="80" x2="320" y2="80" stroke="#1e3a5f" stroke-width="1.5"/>
+<circle cx="52" cy="80" r="18" fill="#1e3a5f" stroke="#3b82f6" stroke-width="1.2"/><circle cx="52" cy="80" r="9" fill="#3b82f6"/>
+<text x="52" y="110" text-anchor="middle" fill="#3b82f6" font-size="9" font-weight="600">Dalton</text><text x="52" y="122" text-anchor="middle" fill="#475569" font-size="8" font-family="monospace">1803</text><text x="52" y="134" text-anchor="middle" fill="#334155" font-size="8">bola maciça</text>
+<circle cx="118" cy="80" r="18" fill="#1e3a5f" stroke="#3b82f6" stroke-width="1.2"/><circle cx="118" cy="80" r="11" fill="#2563eb" opacity=".35"/><circle cx="112" cy="77" r="3" fill="#60a5fa"/><circle cx="121" cy="83" r="3" fill="#60a5fa"/><circle cx="124" cy="74" r="3" fill="#60a5fa"/>
+<text x="118" y="110" text-anchor="middle" fill="#3b82f6" font-size="9" font-weight="600">Thomson</text><text x="118" y="122" text-anchor="middle" fill="#475569" font-size="8" font-family="monospace">1897</text><text x="118" y="134" text-anchor="middle" fill="#334155" font-size="8">pudim passas</text>
+<circle cx="184" cy="80" r="7" fill="#ef4444" stroke="#fca5a5" stroke-width=".8"/><ellipse cx="184" cy="80" rx="18" ry="7" stroke="#3b82f6" stroke-width="1" stroke-dasharray="3 2" fill="none"/><circle cx="202" cy="80" r="4" fill="#3b82f6"/>
+<text x="184" y="110" text-anchor="middle" fill="#3b82f6" font-size="9" font-weight="600">Rutherford</text><text x="184" y="122" text-anchor="middle" fill="#475569" font-size="8" font-family="monospace">1911</text><text x="184" y="134" text-anchor="middle" fill="#334155" font-size="8">núcleo</text>
+<circle cx="250" cy="80" r="5" fill="#ef4444" stroke="#fca5a5" stroke-width=".8"/><circle cx="250" cy="80" r="13" fill="none" stroke="#1e3a5f" stroke-width="1"/><circle cx="250" cy="80" r="19" fill="none" stroke="#2563eb" stroke-width="1"/><circle cx="269" cy="80" r="3.5" fill="#3b82f6"/><circle cx="250" cy="61" r="3.5" fill="#60a5fa"/>
+<text x="250" y="110" text-anchor="middle" fill="#3b82f6" font-size="9" font-weight="600">Bohr</text><text x="250" y="122" text-anchor="middle" fill="#475569" font-size="8" font-family="monospace">1913</text><text x="250" y="134" text-anchor="middle" fill="#334155" font-size="8">órbitas fixas</text>
+<circle cx="310" cy="80" r="5" fill="#ef4444" stroke="#fca5a5" stroke-width=".8"/>
+<ellipse cx="310" cy="80" rx="18" ry="7" stroke="#7c3aed" stroke-width="1" stroke-dasharray="2 2" fill="none" style="transform-origin:310px 80px"/>
+<ellipse cx="310" cy="80" rx="18" ry="7" stroke="#7c3aed" stroke-width="1" stroke-dasharray="2 2" fill="none" style="transform-origin:310px 80px;transform:rotate(60deg)"/>
+<ellipse cx="310" cy="80" rx="18" ry="7" stroke="#a78bfa" stroke-width="1" stroke-dasharray="2 2" fill="none" style="transform-origin:310px 80px;transform:rotate(120deg)"/>
+<text x="310" y="110" text-anchor="middle" fill="#a78bfa" font-size="9" font-weight="600">Quântico</text><text x="310" y="122" text-anchor="middle" fill="#475569" font-size="8" font-family="monospace">atual</text><text x="310" y="134" text-anchor="middle" fill="#334155" font-size="8">nuvem prob.</text>
+<polygon points="86,74 86,86 96,80" fill="#1e3a5f"/><polygon points="152,74 152,86 162,80" fill="#1e3a5f"/><polygon points="218,74 218,86 228,80" fill="#1e3a5f"/><polygon points="280,74 280,86 290,80" fill="#1e3a5f"/>
+</svg></div>
+<div class="did-step"><div class="step-n">4</div><div class="step-c"><h4>Evolução dos modelos</h4><p>Cada modelo foi <strong>superado por experimentos</strong>. De bola maciça à nuvem de probabilidade. Rutherford: folha de ouro. Bohr: espectros de luz.</p></div></div></div>
+`;}
+
+function getQuest(){return[
+  {q:'O carbono tem Z=6 e A=12. Quantos nêutrons ele possui?',opts:['4','6','8','12'],c:1,res:'<strong>6 nêutrons.</strong> n⁰ = A − Z = 12 − 6 = 6. Z=6 define que é carbono (6 prótons), A=12 é a massa total do núcleo.'},
+  {q:'O sódio (Na, Z=11) perde 1 elétron. O íon Na⁺ possui:',opts:['10p⁺ e 10e⁻','11p⁺ e 10e⁻','10p⁺ e 11e⁻','11p⁺ e 11e⁻'],c:1,res:'<strong>11p⁺ e 10e⁻.</strong> Prótons nunca mudam (11 define o sódio). Ao perder 1e⁻: 11−1=10 elétrons. Carga +1 → cátion Na⁺.'},
+  {q:'¹²C e ¹⁴C são exemplos de:',opts:['Isóbaros','Isótonos','Isótopos','Alótropos'],c:2,res:'<strong>Isótopos.</strong> Mesmo Z=6 (ambos carbono), A diferente (12 e 14). Diferença nos nêutrons: ¹²C tem 6n⁰, ¹⁴C tem 8n⁰.'},
+  {q:'Qual modelo propôs o núcleo central positivo com eletrosfera vazia?',opts:['Dalton','Thomson','Rutherford','Bohr'],c:2,res:'<strong>Rutherford (1911).</strong> Experimento da folha de ouro: a maioria das partículas α atravessava → átomo quase vazio. Algumas desviavam muito → núcleo pequeno, denso e positivo.'},
+  {q:'O cloro ³⁷Cl tem Z=17. Quantos nêutrons possui?',opts:['17','18','20','37'],c:2,res:'<strong>20 nêutrons.</strong> n⁰ = A − Z = 37 − 17 = 20. Compare com ³⁵Cl: n⁰ = 18. São isótopos do cloro — mesmo Z, nêutrons diferentes.'},
+];}
+
+// ══ TOAST ══
+function showToast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2400);}
+
+// INIT
+
+function buildModTable(){
+  const grid=document.getElementById('mod-periodic-grid');
+  if(!grid||grid.innerHTML!=='')return;
+  const ROWS=9,COLS=18;
+  const cells=Array(ROWS).fill(null).map(()=>Array(COLS).fill(null));
+  ELS.forEach(el=>{if(el.row<=ROWS&&el.col<=COLS)cells[el.row-1][el.col-1]=el;});
+  let html='';
+  for(let r=0;r<ROWS;r++){
+    if(r===7){for(let c=0;c<COLS;c++)html+='<div style="height:3px"></div>';}
+    for(let c=0;c<COLS;c++){
+      const el=cells[r][c];
+      if(el){
+        html+='<div style="border-radius:3px;padding:2px 1px;text-align:center;cursor:pointer;background:'+CAT_C[el.cat]+';min-width:24px;transition:transform .15s" onclick="showModEl('+el.z+')" title="'+el.name+'" onmouseover="this.style.transform=\'scale(1.2)\'" onmouseout="this.style.transform=\'\'"><div style="font-size:6px;font-family:monospace;color:rgba(255,255,255,.7)">'+el.z+'</div><div style="font-size:8px;font-weight:700;font-family:monospace;color:#fff;line-height:1.1">'+el.sym+'</div></div>';
+      } else {
+        html+='<div style="min-width:24px"></div>';
+      }
+    }
+  }
+  grid.innerHTML=html;
+}
+function showModEl(z){
+  const el=ELS.find(e=>e.z===z);if(!el)return;
+  const n=Math.round(el.mass)-el.z;
+  const panel=document.getElementById('mod-el-detail');
+  if(!panel)return;
+  panel.style.display='block';
+  const c=CAT_C[el.cat]||'#2563eb';
+  panel.innerHTML='<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px">'
+    +'<div style="display:flex;gap:12px;align-items:center">'
+    +'<div style="width:48px;height:48px;border-radius:10px;background:'+c+';display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0">'
+    +'<div style="font-size:6px;color:rgba(255,255,255,.7);font-family:monospace">'+el.z+'</div>'
+    +'<div style="font-size:18px;font-weight:800;color:#fff;font-family:monospace;line-height:1">'+el.sym+'</div></div>'
+    +'<div><div style="font-size:14px;font-weight:700;color:var(--text)">'+el.name+'</div>'
+    +'<div style="font-size:10px;color:'+c+';font-family:monospace">'+(CAT_L[el.cat]||el.cat)+'</div></div></div>'
+    +'<button onclick="closeModEl()" style="background:var(--bg3);border:1px solid var(--border2);border-radius:8px;width:28px;height:28px;color:var(--muted2);font-size:14px;cursor:pointer">✕</button></div>'
+    +'<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">'
+    +['Prótons|'+el.z+' p⁺','Nêutrons|≈'+n+' n⁰','Elétrons|'+el.z+' e⁻','Massa|'+el.mass+' u','Período|'+el.p,'Grupo|'+el.g].map(x=>{const[l,v]=x.split('|');return'<div style="background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:10px"><div style="font-size:8px;color:var(--muted2);font-family:monospace;letter-spacing:1px;text-transform:uppercase;margin-bottom:3px">'+l+'</div><div style="font-size:16px;font-weight:700;font-family:monospace;color:var(--text)">'+v+'</div></div>';}).join('')
+    +'</div>';
+  setTimeout(()=>panel.scrollIntoView({behavior:'smooth',block:'nearest'}),50);
+}
+function closeModEl(){const p=document.getElementById("mod-el-detail");if(p)p.style.display="none";}
+renderHome();renderMap();
+</script>
+</body>
+</html>
