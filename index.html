@@ -243,6 +243,16 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
   <div class="page-header"><div><h1>Admin</h1><p>painel do professor</p></div><button onclick="adminLogout()" style="background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:7px 12px;color:var(--muted2);font-size:11px;cursor:pointer;font-family:var(--mono);margin-top:8px;flex-shrink:0">Sair</button></div>
   <div class="admin-wrap">
     <div class="admin-section"><div class="admin-title">Progresso dos módulos</div><div id="admin-modules"></div></div>
+    <div class="admin-section">
+      <div class="admin-title">🤖 Mini IA nos Experimentos</div>
+      <p style="font-size:11px;color:var(--muted2);font-family:var(--mono);margin-bottom:12px;line-height:1.7">Cole sua chave da API Anthropic aqui. Ela fica salva só neste dispositivo e ativa o ursinho com IA real nos Experimentos.</p>
+      <div style="display:flex;gap:8px;margin-bottom:8px">
+        <input id="api-key-input" type="password" placeholder="sk-ant-..." style="flex:1;background:var(--bg2);border:1px solid var(--border2);border-radius:10px;padding:10px 12px;color:var(--text);font-size:12px;font-family:var(--mono);outline:none" oninput="document.getElementById('api-key-input').style.borderColor='var(--border2)'"/>
+        <button onclick="saveApiKey()" style="padding:10px 16px;background:linear-gradient(135deg,#1e3a5f,var(--accent));border:none;border-radius:10px;color:#fff;font-size:12px;cursor:pointer;font-family:var(--sans);font-weight:600;white-space:nowrap">Salvar</button>
+      </div>
+      <div id="api-key-status" style="font-size:11px;font-family:var(--mono);color:var(--muted2)"></div>
+      <button onclick="removeApiKey()" style="margin-top:8px;background:none;border:1px solid #450a0a;border-radius:8px;padding:6px 12px;color:#fca5a5;font-size:11px;cursor:pointer;font-family:var(--mono)">🗑 Remover chave</button>
+    </div>
     <div class="admin-section"><div class="admin-title">Ações</div><button class="admin-btn" onclick="adminUnlockAll()">🔓 Desbloquear todos os módulos</button><button class="admin-btn danger" onclick="toggleResetList()">🔄 Resetar módulo específico</button><div id="reset-list" style="display:none;flex-direction:column;gap:6px;margin-top:6px"></div><button class="admin-btn danger" id="btn-reset-all" onclick="adminResetAll()" style="margin-top:2px">🗑 Apagar tudo e começar do zero</button></div>
   </div>
 </div>
@@ -347,6 +357,16 @@ function toggleResetList(){
   list.style.display='flex';
 }
 function adminResetModule(id){const t=ALL.find(x=>x.id===id);if(!t)return;done.delete(t.id);delete modScores[t.id];xp=Math.max(0,xp-t.xp);save();renderMap();renderAdmin();document.getElementById('reset-list').style.display='none';showToast('🔄 "'+t.label+'" resetado!');}
+// ══ API KEY ══
+function saveApiKey(){
+  const k=document.getElementById('api-key-input').value.trim();
+  if(!k.startsWith('sk-ant-')){document.getElementById('api-key-input').style.borderColor='var(--red)';document.getElementById('api-key-status').innerHTML='<span style="color:var(--red)">❌ Chave inválida. Deve começar com sk-ant-</span>';return;}
+  localStorage.setItem('lq_apikey',k);
+  document.getElementById('api-key-status').innerHTML='<span style="color:var(--green)">✓ Chave salva! IA ativada nos Experimentos.</span>';
+  document.getElementById('api-key-input').value='';
+  showToast('🤖 Mini IA ativada!');
+}
+function removeApiKey(){localStorage.removeItem('lq_apikey');document.getElementById('api-key-status').innerHTML='<span style="color:var(--muted2)">Chave removida. IA desativada.</span>';showToast('Chave removida.');}
 function renderAdmin(){
   const wrap=document.getElementById('admin-modules');
   wrap.innerHTML=ALL.map(t=>{
@@ -354,6 +374,8 @@ function renderAdmin(){
     const badge=isDone?'<span class="admin-badge badge-pass">aprovado</span>':sc!==undefined?`<span class="admin-badge badge-fail">${sc}/5 acertos</span>`:'<span class="admin-badge badge-pend">pendente</span>';
     return `<div class="student-row"><div><div class="student-name">${t.emoji} ${t.label}</div><div class="student-score">${sc!==undefined?sc+' acerto(s)':'não respondido'}</div></div>${badge}</div>`;
   }).join('');
+  const hasKey=!!localStorage.getItem('lq_apikey');
+  document.getElementById('api-key-status').innerHTML=hasKey?'<span style="color:var(--green)">✓ Chave configurada — IA ativa!</span>':'<span style="color:var(--muted2)">Nenhuma chave configurada.</span>';
 }
 
 // ══ HOME ══
@@ -642,14 +664,61 @@ function closeEl(){const panel=document.getElementById('el-detail');panel.classN
 
 // ══ EXPERIMENTOS ══
 let expState='menu';
+let aiMode=false;
 function initExp(){
   if(document.getElementById('exp-chat').children.length>0)return;
-  addBearMsg('Olá! 🐻 O que você quer explorar?');
-  showOpts([
+  const hasKey=!!localStorage.getItem('lq_apikey');
+  aiMode=hasKey;
+  addBearMsg(hasKey?'Olá! 🐻🤖 A IA está ativa! Pode me perguntar qualquer coisa sobre química, ou usar os atalhos abaixo:':'Olá! 🐻 O que você quer explorar?');
+  const opts=[
     {l:'⚛️ Prótons, nêutrons e elétrons',a:()=>askEl('part')},
     {l:'🔗 Junção de dois elementos',a:()=>askComp()},
     {l:'📋 Propriedades do elemento',a:()=>askEl('prop')},
     {l:'🔢 Configuração eletrônica',a:()=>askEl('conf')},
+  ];
+  if(hasKey)opts.push({l:'💬 Perguntar qualquer coisa à IA',a:()=>askAI()});
+  showOpts(opts);
+}
+function askAI(){
+  addUserMsg('Perguntar à IA');
+  expState='ai';
+  addBearMsg('Pode perguntar qualquer coisa sobre química! 🧪');
+  showInp('Ex: O que é uma reação exotérmica?');
+}
+async function sendToAI(question){
+  const key=localStorage.getItem('lq_apikey');
+  if(!key){addBearMsg('Chave de API não encontrada. Configure no painel Admin!');showMenu();return;}
+  addBearMsg('Pensando... 🤔');
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({
+        model:'claude-haiku-4-5-20251001',
+        max_tokens:400,
+        system:'Você é um ursinho cientista simpático que ensina química de forma didática e simples. Responda sempre em português, de forma clara e concisa. Use emojis ocasionalmente. Foque apenas em química. Se perguntarem algo fora de química, redirecione gentilmente.',
+        messages:[{role:'user',content:question}]
+      })
+    });
+    const data=await res.json();
+    // Remove last "pensando" message
+    const chat=document.getElementById('exp-chat');
+    if(chat.lastChild)chat.removeChild(chat.lastChild);
+    if(data.content&&data.content[0]){
+      addBearMsg(data.content[0].text.replace(/\n/g,'<br>'));
+    } else if(data.error){
+      addBearMsg('❌ Erro: '+data.error.message);
+    }
+  }catch(e){
+    const chat=document.getElementById('exp-chat');
+    if(chat.lastChild)chat.removeChild(chat.lastChild);
+    addBearMsg('❌ Erro de conexão. Verifique sua chave no Admin.');
+  }
+  showOpts([
+    {l:'💬 Outra pergunta',a:()=>askAI()},
+    {l:'⚛️ Buscar elemento',a:()=>askEl('part')},
+    {l:'🔗 Junção de elementos',a:()=>askComp()},
+    {l:'🔄 Recomeçar',a:()=>{expState='menu';document.getElementById('exp-chat').innerHTML='';initExp();}},
   ]);
 }
 function addBearMsg(t){const d=document.createElement('div');d.className='exp-msg bear';d.innerHTML=t;document.getElementById('exp-chat').appendChild(d);document.getElementById('exp-chat').scrollTop=9999;}
@@ -667,6 +736,7 @@ function findEl(s){
 }
 function expSubmit(){
   const v=document.getElementById('exp-input').value.trim();if(!v)return;document.getElementById('exp-input').value='';
+  if(expState==='ai'){addUserMsg(v);sendToAI(v);return;}
   if(expState==='comp'){addUserMsg(v);handleComp(v);}
   else{
     addUserMsg(v);
