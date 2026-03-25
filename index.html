@@ -659,14 +659,19 @@ function showOpts(opts){
   w.innerHTML='';opts.forEach(o=>{const b=document.createElement('button');b.className='exp-opt';b.textContent=o.l;b.onclick=o.a;w.appendChild(b);});
 }
 function showInp(ph){document.getElementById('exp-options-wrap').innerHTML='';document.getElementById('exp-input-row').style.display='flex';const inp=document.getElementById('exp-input');inp.placeholder=ph||'Símbolo (ex: Na)';inp.value='';inp.focus();}
-function askEl(type){const labels={'part':'Prótons, nêutrons e elétrons','prop':'Propriedades','conf':'Configuração eletrônica'};addUserMsg(labels[type]);expState=type;addBearMsg('Qual elemento? Digite o símbolo:');showInp('Ex: H, Na, Fe, O, Au...');}
-function askComp(){addUserMsg('Junção de dois elementos');expState='comp';addBearMsg('Digite dois símbolos separados por + (ex: <strong>Na + Cl</strong>):');showInp('Ex: Na + Cl');}
+function askEl(type){const labels={'part':'Prótons, nêutrons e elétrons','prop':'Propriedades','conf':'Configuração eletrônica'};addUserMsg(labels[type]);expState=type;addBearMsg('Qual elemento? Digite o símbolo ou o nome completo:');showInp('Ex: H, Na, Sódio, Ferro, Ouro...');}
+function askComp(){addUserMsg('Junção de dois elementos');expState='comp';addBearMsg('Digite os dois elementos separados por + — pode usar o símbolo ou o nome completo:<br><br>Ex: <strong>Na + Cl</strong> ou <strong>Sódio + Cloro</strong>');showInp('Ex: Na + Cl ou Sódio + Cloro');}
+function findEl(s){
+  const q=s.trim().toLowerCase().replace(/[^a-záàãâéêíóôõúüç]/gi,'');
+  return ELS.find(e=>e.sym.toLowerCase()===q||e.name.toLowerCase()===q||e.name.toLowerCase().startsWith(q)&&q.length>=3);
+}
 function expSubmit(){
   const v=document.getElementById('exp-input').value.trim();if(!v)return;document.getElementById('exp-input').value='';
   if(expState==='comp'){addUserMsg(v);handleComp(v);}
-  else{const sym=v.replace(/[^a-zA-Z]/g,'');addUserMsg(sym);
-    const el=ELS.find(e=>e.sym.toLowerCase()===sym.toLowerCase());
-    if(!el){addBearMsg('Hmm, não encontrei esse símbolo. Tente: H, O, Na, Fe, Ca, Cu, Au...');showInp();return;}
+  else{
+    addUserMsg(v);
+    const el=findEl(v);
+    if(!el){addBearMsg('Hmm, não encontrei esse elemento. Tente o símbolo (Na, Fe, O) ou nome completo (Sódio, Ferro, Oxigênio)...');showInp();return;}
     if(expState==='part')showPart(el);else if(expState==='prop')showProp(el);else if(expState==='conf')showConf(el);
   }
 }
@@ -679,11 +684,11 @@ function showConf(el){
   addBearMsg(`<strong>Config. eletrônica do ${el.name}:</strong><br><br>${conf}<br><br>Elétrons de valência: <strong>${layers[layers.length-1]}</strong>`);showMenu();
 }
 function handleComp(v){
-  const parts=v.split(/[+,\s]+/).filter(Boolean);
-  if(parts.length<2){addBearMsg('Digite dois símbolos separados por + (ex: H + O)');showInp();return;}
-  const e1=ELS.find(e=>e.sym.toLowerCase()===parts[0].toLowerCase());
-  const e2=ELS.find(e=>e.sym.toLowerCase()===parts[1].toLowerCase());
-  if(!e1||!e2){addBearMsg('Não encontrei um dos elementos. Confira os símbolos!');showInp('Ex: Na + Cl');return;}
+  const parts=v.split(/\+/).map(s=>s.trim()).filter(Boolean);
+  if(parts.length<2){addBearMsg('Digite dois elementos separados por + (ex: Na + Cl ou Sódio + Cloro)');showInp();return;}
+  const e1=findEl(parts[0]);
+  const e2=findEl(parts[1]);
+  if(!e1||!e2){addBearMsg('Não encontrei um dos elementos. Tente: símbolo (Na) ou nome completo (Sódio)!');showInp('Ex: Na + Cl ou Sódio + Cloro');return;}
   const known={
     'H+O':{f:'H₂O',n:'Água',t:'Ligação covalente polar. O oxigênio atrai mais os elétrons. Molécula angular.'},'O+H':{f:'H₂O',n:'Água',t:'Ligação covalente polar.'},
     'H+H':{f:'H₂',n:'Gás hidrogênio',t:'Ligação covalente simples apolar. Combustível limpo.'},
@@ -812,7 +817,25 @@ function handleComp(v){
   const key=`${e1.sym}+${e2.sym}`;const comp=known[key];
   addBearMsg(`<strong>${e1.name} + ${e2.name}</strong><br><br>${comp
     ?`Fórmula: <strong>${comp.f}</strong><br>Nome: <strong>${comp.n}</strong><br><br>${comp.t}`
-    :`${e1.sym} é <strong>${CAT_L[e1.cat]||e1.cat}</strong> (grupo ${e1.g}, período ${e1.p})<br>${e2.sym} é <strong>${CAT_L[e2.cat]||e2.cat}</strong> (grupo ${e2.g}, período ${e2.p})<br><br>Essa combinação pode formar óxidos, sais, hidróxidos ou ácidos dependendo das valências. Consulte a tabela de valências para a fórmula exata!`}`);showMenu();
+    :`${e1.sym} é <strong>${CAT_L[e1.cat]||e1.cat}</strong> (grupo ${e1.g}, período ${e1.p})<br>${e2.sym} é <strong>${CAT_L[e2.cat]||e2.cat}</strong> (grupo ${e2.g}, período ${e2.p})<br><br>${autoCompound(e1,e2)}`}`);showMenu();
+}
+function getValences(el){
+  const v={'alkali':[1],'alkaline':[2],'halogen':[1],'noble':[0],'nonmetal':{'H':[1],'O':[2],'N':[3,5],'P':[3,5],'S':[2,4,6],'C':[4],'Se':[2,4,6],'Te':[2,4,6]},'metalloid':{'B':[3],'Si':[4],'Ge':[4],'As':[3,5],'Sb':[3,5],'Te':[2,4,6]},'transition':{'Fe':[2,3],'Cu':[1,2],'Zn':[2],'Mn':[2,4,7],'Cr':[3,6],'Co':[2,3],'Ni':[2],'Ag':[1],'Au':[1,3],'Hg':[1,2],'Cd':[2],'Pt':[2,4],'Pd':[2,4],'Ru':[3,4],'Ti':[4],'V':[3,5],'W':[6],'Mo':[6]},'post-transition':{'Al':[3],'Ga':[3],'In':[3],'Sn':[2,4],'Pb':[2,4],'Bi':[3,5],'Tl':[1,3]},'lanthanide':[3],'actinide':{'U':[3,4,5,6],'Th':[4],'Pu':[3,4,5,6]}};
+  const cat=v[el.cat];
+  if(Array.isArray(cat))return cat;
+  if(cat&&cat[el.sym])return cat[el.sym];
+  if(el.cat==='nonmetal'){if(el.sym==='H')return[1];if(el.sym==='O')return[2];if(el.sym==='N')return[3,5];if(el.sym==='P')return[3,5];if(el.sym==='S')return[2,4,6];if(el.sym==='C')return[4];if(el.sym==='F')return[1];}
+  return[el.g<=12?el.g:el.g-10];
+}
+function mmc(a,b){let x=a,y=b;while(y){let t=y;y=x%y;x=t;}return a*b/x;}
+function autoCompound(e1,e2){
+  const v1=getValences(e1)[0];const v2=getValences(e2)[0];
+  if(!v1||!v2||v1===0||v2===0)return 'Esses elementos raramente reagem entre si diretamente.';
+  const m=mmc(v1,v2);const n1=m/v1;const n2=m/v2;
+  const s1=n1===1?e1.sym:e1.sym+(n1>1?'<sub>'+n1+'</sub>':'');
+  const s2=n2===1?e2.sym:e2.sym+(n2>1?'<sub>'+n2+'</sub>':'');
+  const tipo=((e1.cat==='alkali'||e1.cat==='alkaline'||e1.cat==='transition'||e1.cat==='post-transition')&&(e2.cat==='nonmetal'||e2.cat==='halogen'))?'Ligação iônica (metal + não-metal)':(e1.cat==='nonmetal'||e2.cat==='nonmetal')?'Ligação covalente (não-metal + não-metal)':'Ligação metálica ou iônica';
+  return `Fórmula provável: <strong>${s1}${s2}</strong><br>Valências: ${e1.sym}=${v1}, ${e2.sym}=${v2}<br>Tipo: <strong>${tipo}</strong><br><small style="color:var(--muted2)">⚠️ Fórmula calculada automaticamente pelas valências principais. Alguns elementos têm múltiplas valências.</small>`;
 }
 function showMenu(){addBearMsg('Quer explorar mais?');showOpts([{l:'⚛️ Outro elemento',a:()=>askEl('part')},{l:'🔗 Junção de elementos',a:()=>askComp()},{l:'📋 Propriedades',a:()=>askEl('prop')},{l:'🔄 Recomeçar',a:()=>{expState='menu';document.getElementById('exp-chat').innerHTML='';initExp();}}]);}
 document.addEventListener('keydown',e=>{if(document.activeElement===document.getElementById('exp-input')&&e.key==='Enter')expSubmit();});
