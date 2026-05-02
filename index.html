@@ -24,12 +24,12 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 .btn-main{width:100%;padding:13px;border-radius:12px;cursor:pointer;border:1px solid var(--accent);background:linear-gradient(135deg,#1e3a5f,var(--accent));color:#fff;font-size:13px;font-weight:700;font-family:var(--sans);transition:opacity .15s,transform .15s;letter-spacing:.3px;display:block;text-align:center}.btn-main:hover{opacity:.9;transform:translateY(-1px)}.btn-main:disabled{opacity:.3;cursor:not-allowed;transform:none}
 .btn-ghost{width:100%;padding:12px;border-radius:12px;cursor:pointer;border:1px solid var(--border2);background:var(--bg3);color:var(--muted2);font-size:13px;font-weight:600;font-family:var(--sans);transition:all .15s;display:block;text-align:center}.btn-ghost:hover{color:var(--text)}.btn-ghost:disabled{opacity:.25;cursor:not-allowed}
 .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:14px;overflow:hidden}
-/* ... (o resto do CSS permanece igual) ... */
+/* ... resto do CSS igual ... */
 </style>
 </head>
 <body>
 
-<!-- (Todo o HTML da interface permanece igual até o <script>) -->
+<!-- TODO O HTML DA INTERFACE (permanece igual) -->
 
 <script>
 // ══ DADOS ATUALIZADOS ══
@@ -55,7 +55,7 @@ const AREAS=[
 ];
 const ALL=AREAS.flatMap(a=>a.tiles);
 
-// (Todo o resto do código JavaScript original permanece igual até o final)
+// (Todo o código intermediário permanece igual - copie do seu arquivo)
 
 // ══ ESTEQUIOMETRIA ══
 function getEstequiometriaDid(){return `
@@ -69,4 +69,68 @@ function getEstequiometriaDid(){return `
   <div class="did-step">
     <div class="step-n">1</div>
     <div class="step-c">
-      <h4>Por que balancear?</h4
+      <h4>Por que balancear?</h4>
+      <p>Para respeitar a conservação da massa: massa dos reagentes = massa dos produtos.</p>
+      <div class="formula">Exemplo: 2H₂ + O₂ → 2H₂O</div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="did-label">2. Conceitos Básicos</div>
+  <div class="did-step">
+    <div class="step-n">2</div>
+    <div class="step-c">
+      <h4>Fórmulas importantes</h4>
+      <p><strong>n = m / M</strong> (quantidade de matéria)</p>
+      <p><strong>M</strong> = massa molar (g/mol)</p>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="did-label">3. Cálculo Estequiométrico</div>
+  <div class="did-step">
+    <div class="step-n">3</div>
+    <div class="step-c">
+      <h4>Passo a passo</h4>
+      <p>1. Balancear a equação<br>
+         2. Calcular massas molares<br>
+         3. Converter massa → mol<br>
+         4. Usar proporção da equação<br>
+         5. Converter mol → massa</p>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="did-label">4. Reagente Limitante</div>
+  <div class="did-step">
+    <div class="step-n">4</div>
+    <div class="step-c">
+      <h4>Importante!</h4>
+      <p>É o reagente que se esgota primeiro e limita a quantidade de produto formado.</p>
+    </div>
+  </div>
+</div>
+`;}
+
+function getEstequiometriaQuest(){return [
+  {q:'Qual é a massa molar da água (H₂O)?',opts:['16 g/mol','18 g/mol','20 g/mol','36 g/mol'],c:1,
+   res:'<strong>18 g/mol.</strong> (2×1 + 16 = 18)'},
+  {q:'Na reação 2H₂ + O₂ → 2H₂O, quantos moles de O₂ são necessários para reagir com 4 moles de H₂?',opts:['1 mol','2 mol','4 mol','8 mol'],c:1,
+   res:'<strong>2 moles de O₂.</strong> Proporção: 2 H₂ : 1 O₂ → 4 H₂ : 2 O₂'},
+  {q:'Quantos gramas de água são produzidos a partir de 8g de H₂ (reação completa)?',opts:['18g','36g','72g','9g'],c:2,
+   res:'<strong>72g de H₂O.</strong><br>8g H₂ = 4 mol → produzem 4 mol H₂O = 72g'},
+  {q:'O que é reagente limitante?',opts:['Reagente em excesso','Reagente que se esgota primeiro','Produto da reação','Catalisador'],c:1,
+   res:'<strong>O reagente que se esgota primeiro.</strong> Ele determina a quantidade máxima de produto.'},
+  {q:'Qual lei fundamenta a estequiometria?',opts:['Lei de Boyle','Lei de Charles','Lei da Conservação da Massa','Lei de Proust'],c:2,
+   res:'<strong>Lei da Conservação da Massa (Lavoisier).</strong> Nada se cria, nada se perde, tudo se transforma.'}
+];}
+
+// (Mantenha todo o resto do código original a partir daqui até o final)
+
+renderHome();renderMap();
+</script>
+</body>
+</html>
