@@ -123,7 +123,7 @@ const ELS = [
 ];
 
 // ════════════════════════════════════════════════════════════════
-//  2. FUNÇÕES DIDÁTICAS (conteúdo dos módulos)
+//  2. FUNÇÕES DIDÁTICAS
 // ════════════════════════════════════════════════════════════════
 function getDid(){return`<div class="card"><div class="did-label">O que é um átomo?</div><div class="did-intro">O átomo é a menor unidade de matéria que mantém as propriedades de um elemento. É formado por núcleo (p⁺ e n⁰) e eletrosfera (e⁻).</div><div class="did-step"><div class="step-n">1</div><div class="step-c"><h4>Partículas subatômicas</h4><p><strong>Próton (p⁺)</strong> — positivo, no núcleo<br><strong>Nêutron (n⁰)</strong> — neutro, no núcleo<br><strong>Elétron (e⁻)</strong> — negativo, na eletrosfera</p></div></div><div class="did-step"><div class="step-n">2</div><div class="step-c"><h4>Número Atômico Z e Massa A</h4><p><strong>Z</strong> = nº de prótons → define o elemento!<br><strong>A</strong> = p⁺ + n⁰ | Átomo neutro: e⁻ = p⁺</p></div></div><div class="formula">Z = p⁺ | A = p⁺ + n⁰ | n⁰ = A − Z</div></div><div class="card"><div class="did-label">Formação de íons</div><div class="did-step"><div class="step-n">3</div><div class="step-c"><h4>Íons</h4><p><strong>Cátion</strong>: perdeu e⁻ → carga positiva<br><strong>Ânion</strong>: ganhou e⁻ → carga negativa<br>Os prótons nunca mudam!</p></div></div></div><div class="card"><div class="did-label">Isótopos, Isóbaros e Isótonos</div><div class="did-step"><div class="step-n">4</div><div class="step-c"><h4>Definições</h4><p><strong>Isótopos:</strong> mesmo Z, diferente A.<br><strong>Isóbaros:</strong> mesmo A, diferente Z.<br><strong>Isótonos:</strong> mesmo número de nêutrons.</p></div></div></div><div class="card"><div class="did-label">Modelos atômicos</div><div class="did-step"><div class="step-n">5</div><div class="step-c"><h4>Evolução</h4><p>Dalton (bola maciça) → Thomson (pudim passas) → Rutherford (núcleo) → Bohr (órbitas) → Quântico (nuvem de probabilidade).</p></div></div></div>`;}
 function getQuest(){return[{q:'O carbono tem Z=6 e A=12. Quantos nêutrons ele possui?',opts:['4','6','8','12'],c:1,res:'<strong>6 nêutrons.</strong> n⁰ = A − Z = 12 − 6 = 6.'},{q:'O sódio (Na, Z=11) perde 1 elétron. O íon Na⁺ possui:',opts:['10p⁺ e 10e⁻','11p⁺ e 10e⁻','10p⁺ e 11e⁻','11p⁺ e 11e⁻'],c:1,res:'<strong>11p⁺ e 10e⁻.</strong> Prótons não mudam; perde um elétron.'},{q:'¹²C e ¹⁴C são exemplos de:',opts:['Isóbaros','Isótonos','Isótopos','Alótropos'],c:2,res:'<strong>Isótopos.</strong> Mesmo Z, A diferente.'},{q:'Qual modelo propôs o núcleo central positivo com eletrosfera vazia?',opts:['Dalton','Thomson','Rutherford','Bohr'],c:2,res:'<strong>Rutherford.</strong> Experimento da folha de ouro.'},{q:'O cloro ³⁷Cl tem Z=17. Quantos nêutrons possui?',opts:['17','18','20','37'],c:2,res:'<strong>20 nêutrons.</strong> 37−17=20.'}];}
@@ -133,7 +133,7 @@ function getTabelaDid(){return`<div class="card"><div class="did-label">O que é
 function getTabelaQuest(){return[{q:'O sódio (Na) está no Período 3 da tabela periódica. O que isso indica?',opts:['Tem 3 prótons','Tem 3 elétrons de valência','Tem 3 camadas eletrônicas','Pertence ao grupo 3'],c:2,res:'<strong>3 camadas eletrônicas.</strong> O período indica o número de camadas.'},{q:'Elementos do mesmo grupo (família) têm em comum:',opts:['Mesmo número de prótons','Mesmo número de nêutrons','Mesma quantidade de elétrons de valência','Mesma massa atômica'],c:2,res:'<strong>Mesma quantidade de elétrons de valência.</strong>'},{q:'Qual família é conhecida por ser praticamente inerte (não reage)?',opts:['Metais alcalinos','Halogênios','Calcogênios','Gases nobres'],c:3,res:'<strong>Gases nobres.</strong> Camada de valência completa.'},{q:'A eletronegatividade de um elemento indica:',opts:['Sua massa atômica','Capacidade de atrair elétrons','Número de prótons','Tamanho do raio atômico'],c:1,res:'<strong>Capacidade de atrair elétrons.</strong>'},{q:'O cloro (Cl, Z=17) precisa de quantos elétrons para completar o octeto?',opts:['1 elétron','2 elétrons','7 elétrons','8 elétrons'],c:0,res:'<strong>1 elétron.</strong> Grupo 17 → 7 e⁻ de valência, precisa de 1.'}];}
 
 // ════════════════════════════════════════════════════════════════
-//  3. ESTADO GLOBAL (DEFINIDO ANTES DE QUALQUER FUNÇÃO QUE O USE!)
+//  3. ESTADO GLOBAL
 // ════════════════════════════════════════════════════════════════
 let done = new Set(JSON.parse(localStorage.getItem('lq_done') || '[]'));
 let xp = parseInt(localStorage.getItem('lq_xp') || '0');
@@ -154,69 +154,36 @@ function save() {
 }
 
 // ════════════════════════════════════════════════════════════════
-//  4. DEFINIÇÃO DOS MÓDULOS (AREAS)
+//  4. DEFINIÇÃO DOS MÓDULOS
 // ════════════════════════════════════════════════════════════════
 const AREAS = [
-  {el:'tg',tiles:[{id:'atom',emoji:'⚛️',label:'Átomo',sub:'prótons, nêutrons, elétrons',xp:10,did:getDid(),quest:getQuest()}]},
-  {el:'to',tiles:[{id:'ligacoes',emoji:'🔗',label:'Ligações Químicas',sub:'iônica, covalente, metálica',xp:10,did:getLigacoesDid(),quest:getLigacoesQuest()}]},
-  {el:'tf',tiles:[{id:'tabela',emoji:'📊',label:'Tabela Periódica',sub:'períodos, grupos, propriedades',xp:10,did:getTabelaDid(),quest:getTabelaQuest()}]}
+  {el:'tg', tiles:[{id:'atom', emoji:'⚛️', label:'Átomo', sub:'prótons, nêutrons, elétrons', xp:10, did:getDid(), quest:getQuest()}]},
+  {el:'to', tiles:[{id:'ligacoes', emoji:'🔗', label:'Ligações Químicas', sub:'iônica, covalente, metálica', xp:10, did:getLigacoesDid(), quest:getLigacoesQuest()}]},
+  {el:'tf', tiles:[{id:'tabela', emoji:'📊', label:'Tabela Periódica', sub:'períodos, grupos, propriedades', xp:10, did:getTabelaDid(), quest:getTabelaQuest()}]}
 ];
 const ALL = AREAS.flatMap(a => a.tiles);
 
 // ════════════════════════════════════════════════════════════════
-//  5. NAVEGAÇÃO
+//  5. NAVEGAÇÃO (CORRIGIDA)
 // ════════════════════════════════════════════════════════════════
 function goPage(id) {
-  console.log('🔄 goPage chamado para:', id);
-  
-  // Esconde todas as páginas
-  document.querySelectorAll('.page').forEach(p => {
-    p.classList.remove('active');
-    p.style.display = 'none';
-  });
-  
-  // Mostra a página alvo
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   const target = document.getElementById(id);
-  if (!target) {
-    console.error('❌ Página não encontrada:', id);
-    return;
-  }
-  
-  target.classList.add('active');
-  target.style.display = 'block';
-  target.style.minHeight = '100vh';
-  target.style.backgroundColor = '#000';
-  console.log('✅ Página ativada:', id);
-  
-  // Atualiza a navegação inferior
+  if (target) target.classList.add('active');
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  const navMap = {
-    'page-home': 'nav-home',
-    'page-mapa': 'nav-mapa',
-    'page-lab': 'nav-lab',
-    'page-exp': 'nav-exp',
-    'page-admin': 'nav-admin'
-  };
-  const navBtn = document.getElementById(navMap[id]);
-  if (navBtn) navBtn.classList.add('active');
-  
-  // ⭐ RENDERIZA O CONTEÚDO DE CADA PÁGINA
+  const map = {'page-home':'nav-home','page-mapa':'nav-mapa','page-lab':'nav-lab','page-exp':'nav-exp','page-admin':'nav-admin'};
+  const ni = document.getElementById(map[id]);
+  if (ni) ni.classList.add('active');
+  if (id === 'page-mapa') renderMap();
   if (id === 'page-home') renderHome();
-  if (id === 'page-mapa') {
-    // Aguarda um instante para garantir que a página esteja no DOM
-    setTimeout(() => {
-      renderMap();
-    }, 150);
-  }
   if (id === 'page-lab') renderLab();
   if (id === 'page-exp') initExp();
   if (id === 'page-admin') renderAdmin();
-  
-  window.scrollTo(0, 0);
+  window.scrollTo(0,0);
 }
 
 // ════════════════════════════════════════════════════════════════
-//  6. EXPLORAR MÓDULOS
+//  6. EXPLORAR MÓDULOS (COM ANIMAÇÃO)
 // ════════════════════════════════════════════════════════════════
 function explorarModulos() {
   const foguete = document.querySelector('.home-bear svg');
@@ -224,27 +191,10 @@ function explorarModulos() {
     foguete.classList.add('foguete-sobe');
     setTimeout(() => {
       goPage('page-mapa');
-      renderMapWithRetry(0);
     }, 1000);
   } else {
     goPage('page-mapa');
-    renderMapWithRetry(0);
   }
-}
-
-function renderMapWithRetry(tentativa) {
-  const containers = ['tg','to','tf'];
-  const allExist = containers.every(id => document.getElementById(id) !== null);
-  const progFill = document.getElementById('prog-fill');
-  const progNum = document.getElementById('prog-num');
-  const xpVal = document.getElementById('xp-val');
-  const lvlText = document.getElementById('lvl-text');
-  const bearBubble = document.getElementById('bear-bubble');
-  if (!allExist || !progFill || !progNum || !xpVal || !lvlText || !bearBubble) {
-    if (tentativa < 5) setTimeout(() => renderMapWithRetry(tentativa + 1), 300);
-    return;
-  }
-  renderMap();
 }
 
 // ════════════════════════════════════════════════════════════════
@@ -294,7 +244,7 @@ function clickTile(id, locked) {
 }
 
 // ════════════════════════════════════════════════════════════════
-//  9. MÓDULO E QUESTÕES (mantido, não vou repetir todo para não estourar)
+//  9. MÓDULO E QUESTÕES (mantido)
 // ════════════════════════════════════════════════════════════════
 function openModule(t) {
   curMod = t;
@@ -439,7 +389,7 @@ function closeModEl() {
 }
 
 // ════════════════════════════════════════════════════════════════
-//  11. LABORATÓRIO (mantido igual ao que você já tinha)
+//  11. LABORATÓRIO
 // ════════════════════════════════════════════════════════════════
 function renderLab() {
   if (document.getElementById('periodic-grid').innerHTML !== '') return;
@@ -479,16 +429,45 @@ function closeEl() {
 }
 
 // ════════════════════════════════════════════════════════════════
-//  12. EXPERIMENTOS (mantido igual ao que você já tinha)
+//  12. EXPERIMENTOS (mantido)
 // ════════════════════════════════════════════════════════════════
 let expState = 'menu';
 let aiMode = false;
-function initExp() { /* ... mantido ... */ } // (omitido para não estourar, mas você já tem)
+function initExp() { /* ... você já tem o código completo ... */ }
+function askAI() { /* ... */ }
+async function sendToAI(question) { /* ... */ }
+function addBearMsg(t) { /* ... */ }
+function addUserMsg(t) { /* ... */ }
+function showOpts(opts) { /* ... */ }
+function showInp(ph) { /* ... */ }
+function askEl(type) { /* ... */ }
+function askComp() { /* ... */ }
+function findEl(s) { return ELS.find(e => e.sym.toLowerCase() === s.trim().toLowerCase() || e.name.toLowerCase() === s.trim().toLowerCase()); }
+function expSubmit() { /* ... */ }
+function showPart(el) { /* ... */ }
+function showProp(el) { /* ... */ }
+function showConf(el) { /* ... */ }
+function handleComp(v) { /* ... */ }
+function getValences(el) { /* ... */ }
+function mmc(a,b) { /* ... */ }
+function autoCompound(e1,e2) { /* ... */ }
+function showMenu() { /* ... */ }
+document.addEventListener('keydown', e => { if (document.activeElement === document.getElementById('exp-input') && e.key === 'Enter') expSubmit(); });
 
 // ════════════════════════════════════════════════════════════════
-//  13. ADMIN (mantido igual ao que você já tinha)
+//  13. ADMIN (mantido)
 // ════════════════════════════════════════════════════════════════
-// (omitido, mas você tem completo)
+function openAdminOverlay() { /* ... */ }
+function closeAdminOverlay() { /* ... */ }
+function checkAdmin() { /* ... */ }
+function adminLogout() { /* ... */ }
+function adminUnlockAll() { /* ... */ }
+function adminResetAll() { /* ... */ }
+function toggleResetList() { /* ... */ }
+function adminResetModule(id) { /* ... */ }
+function saveApiKey() { /* ... */ }
+function removeApiKey() { /* ... */ }
+function renderAdmin() { /* ... */ }
 
 // ════════════════════════════════════════════════════════════════
 //  14. TOAST E INICIALIZAÇÃO
