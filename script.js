@@ -262,6 +262,7 @@ function explorarModulos() {
 }
 
 function renderMapWithRetry(tentativa) {
+  console.log('🔁 renderMapWithRetry tentativa:', tentativa + 1);
   const containers = ['tg', 'to', 'tf'];
   const allExist = containers.every(id => document.getElementById(id) !== null);
   const progFill = document.getElementById('prog-fill');
@@ -269,13 +270,58 @@ function renderMapWithRetry(tentativa) {
   const xpVal = document.getElementById('xp-val');
   const lvlText = document.getElementById('lvl-text');
   const bearBubble = document.getElementById('bear-bubble');
+
+  console.log('📦 Containers existem?', allExist);
+  console.log('📊 progFill:', !!progFill, 'progNum:', !!progNum, 'xpVal:', !!xpVal, 'lvlText:', !!lvlText, 'bearBubble:', !!bearBubble);
+
   if (!allExist || !progFill || !progNum || !xpVal || !lvlText || !bearBubble) {
-    if (tentativa < 5) setTimeout(() => renderMapWithRetry(tentativa + 1), 300);
+    if (tentativa < 5) {
+      console.warn('⚠️ Elementos não encontrados. Tentando novamente em 300ms...');
+      setTimeout(() => renderMapWithRetry(tentativa + 1), 300);
+    } else {
+      console.error('❌ Falha após 5 tentativas. Verifique o HTML.');
+    }
     return;
   }
+  console.log('✅ Todos os elementos encontrados. Chamando renderMap()...');
   renderMap();
 }
 
+function renderMap() {
+  console.log('🗺️ renderMap() iniciado');
+  let di = 0;
+  ALL.forEach((t, i) => { if (done.has(t.id)) di = i + 1; });
+  console.log('📌 Módulos concluídos:', done.size, 'Próximo índice:', di);
+
+  AREAS.forEach(area => {
+    const cont = document.getElementById(area.el);
+    if (!cont) {
+      console.warn('⚠️ Container não encontrado:', area.el);
+      return;
+    }
+    console.log('🔄 Renderizando área:', area.el);
+    cont.innerHTML = area.tiles.map(t => {
+      const isDone = done.has(t.id);
+      const isCur = ALL.indexOf(t) === di;
+      const isLock = !isDone && !isCur;
+      return `<div class="tile ${isDone ? 'done' : isCur ? 'unlocked' : 'locked'}" onclick="clickTile('${t.id}',${isLock})">
+        ${isDone ? '<div class="tile-check"></div>' : ''}
+        ${isLock ? '<div class="tile-lock">🔒</div>' : ''}
+        <div class="tile-emoji">${t.emoji}</div>
+        <div class="tile-label">${t.label}</div>
+        <div class="tile-sub">${t.sub}</div>
+      </div>`;
+    }).join('');
+  });
+
+  const d = done.size, total = ALL.length;
+  document.getElementById('prog-fill').style.width = Math.min(100, Math.round(d / total * 100)) + '%';
+  document.getElementById('prog-num').textContent = d + ' / ' + total;
+  document.getElementById('xp-val').textContent = xp + ' XP';
+  document.getElementById('lvl-text').textContent = d < 4 ? 'Nível 1 — Iniciante' : d < 9 ? 'Nível 2 — Intermediário' : 'Nível 3 — Avançado';
+  document.getElementById('bear-bubble').textContent = ALL[di] ? 'Próximo: ' + ALL[di].label + ' ' + ALL[di].emoji : 'Tudo concluído! 🏆';
+  console.log('✅ renderMap() finalizado com sucesso!');
+}
 // ════════════════════════════════════════════════════════════════
 //  7. RENDERIZAÇÃO DA HOME
 // ════════════════════════════════════════════════════════════════
