@@ -169,9 +169,29 @@ function getTabelaQuest() {
 }
 
 // ════════════════════════════════════════════════════════════════
-//  3. DEFINIÇÃO DOS MÓDULOS (AREAS)
+//  3. ESTADO GLOBAL (CORRIGIDO – ADICIONADO!)
 // ════════════════════════════════════════════════════════════════
+let done = new Set(JSON.parse(localStorage.getItem('lq_done') || '[]'));
+let xp = parseInt(localStorage.getItem('lq_xp') || '0');
+let totalAcc = parseInt(localStorage.getItem('lq_acc') || '0');
+let totalResp = parseInt(localStorage.getItem('lq_resp') || '0');
+let modScores = JSON.parse(localStorage.getItem('lq_scores') || '{}');
+let isAdmin = false;
+let curMod = null;
+let curQ = 0;
+let answers = [];
 
+function save() {
+  localStorage.setItem('lq_done', JSON.stringify([...done]));
+  localStorage.setItem('lq_xp', xp);
+  localStorage.setItem('lq_acc', totalAcc);
+  localStorage.setItem('lq_resp', totalResp);
+  localStorage.setItem('lq_scores', JSON.stringify(modScores));
+}
+
+// ════════════════════════════════════════════════════════════════
+//  4. DEFINIÇÃO DOS MÓDULOS (AREAS)
+// ════════════════════════════════════════════════════════════════
 const AREAS = [
   {
     el: 'tg',
@@ -218,10 +238,10 @@ const AREAS = [
 ];
 
 const ALL = AREAS.flatMap(a => a.tiles);
+
 // ════════════════════════════════════════════════════════════════
 //  5. NAVEGAÇÃO
 // ════════════════════════════════════════════════════════════════
-
 function goPage(id) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   const target = document.getElementById(id);
@@ -246,7 +266,6 @@ function goPage(id) {
 // ════════════════════════════════════════════════════════════════
 //  6. EXPLORAR MÓDULOS (COM ANIMAÇÃO E RETRY)
 // ════════════════════════════════════════════════════════════════
-
 function explorarModulos() {
   const foguete = document.querySelector('.home-bear svg');
   if (foguete) {
@@ -287,6 +306,20 @@ function renderMapWithRetry(tentativa) {
   renderMap();
 }
 
+// ════════════════════════════════════════════════════════════════
+//  7. RENDERIZAÇÃO DA HOME
+// ════════════════════════════════════════════════════════════════
+function renderHome() {
+  console.log('🏠 renderHome() chamado. done.size:', done.size);
+  document.getElementById('hs-mod').textContent = done.size;
+  document.getElementById('hs-xp').textContent = xp;
+  const p = Math.min(100, Math.round(done.size / ALL.length * 100));
+  document.getElementById('hs-prog').textContent = p + '%';
+}
+
+// ════════════════════════════════════════════════════════════════
+//  8. RENDERIZAÇÃO DO MAPA (versão com logs)
+// ════════════════════════════════════════════════════════════════
 function renderMap() {
   console.log('🗺️ renderMap() iniciado');
   let di = 0;
@@ -322,47 +355,6 @@ function renderMap() {
   document.getElementById('bear-bubble').textContent = ALL[di] ? 'Próximo: ' + ALL[di].label + ' ' + ALL[di].emoji : 'Tudo concluído! 🏆';
   console.log('✅ renderMap() finalizado com sucesso!');
 }
-// ════════════════════════════════════════════════════════════════
-//  7. RENDERIZAÇÃO DA HOME
-// ════════════════════════════════════════════════════════════════
-
-function renderHome() {
-  document.getElementById('hs-mod').textContent = done.size;
-  document.getElementById('hs-xp').textContent = xp;
-  const p = Math.min(100, Math.round(done.size / ALL.length * 100));
-  document.getElementById('hs-prog').textContent = p + '%';
-}
-
-// ════════════════════════════════════════════════════════════════
-//  8. RENDERIZAÇÃO DO MAPA
-// ════════════════════════════════════════════════════════════════
-
-function renderMap() {
-  let di = 0;
-  ALL.forEach((t, i) => { if (done.has(t.id)) di = i + 1; });
-  AREAS.forEach(area => {
-    const cont = document.getElementById(area.el);
-    if (!cont) return;
-    cont.innerHTML = area.tiles.map(t => {
-      const isDone = done.has(t.id);
-      const isCur = ALL.indexOf(t) === di;
-      const isLock = !isDone && !isCur;
-      return `<div class="tile ${isDone ? 'done' : isCur ? 'unlocked' : 'locked'}" onclick="clickTile('${t.id}',${isLock})">
-        ${isDone ? '<div class="tile-check"></div>' : ''}
-        ${isLock ? '<div class="tile-lock">🔒</div>' : ''}
-        <div class="tile-emoji">${t.emoji}</div>
-        <div class="tile-label">${t.label}</div>
-        <div class="tile-sub">${t.sub}</div>
-      </div>`;
-    }).join('');
-  });
-  const d = done.size, total = ALL.length;
-  document.getElementById('prog-fill').style.width = Math.min(100, Math.round(d / total * 100)) + '%';
-  document.getElementById('prog-num').textContent = d + ' / ' + total;
-  document.getElementById('xp-val').textContent = xp + ' XP';
-  document.getElementById('lvl-text').textContent = d < 4 ? 'Nível 1 — Iniciante' : d < 9 ? 'Nível 2 — Intermediário' : 'Nível 3 — Avançado';
-  document.getElementById('bear-bubble').textContent = ALL[di] ? 'Próximo: ' + ALL[di].label + ' ' + ALL[di].emoji : 'Tudo concluído! 🏆';
-}
 
 function clickTile(id, locked) {
   if (locked) { showToast('Complete o anterior primeiro! 🔒'); return; }
@@ -371,9 +363,8 @@ function clickTile(id, locked) {
 }
 
 // ════════════════════════════════════════════════════════════════
-//  9. MÓDULO E QUESTÕES
+//  9. MÓDULO E QUESTÕES (mantido igual ao que você já tinha)
 // ════════════════════════════════════════════════════════════════
-
 function openModule(t) {
   curMod = t;
   curQ = 0;
@@ -506,7 +497,6 @@ function markDone() {
 // ════════════════════════════════════════════════════════════════
 //  10. TABELA PERIÓDICA NA DIDÁTICA
 // ════════════════════════════════════════════════════════════════
-
 function buildModTable() {
   const grid = document.getElementById('mod-periodic-grid');
   if (!grid || grid.innerHTML !== '') return;
@@ -584,7 +574,6 @@ function closeModEl() {
 // ════════════════════════════════════════════════════════════════
 //  11. LABORATÓRIO
 // ════════════════════════════════════════════════════════════════
-
 function renderLab() {
   if (document.getElementById('periodic-grid').innerHTML !== '') return;
   const grid = document.getElementById('periodic-grid');
@@ -656,9 +645,8 @@ function closeEl() {
 }
 
 // ════════════════════════════════════════════════════════════════
-//  12. EXPERIMENTOS
+//  12. EXPERIMENTOS (mantido igual ao que você já tinha)
 // ════════════════════════════════════════════════════════════════
-
 let expState = 'menu';
 let aiMode = false;
 
@@ -905,7 +893,6 @@ document.addEventListener('keydown', e => {
 // ════════════════════════════════════════════════════════════════
 //  13. ADMIN
 // ════════════════════════════════════════════════════════════════
-
 function openAdminOverlay() {
   if (isAdmin) { goPage('page-admin'); return; }
   document.getElementById('admin-pw').value = '';
@@ -1026,7 +1013,6 @@ function renderAdmin() {
 // ════════════════════════════════════════════════════════════════
 //  14. TOAST E INICIALIZAÇÃO
 // ════════════════════════════════════════════════════════════════
-
 function showToast(m) {
   const t = document.getElementById('toast');
   t.textContent = m;
@@ -1034,4 +1020,6 @@ function showToast(m) {
   setTimeout(() => t.classList.remove('show'), 2400);
 }
 
+// Inicialização
 renderHome();
+console.log('🚀 LabQ iniciado. Aguardando interação.');
