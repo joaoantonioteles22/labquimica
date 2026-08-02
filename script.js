@@ -195,9 +195,48 @@ function save() {
 // ════════════════════════════════════════════════════════════════
 
 const AREAS = [
-  { el: 'tg', tiles: [{ id: 'atom', emoji: '⚛️', label: 'Átomo', sub: 'prótons, nêutrons, elétrons', xp: 10, did: getDid(), quest: getQuest() }] },
-  { el: 'to', tiles: [{ id: 'ligacoes', emoji: '🔗', label: 'Ligações Químicas', sub: 'iônica, covalente, metálica', xp: 10, did: getLigacoesDid(), quest: getLigacoesQuest() }] },
-  { el: 'tf', tiles: [{ id: 'tabela', emoji: '📊', label: 'Tabela Periódica', sub: 'períodos, grupos, propriedades', xp: 10, did: getTabelaDid(), quest: getTabelaQuest() }] }
+  {
+    el: 'tg',
+    tiles: [
+      {
+        id: 'atom',
+        emoji: '⚛️',
+        label: 'Átomo',
+        sub: 'prótons, nêutrons, elétrons',
+        xp: 10,
+        did: getDid(),
+        quest: getQuest()
+      }
+    ]
+  },
+  {
+    el: 'to',
+    tiles: [
+      {
+        id: 'ligacoes',
+        emoji: '🔗',
+        label: 'Ligações Químicas',
+        sub: 'iônica, covalente, metálica',
+        xp: 10,
+        did: getLigacoesDid(),
+        quest: getLigacoesQuest()
+      }
+    ]
+  },
+  {
+    el: 'tf',
+    tiles: [
+      {
+        id: 'tabela',
+        emoji: '📊',
+        label: 'Tabela Periódica',
+        sub: 'períodos, grupos, propriedades',
+        xp: 10,
+        did: getTabelaDid(),
+        quest: getTabelaQuest()
+      }
+    ]
+  }
 ];
 const ALL = AREAS.flatMap(a => a.tiles);
 
