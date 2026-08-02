@@ -1,4 +1,7 @@
-// ══ DADOS DA TABELA PERIÓDICA ══
+// ════════════════════════════════════════════════════════════════
+//  1. DADOS DA TABELA PERIÓDICA (118 elementos)
+// ════════════════════════════════════════════════════════════════
+
 const ELS = [
   {z:1,sym:'H',name:'Hidrogênio',mass:1.008,row:1,col:1,p:1,g:1,cat:'nonmetal'},
   {z:2,sym:'He',name:'Hélio',mass:4.003,row:1,col:18,p:1,g:18,cat:'noble'},
@@ -120,313 +123,829 @@ const ELS = [
   {z:118,sym:'Og',name:'Oganessônio',mass:294,row:7,col:18,p:7,g:18,cat:'noble'}
 ];
 
-// ══ FUNÇÕES DIDÁTICAS (corrigidas) ══
-function getDid(){return`<div class="card"><div class="did-label">O que é um átomo?</div><div class="did-intro">O átomo é a menor unidade de matéria que mantém as propriedades de um elemento. É formado por núcleo (p⁺ e n⁰) e eletrosfera (e⁻).</div><div class="svg-block"><svg width="100%" viewBox="0 0 340 200" fill="none"><rect width="340" height="200" fill="#000"/><ellipse cx="110" cy="100" rx="70" ry="28" stroke="#1e3a5f" stroke-width="1" stroke-dasharray="4 3"/><ellipse cx="110" cy="100" rx="95" ry="38" stroke="#1e3a5f" stroke-width="1" stroke-dasharray="4 3"/><circle cx="110" cy="100" r="24" fill="#0d1a2e" stroke="#2563eb" stroke-width="1.5"/><circle cx="103" cy="94" r="7" fill="#ef4444"/><text x="103" y="98" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="7" font-family="monospace">p⁺</text><circle cx="117" cy="94" r="7" fill="#ef4444"/><text x="117" y="98" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="7" font-family="monospace">p⁺</text><circle cx="110" cy="107" r="7" fill="#6b7280"/><text x="110" y="111" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="7" font-family="monospace">n⁰</text><g style="transform-origin:110px 100px;animation:o1 2.4s linear infinite"><circle cx="180" cy="100" r="5.5" fill="#3b82f6" stroke="#93c5fd" stroke-width=".8"/><text x="180" y="100" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="6" font-family="monospace">e⁻</text></g><g style="transform-origin:110px 100px;animation:o2 3.6s linear infinite"><circle cx="205" cy="100" r="5.5" fill="#3b82f6" stroke="#93c5fd" stroke-width=".8"/></g><g style="transform-origin:110px 100px;animation:o3 3.6s linear infinite"><circle cx="205" cy="100" r="5" fill="#60a5fa" stroke="#93c5fd" stroke-width=".8"/></g><line x1="136" y1="86" x2="185" y2="48" stroke="#334155" stroke-width=".8"/><text x="188" y="44" fill="#64748b" font-size="10">Núcleo (p⁺+n⁰)</text><line x1="180" y1="118" x2="200" y2="148" stroke="#334155" stroke-width=".8"/><text x="204" y="152" fill="#64748b" font-size="10">Eletrosfera (e⁻)</text><rect x="4" y="140" width="90" height="54" rx="8" fill="#0d1a2e" stroke="#1e3a5f" stroke-width="1"/><text x="49" y="157" text-anchor="middle" fill="#93c5fd" font-size="11" font-family="monospace">Z = p⁺</text><text x="49" y="173" text-anchor="middle" fill="#93c5fd" font-size="11" font-family="monospace">A = p⁺+n⁰</text><text x="49" y="189" text-anchor="middle" fill="#93c5fd" font-size="11" font-family="monospace">n⁰ = A−Z</text><style>@keyframes o1{from{transform:rotate(0)}to{transform:rotate(360deg)}}@keyframes o2{from{transform:rotate(120deg)}to{transform:rotate(480deg)}}@keyframes o3{from{transform:rotate(240deg)}to{transform:rotate(600deg)}}</style></svg></div><div class="did-step"><div class="step-n">1</div><div class="step-c"><h4>Partículas subatômicas</h4><p><strong>Próton (p⁺)</strong> — positivo, no núcleo<br><strong>Nêutron (n⁰)</strong> — neutro, no núcleo<br><strong>Elétron (e⁻)</strong> — negativo, na eletrosfera</p></div></div><div class="did-step"><div class="step-n">2</div><div class="step-c"><h4>Número Atômico Z e Massa A</h4><p><strong>Z</strong> = nº de prótons → define o elemento!<br><strong>A</strong> = p⁺ + n⁰ | Átomo neutro: e⁻ = p⁺</p></div></div><div class="formula">Z = p⁺ | A = p⁺ + n⁰ | n⁰ = A − Z</div></div><div class="card"><div class="did-label">Formação de íons</div><div class="svg-block"><svg width="100%" viewBox="0 0 340 170" fill="none"><rect width="340" height="170" fill="#000"/><text x="80" y="16" text-anchor="middle" fill="#64748b" font-size="10">Na neutro (11p⁺/11e⁻)</text><circle cx="80" cy="80" r="22" fill="#0d1a2e" stroke="#2563eb" stroke-width="1.2"/><text x="80" y="84" text-anchor="middle" dominant-baseline="central" fill="#93c5fd" font-size="9" font-family="monospace">11p⁺</text><ellipse cx="80" cy="80" rx="46" ry="18" stroke="#1e3a5f" stroke-width="1" stroke-dasharray="3 2" fill="none"/><ellipse cx="80" cy="80" rx="66" ry="27" stroke="#1e3a5f" stroke-width="1" stroke-dasharray="3 2" fill="none"/><circle cx="126" cy="80" r="5" fill="#3b82f6" stroke="#93c5fd" stroke-width=".8"/><circle cx="80" cy="53" r="5" fill="#3b82f6" stroke="#93c5fd" stroke-width=".8"/><circle cx="146" cy="80" r="5" fill="#3b82f6" stroke="#93c5fd" stroke-width=".8"/><circle cx="14" cy="80" r="5" fill="#3b82f6" stroke="#93c5fd" stroke-width=".8"/><circle cx="80" cy="107" r="5" fill="#22c55e" stroke="#86efac" stroke-width="1"/><text x="80" y="124" text-anchor="middle" fill="#86efac" font-size="9">valência</text><text x="185" y="72" text-anchor="middle" fill="#f97316" font-size="11">perde 1 e⁻</text><defs><marker id="ao" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#f97316" stroke-width="1.5" stroke-linecap="round"/></marker></defs><line x1="152" y1="80" x2="218" y2="80" stroke="#f97316" stroke-width="1.2" marker-end="url(#ao)"/><circle cx="180" cy="105" r="6" fill="#22c55e" stroke="#86efac" stroke-width="1"/><text x="180" y="122" text-anchor="middle" fill="#86efac" font-size="9">saiu!</text><text x="280" y="16" text-anchor="middle" fill="#f97316" font-size="10">Na⁺ (cátion) — carga +</text><circle cx="280" cy="90" r="22" fill="#1a0a00" stroke="#f97316" stroke-width="1.5"/><text x="280" y="94" text-anchor="middle" dominant-baseline="central" fill="#fb923c" font-size="9" font-family="monospace">11p⁺</text><ellipse cx="280" cy="90" rx="46" ry="18" stroke="#431407" stroke-width="1" stroke-dasharray="3 2" fill="none"/><ellipse cx="280" cy="90" rx="66" ry="27" stroke="#431407" stroke-width="1" stroke-dasharray="3 2" fill="none"/><circle cx="326" cy="90" r="5" fill="#3b82f6" stroke="#93c5fd" stroke-width=".8"/><circle cx="280" cy="63" r="5" fill="#3b82f6" stroke="#93c5fd" stroke-width=".8"/><circle cx="214" cy="90" r="5" fill="#3b82f6" stroke="#93c5fd" stroke-width=".8"/><circle cx="280" cy="117" r="6" fill="none" stroke="#334155" stroke-width="1" stroke-dasharray="2 2"/><rect x="306" y="74" width="24" height="24" rx="6" fill="#431407" stroke="#f97316" stroke-width="1.5"/><text x="318" y="90" text-anchor="middle" dominant-baseline="central" fill="#fb923c" font-size="14">+</text></svg></div><div class="did-step"><div class="step-n">3</div><div class="step-c"><h4>Íons</h4><p><strong>Cátion</strong>: perdeu e⁻ → carga positiva<br><strong>Ânion</strong>: ganhou e⁻ → carga negativa<br>Os prótons nunca mudam!</p></div></div></div><div class="card"><div class="did-label">Isótopos, Isóbaros e Isótonos</div><div class="svg-block"><svg width="100%" viewBox="0 0 340 178" fill="none"><rect width="340" height="178" fill="#000"/><text x="80" y="18" text-anchor="middle" fill="#3b82f6" font-size="13" font-weight="500">¹²C</text><circle cx="80" cy="78" r="32" fill="#0d1a2e" stroke="#2563eb" stroke-width="1.5"/><circle cx="69" cy="70" r="7" fill="#ef4444"/><text x="69" y="74" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="7" font-family="monospace">p⁺</text><circle cx="85" cy="70" r="7" fill="#ef4444"/><text x="85" y="74" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="7" font-family="monospace">p⁺</text><circle cx="69" cy="86" r="7" fill="#6b7280"/><text x="69" y="90" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="7" font-family="monospace">n⁰</text><circle cx="85" cy="86" r="7" fill="#6b7280"/><text x="85" y="90" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="7" font-family="monospace">n⁰</text><text x="80" y="124" text-anchor="middle" fill="#475569" font-size="10" font-family="monospace">Z=6, A=12</text><text x="220" y="18" text-anchor="middle" fill="#3b82f6" font-size="13" font-weight="500">¹⁴C</text><circle cx="220" cy="78" r="32" fill="#0d1a2e" stroke="#2563eb" stroke-width="1.5"/><circle cx="209" cy="66" r="7" fill="#ef4444"/><text x="209" y="70" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="7" font-family="monospace">p⁺</text><circle cx="225" cy="66" r="7" fill="#ef4444"/><text x="225" y="70" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="7" font-family="monospace">p⁺</text><circle cx="209" cy="80" r="7" fill="#6b7280"/><circle cx="225" cy="80" r="7" fill="#6b7280"/><circle cx="215" cy="93" r="7" fill="#6b7280"/><circle cx="229" cy="93" r="7" fill="#6b7280"/><text x="220" y="124" text-anchor="middle" fill="#475569" font-size="10" font-family="monospace">Z=6, A=14</text><path d="M112 78 Q150 42 188 78" stroke="#3b82f6" stroke-width="1.2" stroke-dasharray="4 3" fill="none"/><text x="150" y="34" text-anchor="middle" fill="#3b82f6" font-size="10">mesmo Z=6 → ISÓTOPOS</text><rect x="4" y="146" width="100" height="22" rx="6" fill="#0d1a2e"/><text x="54" y="161" text-anchor="middle" fill="#3b82f6" font-size="10" font-family="monospace">Isótopos: =Z ≠A</text><rect x="114" y="146" width="108" height="22" rx="6" fill="#0d0f1a"/><text x="168" y="161" text-anchor="middle" fill="#818cf8" font-size="10" font-family="monospace">Isóbaros: =A ≠Z</text><rect x="230" y="146" width="106" height="22" rx="6" fill="#0a1a0a"/><text x="283" y="161" text-anchor="middle" fill="#34d399" font-size="10" font-family="monospace">Isótonos: =n⁰ ≠Z</text></svg></div></div><div class="card"><div class="did-label">Modelos atômicos</div><div class="svg-block"><svg width="100%" viewBox="0 0 340 158" fill="none"><rect width="340" height="158" fill="#000"/><line x1="20" y1="80" x2="320" y2="80" stroke="#1e3a5f" stroke-width="1.5"/><circle cx="52" cy="80" r="18" fill="#1e3a5f" stroke="#3b82f6" stroke-width="1.2"/><circle cx="52" cy="80" r="9" fill="#3b82f6"/><text x="52" y="110" text-anchor="middle" fill="#3b82f6" font-size="9" font-weight="600">Dalton</text><text x="52" y="122" text-anchor="middle" fill="#475569" font-size="8" font-family="monospace">1803</text><text x="52" y="134" text-anchor="middle" fill="#334155" font-size="8">bola maciça</text><circle cx="118" cy="80" r="18" fill="#1e3a5f" stroke="#3b82f6" stroke-width="1.2"/><circle cx="118" cy="80" r="11" fill="#2563eb" opacity=".35"/><circle cx="112" cy="77" r="3" fill="#60a5fa"/><circle cx="121" cy="83" r="3" fill="#60a5fa"/><circle cx="124" cy="74" r="3" fill="#60a5fa"/><text x="118" y="110" text-anchor="middle" fill="#3b82f6" font-size="9" font-weight="600">Thomson</text><text x="118" y="122" text-anchor="middle" fill="#475569" font-size="8" font-family="monospace">1897</text><text x="118" y="134" text-anchor="middle" fill="#334155" font-size="8">pudim passas</text><circle cx="184" cy="80" r="7" fill="#ef4444" stroke="#fca5a5" stroke-width=".8"/><ellipse cx="184" cy="80" rx="18" ry="7" stroke="#3b82f6" stroke-width="1" stroke-dasharray="3 2" fill="none"/><circle cx="202" cy="80" r="4" fill="#3b82f6"/><text x="184" y="110" text-anchor="middle" fill="#3b82f6" font-size="9" font-weight="600">Rutherford</text><text x="184" y="122" text-anchor="middle" fill="#475569" font-size="8" font-family="monospace">1911</text><text x="184" y="134" text-anchor="middle" fill="#334155" font-size="8">núcleo</text><circle cx="250" cy="80" r="5" fill="#ef4444" stroke="#fca5a5" stroke-width=".8"/><circle cx="250" cy="80" r="13" fill="none" stroke="#1e3a5f" stroke-width="1"/><circle cx="250" cy="80" r="19" fill="none" stroke="#2563eb" stroke-width="1"/><circle cx="269" cy="80" r="3.5" fill="#3b82f6"/><circle cx="250" cy="61" r="3.5" fill="#60a5fa"/><text x="250" y="110" text-anchor="middle" fill="#3b82f6" font-size="9" font-weight="600">Bohr</text><text x="250" y="122" text-anchor="middle" fill="#475569" font-size="8" font-family="monospace">1913</text><text x="250" y="134" text-anchor="middle" fill="#334155" font-size="8">órbitas fixas</text><circle cx="310" cy="80" r="5" fill="#ef4444" stroke="#fca5a5" stroke-width=".8"/><ellipse cx="310" cy="80" rx="18" ry="7" stroke="#7c3aed" stroke-width="1" stroke-dasharray="2 2" fill="none" style="transform-origin:310px 80px"/><ellipse cx="310" cy="80" rx="18" ry="7" stroke="#7c3aed" stroke-width="1" stroke-dasharray="2 2" fill="none" style="transform-origin:310px 80px;transform:rotate(60deg)"/><ellipse cx="310" cy="80" rx="18" ry="7" stroke="#a78bfa" stroke-width="1" stroke-dasharray="2 2" fill="none" style="transform-origin:310px 80px;transform:rotate(120deg)"/><text x="310" y="110" text-anchor="middle" fill="#a78bfa" font-size="9" font-weight="600">Quântico</text><text x="310" y="122" text-anchor="middle" fill="#475569" font-size="8" font-family="monospace">atual</text><text x="310" y="134" text-anchor="middle" fill="#334155" font-size="8">nuvem prob.</text><polygon points="86,74 86,86 96,80" fill="#1e3a5f"/><polygon points="152,74 152,86 162,80" fill="#1e3a5f"/><polygon points="218,74 218,86 228,80" fill="#1e3a5f"/><polygon points="280,74 280,86 290,80" fill="#1e3a5f"/></svg></div><div class="did-step"><div class="step-n">4</div><div class="step-c"><h4>Evolução dos modelos</h4><p>Cada modelo foi <strong>superado por experimentos</strong>. De bola maciça à nuvem de probabilidade. Rutherford: folha de ouro. Bohr: espectros de luz.</p></div></div></div>`;}
-function getQuest(){return[{q:'O carbono tem Z=6 e A=12. Quantos nêutrons ele possui?',opts:['4','6','8','12'],c:1,res:'<strong>6 nêutrons.</strong> n⁰ = A − Z = 12 − 6 = 6.'},{q:'O sódio (Na, Z=11) perde 1 elétron. O íon Na⁺ possui:',opts:['10p⁺ e 10e⁻','11p⁺ e 10e⁻','10p⁺ e 11e⁻','11p⁺ e 11e⁻'],c:1,res:'<strong>11p⁺ e 10e⁻.</strong> Prótons não mudam; perde um elétron.'},{q:'¹²C e ¹⁴C são exemplos de:',opts:['Isóbaros','Isótonos','Isótopos','Alótropos'],c:2,res:'<strong>Isótopos.</strong> Mesmo Z, A diferente.'},{q:'Qual modelo propôs o núcleo central positivo com eletrosfera vazia?',opts:['Dalton','Thomson','Rutherford','Bohr'],c:2,res:'<strong>Rutherford.</strong> Experimento da folha de ouro.'},{q:'O cloro ³⁷Cl tem Z=17. Quantos nêutrons possui?',opts:['17','18','20','37'],c:2,res:'<strong>20 nêutrons.</strong> 37−17=20.'}];}
-function getLigacoesDid(){return`<div class="card"><div class="did-label">Por que os átomos se ligam?</div><div class="did-intro">Os átomos formam ligações para atingir maior estabilidade — geralmente completando 8 elétrons na camada de valência (Regra do Octeto). Existem 3 tipos principais de ligação química.</div><div class="svg-block"><svg width="100%" viewBox="0 0 340 120" fill="none"><rect width="340" height="120" fill="#000"/><rect x="8" y="14" width="98" height="92" rx="8" fill="#050d1f" stroke="#7c3aed" stroke-width="1"/><text x="57" y="28" text-anchor="middle" fill="#a78bfa" font-size="9" font-weight="700" font-family="monospace">IÔNICA</text><circle cx="38" cy="62" r="16" fill="#1a0a2e" stroke="#7c3aed" stroke-width="1.2"/><text x="38" y="58" text-anchor="middle" fill="#c4b5fd" font-size="7" font-family="monospace" font-weight="700">Na</text><text x="38" y="68" text-anchor="middle" fill="#c4b5fd" font-size="6" font-family="monospace">11e⁻</text><circle cx="78" cy="62" r="16" fill="#1a000a" stroke="#db2777" stroke-width="1.2"/><text x="78" y="58" text-anchor="middle" fill="#f9a8d4" font-size="7" font-family="monospace" font-weight="700">Cl</text><text x="78" y="68" text-anchor="middle" fill="#f9a8d4" font-size="6" font-family="monospace">17e⁻</text><circle cx="50" cy="62" r="4" fill="#fbbf24"/><text x="57" y="92" text-anchor="middle" fill="#475569" font-size="7">doação de e⁻</text><text x="57" y="102" text-anchor="middle" fill="#475569" font-size="7">Na⁺ + Cl⁻ → NaCl</text><rect x="122" y="14" width="98" height="92" rx="8" fill="#050d1f" stroke="#2563eb" stroke-width="1"/><text x="171" y="28" text-anchor="middle" fill="#93c5fd" font-size="9" font-weight="700" font-family="monospace">COVALENTE</text><circle cx="152" cy="62" r="16" fill="#0d1a2e" stroke="#2563eb" stroke-width="1.2"/><text x="152" y="58" text-anchor="middle" fill="#93c5fd" font-size="7" font-family="monospace" font-weight="700">H</text><text x="152" y="68" text-anchor="middle" fill="#93c5fd" font-size="6" font-family="monospace">1e⁻</text><circle cx="191" cy="62" r="16" fill="#0d1a2e" stroke="#2563eb" stroke-width="1.2"/><text x="191" y="58" text-anchor="middle" fill="#93c5fd" font-size="7" font-family="monospace" font-weight="700">H</text><text x="191" y="68" text-anchor="middle" fill="#93c5fd" font-size="6" font-family="monospace">1e⁻</text><line x1="168" y1="62" x2="175" y2="62" stroke="#60a5fa" stroke-width="2.5"/><text x="171" y="92" text-anchor="middle" fill="#475569" font-size="7">compartilhamento</text><text x="171" y="102" text-anchor="middle" fill="#475569" font-size="7">H−H → H₂</text><rect x="236" y="14" width="98" height="92" rx="8" fill="#050d1f" stroke="#16a34a" stroke-width="1"/><text x="285" y="28" text-anchor="middle" fill="#86efac" font-size="9" font-weight="700" font-family="monospace">METÁLICA</text><circle cx="258" cy="52" r="10" fill="#001a0a" stroke="#16a34a" stroke-width="1"/><circle cx="285" cy="52" r="10" fill="#001a0a" stroke="#16a34a" stroke-width="1"/><circle cx="312" cy="52" r="10" fill="#001a0a" stroke="#16a34a" stroke-width="1"/><circle cx="258" cy="75" r="10" fill="#001a0a" stroke="#16a34a" stroke-width="1"/><circle cx="285" cy="75" r="10" fill="#001a0a" stroke="#16a34a" stroke-width="1"/><circle cx="312" cy="75" r="10" fill="#001a0a" stroke="#16a34a" stroke-width="1"/><circle cx="270" cy="60" r="3" fill="#fbbf24" opacity=".8"/><circle cx="298" cy="66" r="3" fill="#fbbf24" opacity=".8"/><circle cx="275" cy="80" r="3" fill="#fbbf24" opacity=".8"/><text x="285" y="100" text-anchor="middle" fill="#475569" font-size="7">mar de elétrons livres</text></svg></div><div class="did-step"><div class="step-n">1</div><div class="step-c"><h4>Ligação Iônica</h4><p>Ocorre entre <strong>metal + não-metal</strong>. Um átomo <strong>doa</strong> elétrons e o outro <strong>recebe</strong>, formando íons.<br>Ex: NaCl (sal de cozinha), MgO, CaCl₂</p></div></div><div class="did-step"><div class="step-n">2</div><div class="step-c"><h4>Ligação Covalente</h4><p>Ocorre entre <strong>não-metal + não-metal</strong>. Os átomos <strong>compartilham</strong> pares de elétrons.<br>Ex: H₂O, CO₂, CH₄, NH₃, H₂</p></div></div><div class="did-step"><div class="step-n">3</div><div class="step-c"><h4>Ligação Metálica</h4><p>Ocorre entre <strong>metais</strong>. Elétrons de valência ficam livres, formando um "mar de elétrons".</p></div></div></div>`;}
-function getLigacoesQuest(){return[{q:'Qual tipo de ligação ocorre entre Na e Cl para formar o NaCl?',opts:['Covalente apolar','Covalente polar','Iônica','Metálica'],c:2,res:'<strong>Iônica.</strong> Metal + não-metal.'},{q:'Na molécula de H₂O, o tipo de ligação entre H e O é:',opts:['Iônica','Covalente polar','Covalente apolar','Metálica'],c:1,res:'<strong>Covalente polar.</strong> Diferença de eletronegatividade.'},{q:'O que caracteriza a ligação metálica?',opts:['Doação de elétrons','Compartilhamento','Mar de elétrons livres','Atração entre íons'],c:2,res:'<strong>Mar de elétrons livres.</strong>'},{q:'A ligação dupla (como em O=O) é composta por:',opts:['2 sigma','1 sigma e 1 pi','2 pi','1 sigma e 2 pi'],c:1,res:'<strong>1 sigma + 1 pi.</strong>'},{q:'O CO₂ tem ligações covalentes polares, mas a molécula é apolar. Por quê?',opts:['Mesma eletronegatividade','Geometria linear cancela dipolos','Não há pares livres','É um gás'],c:1,res:'<strong>Geometria linear cancela os dipolos.</strong>'}];}
-function getTabelaDid(){return`<div class="card"><div class="did-label">O que é a Tabela Periódica?</div><div class="did-intro">A Tabela Periódica organiza os 118 elementos conhecidos por ordem crescente de número atômico (Z). Criada por Mendeleev em 1869, ela revela padrões e propriedades dos elementos.</div><div id="mod-periodic-wrap" style="overflow-x:auto;padding:12px;background:#fff;border-radius:16px;box-shadow:0 0 0 2px #2563eb,0 0 0 4px #bfdbfe,0 8px 32px rgba(37,99,235,.15);margin:12px 0"><div id="mod-periodic-grid" style="display:grid;grid-template-columns:repeat(18,minmax(24px,1fr));gap:2px;min-width:480px"></div></div><div id="mod-el-detail" style="display:none;background:var(--card);border:1px solid var(--border2);border-radius:14px;padding:16px;margin-bottom:14px"></div><div class="did-step"><div class="step-n">1</div><div class="step-c"><h4>Períodos (linhas horizontais)</h4><p>Existem <strong>7 períodos</strong>. O número do período indica a quantidade de <strong>camadas eletrônicas</strong> do elemento.</p></div></div><div class="did-step"><div class="step-n">2</div><div class="step-c"><h4>Grupos/Famílias (colunas verticais)</h4><p>Existem <strong>18 grupos</strong>. Elementos do mesmo grupo têm o mesmo número de <strong>elétrons de valência</strong> e propriedades químicas parecidas.</p></div></div><div class="formula">Período = nº de camadas | Grupo = elétrons de valência</div></div><div class="card"><div class="did-label">Famílias importantes</div><div class="did-step"><div class="step-n">1</div><div class="step-c"><h4>Metais Alcalinos — Grupo 1 (IA)</h4><p>Li, Na, K, Rb, Cs, Fr<br><strong>1 elétron de valência</strong> → muito reativos.</p></div></div><div class="did-step"><div class="step-n">2</div><div class="step-c"><h4>Halogênios — Grupo 17 (VIIA)</h4><p>F, Cl, Br, I, At<br><strong>7 elétrons de valência</strong> → precisam de 1 e⁻ para completar o octeto.</p></div></div><div class="did-step"><div class="step-n">3</div><div class="step-c"><h4>Gases Nobres — Grupo 18 (VIIIA)</h4><p>He, Ne, Ar, Kr, Xe, Rn<br><strong>8 elétrons de valência</strong> (He tem 2) → inertes.</p></div></div><div class="did-step"><div class="step-n">4</div><div class="step-c"><h4>Metais de Transição — Grupos 3–12</h4><p>Fe, Cu, Zn, Ag, Au, Pt...<br>Camada d incompleta.</p></div></div></div>`;}
-function getTabelaQuest(){return[
-  {q:'O sódio (Na) está no Período 3 da tabela periódica. O que isso indica?',opts:['Tem 3 prótons','Tem 3 elétrons de valência','Tem 3 camadas eletrônicas','Pertence ao grupo 3'],c:2,res:'<strong>3 camadas eletrônicas.</strong> O período indica o número de camadas.'},
-  {q:'Elementos do mesmo grupo (família) têm em comum:',opts:['Mesmo número de prótons','Mesmo número de nêutrons','Mesma quantidade de elétrons de valência','Mesma massa atômica'],c:2,res:'<strong>Mesma quantidade de elétrons de valência.</strong>'},
-  {q:'Qual família é conhecida por ser praticamente inerte (não reage)?',opts:['Metais alcalinos','Halogênios','Calcogênios','Gases nobres'],c:3,res:'<strong>Gases nobres.</strong> Camada de valência completa.'},
-  {q:'A eletronegatividade de um elemento indica:',opts:['Sua massa atômica','Capacidade de atrair elétrons','Número de prótons','Tamanho do raio atômico'],c:1,res:'<strong>Capacidade de atrair elétrons.</strong>'},
-  {q:'O cloro (Cl, Z=17) precisa de quantos elétrons para completar o octeto?',opts:['1 elétron','2 elétrons','7 elétrons','8 elétrons'],c:0,res:'<strong>1 elétron.</strong> Grupo 17 → 7 e⁻ de valência, precisa de 1.'}
-];}
+// ════════════════════════════════════════════════════════════════
+//  2. FUNÇÕES DIDÁTICAS (conteúdos dos módulos)
+// ════════════════════════════════════════════════════════════════
 
-// ══ ESTADO ══
-let done = new Set(JSON.parse(localStorage.getItem('lq_done')||'[]'));
-let xp = parseInt(localStorage.getItem('lq_xp')||'0');
-let totalAcc = parseInt(localStorage.getItem('lq_acc')||'0');
-let totalResp = parseInt(localStorage.getItem('lq_resp')||'0');
-let modScores = JSON.parse(localStorage.getItem('lq_scores')||'{}');
-let isAdmin = false, curMod = null, curQ = 0, answers = [];
+function getDid() { return `<div class="card"><div class="did-label">O que é um átomo?</div><div class="did-intro">O átomo é a menor unidade de matéria que mantém as propriedades de um elemento. É formado por núcleo (p⁺ e n⁰) e eletrosfera (e⁻).</div><div class="svg-block"><svg width="100%" viewBox="0 0 340 200" fill="none"><rect width="340" height="200" fill="#000"/><ellipse cx="110" cy="100" rx="70" ry="28" stroke="#1e3a5f" stroke-width="1" stroke-dasharray="4 3"/><ellipse cx="110" cy="100" rx="95" ry="38" stroke="#1e3a5f" stroke-width="1" stroke-dasharray="4 3"/><circle cx="110" cy="100" r="24" fill="#0d1a2e" stroke="#2563eb" stroke-width="1.5"/><circle cx="103" cy="94" r="7" fill="#ef4444"/><text x="103" y="98" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="7" font-family="monospace">p⁺</text><circle cx="117" cy="94" r="7" fill="#ef4444"/><text x="117" y="98" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="7" font-family="monospace">p⁺</text><circle cx="110" cy="107" r="7" fill="#6b7280"/><text x="110" y="111" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="7" font-family="monospace">n⁰</text><g style="transform-origin:110px 100px;animation:o1 2.4s linear infinite"><circle cx="180" cy="100" r="5.5" fill="#3b82f6" stroke="#93c5fd" stroke-width=".8"/><text x="180" y="100" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="6" font-family="monospace">e⁻</text></g><g style="transform-origin:110px 100px;animation:o2 3.6s linear infinite"><circle cx="205" cy="100" r="5.5" fill="#3b82f6" stroke="#93c5fd" stroke-width=".8"/></g><g style="transform-origin:110px 100px;animation:o3 3.6s linear infinite"><circle cx="205" cy="100" r="5" fill="#60a5fa" stroke="#93c5fd" stroke-width=".8"/></g><line x1="136" y1="86" x2="185" y2="48" stroke="#334155" stroke-width=".8"/><text x="188" y="44" fill="#64748b" font-size="10">Núcleo (p⁺+n⁰)</text><line x1="180" y1="118" x2="200" y2="148" stroke="#334155" stroke-width=".8"/><text x="204" y="152" fill="#64748b" font-size="10">Eletrosfera (e⁻)</text><rect x="4" y="140" width="90" height="54" rx="8" fill="#0d1a2e" stroke="#1e3a5f" stroke-width="1"/><text x="49" y="157" text-anchor="middle" fill="#93c5fd" font-size="11" font-family="monospace">Z = p⁺</text><text x="49" y="173" text-anchor="middle" fill="#93c5fd" font-size="11" font-family="monospace">A = p⁺+n⁰</text><text x="49" y="189" text-anchor="middle" fill="#93c5fd" font-size="11" font-family="monospace">n⁰ = A−Z</text><style>@keyframes o1{from{transform:rotate(0)}to{transform:rotate(360deg)}}@keyframes o2{from{transform:rotate(120deg)}to{transform:rotate(480deg)}}@keyframes o3{from{transform:rotate(240deg)}to{transform:rotate(600deg)}}</style></svg></div><div class="did-step"><div class="step-n">1</div><div class="step-c"><h4>Partículas subatômicas</h4><p><strong>Próton (p⁺)</strong> — positivo, no núcleo<br><strong>Nêutron (n⁰)</strong> — neutro, no núcleo<br><strong>Elétron (e⁻)</strong> — negativo, na eletrosfera</p></div></div><div class="did-step"><div class="step-n">2</div><div class="step-c"><h4>Número Atômico Z e Massa A</h4><p><strong>Z</strong> = nº de prótons → define o elemento!<br><strong>A</strong> = p⁺ + n⁰ | Átomo neutro: e⁻ = p⁺</p></div></div><div class="formula">Z = p⁺ | A = p⁺ + n⁰ | n⁰ = A − Z</div></div><div class="card"><div class="did-label">Formação de íons</div><div class="svg-block"><svg width="100%" viewBox="0 0 340 170" fill="none"><rect width="340" height="170" fill="#000"/><text x="80" y="16" text-anchor="middle" fill="#64748b" font-size="10">Na neutro (11p⁺/11e⁻)</text><circle cx="80" cy="80" r="22" fill="#0d1a2e" stroke="#2563eb" stroke-width="1.2"/><text x="80" y="84" text-anchor="middle" dominant-baseline="central" fill="#93c5fd" font-size="9" font-family="monospace">11p⁺</text><ellipse cx="80" cy="80" rx="46" ry="18" stroke="#1e3a5f" stroke-width="1" stroke-dasharray="3 2" fill="none"/><ellipse cx="80" cy="80" rx="66" ry="27" stroke="#1e3a5f" stroke-width="1" stroke-dasharray="3 2" fill="none"/><circle cx="126" cy="80" r="5" fill="#3b82f6" stroke="#93c5fd" stroke-width=".8"/><circle cx="80" cy="53" r="5" fill="#3b82f6" stroke="#93c5fd" stroke-width=".8"/><circle cx="146" cy="80" r="5" fill="#3b82f6" stroke="#93c5fd" stroke-width=".8"/><circle cx="14" cy="80" r="5" fill="#3b82f6" stroke="#93c5fd" stroke-width=".8"/><circle cx="80" cy="107" r="5" fill="#22c55e" stroke="#86efac" stroke-width="1"/><text x="80" y="124" text-anchor="middle" fill="#86efac" font-size="9">valência</text><text x="185" y="72" text-anchor="middle" fill="#f97316" font-size="11">perde 1 e⁻</text><defs><marker id="ao" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#f97316" stroke-width="1.5" stroke-linecap="round"/></marker></defs><line x1="152" y1="80" x2="218" y2="80" stroke="#f97316" stroke-width="1.2" marker-end="url(#ao)"/><circle cx="180" cy="105" r="6" fill="#22c55e" stroke="#86efac" stroke-width="1"/><text x="180" y="122" text-anchor="middle" fill="#86efac" font-size="9">saiu!</text><text x="280" y="16" text-anchor="middle" fill="#f97316" font-size="10">Na⁺ (cátion) — carga +</text><circle cx="280" cy="90" r="22" fill="#1a0a00" stroke="#f97316" stroke-width="1.5"/><text x="280" y="94" text-anchor="middle" dominant-baseline="central" fill="#fb923c" font-size="9" font-family="monospace">11p⁺</text><ellipse cx="280" cy="90" rx="46" ry="18" stroke="#431407" stroke-width="1" stroke-dasharray="3 2" fill="none"/><ellipse cx="280" cy="90" rx="66" ry="27" stroke="#431407" stroke-width="1" stroke-dasharray="3 2" fill="none"/><circle cx="326" cy="90" r="5" fill="#3b82f6" stroke="#93c5fd" stroke-width=".8"/><circle cx="280" cy="63" r="5" fill="#3b82f6" stroke="#93c5fd" stroke-width=".8"/><circle cx="214" cy="90" r="5" fill="#3b82f6" stroke="#93c5fd" stroke-width=".8"/><circle cx="280" cy="117" r="6" fill="none" stroke="#334155" stroke-width="1" stroke-dasharray="2 2"/><rect x="306" y="74" width="24" height="24" rx="6" fill="#431407" stroke="#f97316" stroke-width="1.5"/><text x="318" y="90" text-anchor="middle" dominant-baseline="central" fill="#fb923c" font-size="14">+</text></svg></div><div class="did-step"><div class="step-n">3</div><div class="step-c"><h4>Íons</h4><p><strong>Cátion</strong>: perdeu e⁻ → carga positiva<br><strong>Ânion</strong>: ganhou e⁻ → carga negativa<br>Os prótons nunca mudam!</p></div></div></div><div class="card"><div class="did-label">Isótopos, Isóbaros e Isótonos</div><div class="svg-block"><svg width="100%" viewBox="0 0 340 178" fill="none"><rect width="340" height="178" fill="#000"/><text x="80" y="18" text-anchor="middle" fill="#3b82f6" font-size="13" font-weight="500">¹²C</text><circle cx="80" cy="78" r="32" fill="#0d1a2e" stroke="#2563eb" stroke-width="1.5"/><circle cx="69" cy="70" r="7" fill="#ef4444"/><text x="69" y="74" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="7" font-family="monospace">p⁺</text><circle cx="85" cy="70" r="7" fill="#ef4444"/><text x="85" y="74" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="7" font-family="monospace">p⁺</text><circle cx="69" cy="86" r="7" fill="#6b7280"/><text x="69" y="90" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="7" font-family="monospace">n⁰</text><circle cx="85" cy="86" r="7" fill="#6b7280"/><text x="85" y="90" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="7" font-family="monospace">n⁰</text><text x="80" y="124" text-anchor="middle" fill="#475569" font-size="10" font-family="monospace">Z=6, A=12</text><text x="220" y="18" text-anchor="middle" fill="#3b82f6" font-size="13" font-weight="500">¹⁴C</text><circle cx="220" cy="78" r="32" fill="#0d1a2e" stroke="#2563eb" stroke-width="1.5"/><circle cx="209" cy="66" r="7" fill="#ef4444"/><text x="209" y="70" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="7" font-family="monospace">p⁺</text><circle cx="225" cy="66" r="7" fill="#ef4444"/><text x="225" y="70" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="7" font-family="monospace">p⁺</text><circle cx="209" cy="80" r="7" fill="#6b7280"/><circle cx="225" cy="80" r="7" fill="#6b7280"/><circle cx="215" cy="93" r="7" fill="#6b7280"/><circle cx="229" cy="93" r="7" fill="#6b7280"/><text x="220" y="124" text-anchor="middle" fill="#475569" font-size="10" font-family="monospace">Z=6, A=14</text><path d="M112 78 Q150 42 188 78" stroke="#3b82f6" stroke-width="1.2" stroke-dasharray="4 3" fill="none"/><text x="150" y="34" text-anchor="middle" fill="#3b82f6" font-size="10">mesmo Z=6 → ISÓTOPOS</text><rect x="4" y="146" width="100" height="22" rx="6" fill="#0d1a2e"/><text x="54" y="161" text-anchor="middle" fill="#3b82f6" font-size="10" font-family="monospace">Isótopos: =Z ≠A</text><rect x="114" y="146" width="108" height="22" rx="6" fill="#0d0f1a"/><text x="168" y="161" text-anchor="middle" fill="#818cf8" font-size="10" font-family="monospace">Isóbaros: =A ≠Z</text><rect x="230" y="146" width="106" height="22" rx="6" fill="#0a1a0a"/><text x="283" y="161" text-anchor="middle" fill="#34d399" font-size="10" font-family="monospace">Isótonos: =n⁰ ≠Z</text></svg></div></div><div class="card"><div class="did-label">Modelos atômicos</div><div class="svg-block"><svg width="100%" viewBox="0 0 340 158" fill="none"><rect width="340" height="158" fill="#000"/><line x1="20" y1="80" x2="320" y2="80" stroke="#1e3a5f" stroke-width="1.5"/><circle cx="52" cy="80" r="18" fill="#1e3a5f" stroke="#3b82f6" stroke-width="1.2"/><circle cx="52" cy="80" r="9" fill="#3b82f6"/><text x="52" y="110" text-anchor="middle" fill="#3b82f6" font-size="9" font-weight="600">Dalton</text><text x="52" y="122" text-anchor="middle" fill="#475569" font-size="8" font-family="monospace">1803</text><text x="52" y="134" text-anchor="middle" fill="#334155" font-size="8">bola maciça</text><circle cx="118" cy="80" r="18" fill="#1e3a5f" stroke="#3b82f6" stroke-width="1.2"/><circle cx="118" cy="80" r="11" fill="#2563eb" opacity=".35"/><circle cx="112" cy="77" r="3" fill="#60a5fa"/><circle cx="121" cy="83" r="3" fill="#60a5fa"/><circle cx="124" cy="74" r="3" fill="#60a5fa"/><text x="118" y="110" text-anchor="middle" fill="#3b82f6" font-size="9" font-weight="600">Thomson</text><text x="118" y="122" text-anchor="middle" fill="#475569" font-size="8" font-family="monospace">1897</text><text x="118" y="134" text-anchor="middle" fill="#334155" font-size="8">pudim passas</text><circle cx="184" cy="80" r="7" fill="#ef4444" stroke="#fca5a5" stroke-width=".8"/><ellipse cx="184" cy="80" rx="18" ry="7" stroke="#3b82f6" stroke-width="1" stroke-dasharray="3 2" fill="none"/><circle cx="202" cy="80" r="4" fill="#3b82f6"/><text x="184" y="110" text-anchor="middle" fill="#3b82f6" font-size="9" font-weight="600">Rutherford</text><text x="184" y="122" text-anchor="middle" fill="#475569" font-size="8" font-family="monospace">1911</text><text x="184" y="134" text-anchor="middle" fill="#334155" font-size="8">núcleo</text><circle cx="250" cy="80" r="5" fill="#ef4444" stroke="#fca5a5" stroke-width=".8"/><circle cx="250" cy="80" r="13" fill="none" stroke="#1e3a5f" stroke-width="1"/><circle cx="250" cy="80" r="19" fill="none" stroke="#2563eb" stroke-width="1"/><circle cx="269" cy="80" r="3.5" fill="#3b82f6"/><circle cx="250" cy="61" r="3.5" fill="#60a5fa"/><text x="250" y="110" text-anchor="middle" fill="#3b82f6" font-size="9" font-weight="600">Bohr</text><text x="250" y="122" text-anchor="middle" fill="#475569" font-size="8" font-family="monospace">1913</text><text x="250" y="134" text-anchor="middle" fill="#334155" font-size="8">órbitas fixas</text><circle cx="310" cy="80" r="5" fill="#ef4444" stroke="#fca5a5" stroke-width=".8"/><ellipse cx="310" cy="80" rx="18" ry="7" stroke="#7c3aed" stroke-width="1" stroke-dasharray="2 2" fill="none" style="transform-origin:310px 80px"/><ellipse cx="310" cy="80" rx="18" ry="7" stroke="#7c3aed" stroke-width="1" stroke-dasharray="2 2" fill="none" style="transform-origin:310px 80px;transform:rotate(60deg)"/><ellipse cx="310" cy="80" rx="18" ry="7" stroke="#a78bfa" stroke-width="1" stroke-dasharray="2 2" fill="none" style="transform-origin:310px 80px;transform:rotate(120deg)"/><text x="310" y="110" text-anchor="middle" fill="#a78bfa" font-size="9" font-weight="600">Quântico</text><text x="310" y="122" text-anchor="middle" fill="#475569" font-size="8" font-family="monospace">atual</text><text x="310" y="134" text-anchor="middle" fill="#334155" font-size="8">nuvem prob.</text><polygon points="86,74 86,86 96,80" fill="#1e3a5f"/><polygon points="152,74 152,86 162,80" fill="#1e3a5f"/><polygon points="218,74 218,86 228,80" fill="#1e3a5f"/><polygon points="280,74 280,86 290,80" fill="#1e3a5f"/></svg></div><div class="did-step"><div class="step-n">4</div><div class="step-c"><h4>Evolução dos modelos</h4><p>Cada modelo foi <strong>superado por experimentos</strong>. De bola maciça à nuvem de probabilidade. Rutherford: folha de ouro. Bohr: espectros de luz.</p></div></div></div>`; }
 
-function save(){localStorage.setItem('lq_done',JSON.stringify([...done]));localStorage.setItem('lq_xp',xp);localStorage.setItem('lq_acc',totalAcc);localStorage.setItem('lq_resp',totalResp);localStorage.setItem('lq_scores',JSON.stringify(modScores));}
+function getQuest() { return [
+  { q: 'O carbono tem Z=6 e A=12. Quantos nêutrons ele possui?', opts: ['4','6','8','12'], c: 1, res: '<strong>6 nêutrons.</strong> n⁰ = A − Z = 12 − 6 = 6.' },
+  { q: 'O sódio (Na, Z=11) perde 1 elétron. O íon Na⁺ possui:', opts: ['10p⁺ e 10e⁻','11p⁺ e 10e⁻','10p⁺ e 11e⁻','11p⁺ e 11e⁻'], c: 1, res: '<strong>11p⁺ e 10e⁻.</strong> Prótons não mudam; perde um elétron.' },
+  { q: '¹²C e ¹⁴C são exemplos de:', opts: ['Isóbaros','Isótonos','Isótopos','Alótropos'], c: 2, res: '<strong>Isótopos.</strong> Mesmo Z, A diferente.' },
+  { q: 'Qual modelo propôs o núcleo central positivo com eletrosfera vazia?', opts: ['Dalton','Thomson','Rutherford','Bohr'], c: 2, res: '<strong>Rutherford.</strong> Experimento da folha de ouro.' },
+  { q: 'O cloro ³⁷Cl tem Z=17. Quantos nêutrons possui?', opts: ['17','18','20','37'], c: 2, res: '<strong>20 nêutrons.</strong> 37−17=20.' }
+]; }
 
-// ══ DEFINIÇÃO DOS MÓDULOS ══
+function getLigacoesDid() { return `<div class="card"><div class="did-label">Por que os átomos se ligam?</div><div class="did-intro">Os átomos formam ligações para atingir maior estabilidade — geralmente completando 8 elétrons na camada de valência (Regra do Octeto). Existem 3 tipos principais de ligação química.</div><div class="svg-block"><svg width="100%" viewBox="0 0 340 120" fill="none"><rect width="340" height="120" fill="#000"/><rect x="8" y="14" width="98" height="92" rx="8" fill="#050d1f" stroke="#7c3aed" stroke-width="1"/><text x="57" y="28" text-anchor="middle" fill="#a78bfa" font-size="9" font-weight="700" font-family="monospace">IÔNICA</text><circle cx="38" cy="62" r="16" fill="#1a0a2e" stroke="#7c3aed" stroke-width="1.2"/><text x="38" y="58" text-anchor="middle" fill="#c4b5fd" font-size="7" font-family="monospace" font-weight="700">Na</text><text x="38" y="68" text-anchor="middle" fill="#c4b5fd" font-size="6" font-family="monospace">11e⁻</text><circle cx="78" cy="62" r="16" fill="#1a000a" stroke="#db2777" stroke-width="1.2"/><text x="78" y="58" text-anchor="middle" fill="#f9a8d4" font-size="7" font-family="monospace" font-weight="700">Cl</text><text x="78" y="68" text-anchor="middle" fill="#f9a8d4" font-size="6" font-family="monospace">17e⁻</text><circle cx="50" cy="62" r="4" fill="#fbbf24"/><text x="57" y="92" text-anchor="middle" fill="#475569" font-size="7">doação de e⁻</text><text x="57" y="102" text-anchor="middle" fill="#475569" font-size="7">Na⁺ + Cl⁻ → NaCl</text><rect x="122" y="14" width="98" height="92" rx="8" fill="#050d1f" stroke="#2563eb" stroke-width="1"/><text x="171" y="28" text-anchor="middle" fill="#93c5fd" font-size="9" font-weight="700" font-family="monospace">COVALENTE</text><circle cx="152" cy="62" r="16" fill="#0d1a2e" stroke="#2563eb" stroke-width="1.2"/><text x="152" y="58" text-anchor="middle" fill="#93c5fd" font-size="7" font-family="monospace" font-weight="700">H</text><text x="152" y="68" text-anchor="middle" fill="#93c5fd" font-size="6" font-family="monospace">1e⁻</text><circle cx="191" cy="62" r="16" fill="#0d1a2e" stroke="#2563eb" stroke-width="1.2"/><text x="191" y="58" text-anchor="middle" fill="#93c5fd" font-size="7" font-family="monospace" font-weight="700">H</text><text x="191" y="68" text-anchor="middle" fill="#93c5fd" font-size="6" font-family="monospace">1e⁻</text><line x1="168" y1="62" x2="175" y2="62" stroke="#60a5fa" stroke-width="2.5"/><text x="171" y="92" text-anchor="middle" fill="#475569" font-size="7">compartilhamento</text><text x="171" y="102" text-anchor="middle" fill="#475569" font-size="7">H−H → H₂</text><rect x="236" y="14" width="98" height="92" rx="8" fill="#050d1f" stroke="#16a34a" stroke-width="1"/><text x="285" y="28" text-anchor="middle" fill="#86efac" font-size="9" font-weight="700" font-family="monospace">METÁLICA</text><circle cx="258" cy="52" r="10" fill="#001a0a" stroke="#16a34a" stroke-width="1"/><circle cx="285" cy="52" r="10" fill="#001a0a" stroke="#16a34a" stroke-width="1"/><circle cx="312" cy="52" r="10" fill="#001a0a" stroke="#16a34a" stroke-width="1"/><circle cx="258" cy="75" r="10" fill="#001a0a" stroke="#16a34a" stroke-width="1"/><circle cx="285" cy="75" r="10" fill="#001a0a" stroke="#16a34a" stroke-width="1"/><circle cx="312" cy="75" r="10" fill="#001a0a" stroke="#16a34a" stroke-width="1"/><circle cx="270" cy="60" r="3" fill="#fbbf24" opacity=".8"/><circle cx="298" cy="66" r="3" fill="#fbbf24" opacity=".8"/><circle cx="275" cy="80" r="3" fill="#fbbf24" opacity=".8"/><text x="285" y="100" text-anchor="middle" fill="#475569" font-size="7">mar de elétrons livres</text></svg></div><div class="did-step"><div class="step-n">1</div><div class="step-c"><h4>Ligação Iônica</h4><p>Ocorre entre <strong>metal + não-metal</strong>. Um átomo <strong>doa</strong> elétrons e o outro <strong>recebe</strong>, formando íons.<br>Ex: NaCl (sal de cozinha), MgO, CaCl₂</p></div></div><div class="did-step"><div class="step-n">2</div><div class="step-c"><h4>Ligação Covalente</h4><p>Ocorre entre <strong>não-metal + não-metal</strong>. Os átomos <strong>compartilham</strong> pares de elétrons.<br>Ex: H₂O, CO₂, CH₄, NH₃, H₂</p></div></div><div class="did-step"><div class="step-n">3</div><div class="step-c"><h4>Ligação Metálica</h4><p>Ocorre entre <strong>metais</strong>. Elétrons de valência ficam livres, formando um "mar de elétrons".</p></div></div></div>`; }
+
+function getLigacoesQuest() { return [
+  { q: 'Qual tipo de ligação ocorre entre Na e Cl para formar o NaCl?', opts: ['Covalente apolar','Covalente polar','Iônica','Metálica'], c: 2, res: '<strong>Iônica.</strong> Metal + não-metal.' },
+  { q: 'Na molécula de H₂O, o tipo de ligação entre H e O é:', opts: ['Iônica','Covalente polar','Covalente apolar','Metálica'], c: 1, res: '<strong>Covalente polar.</strong> Diferença de eletronegatividade.' },
+  { q: 'O que caracteriza a ligação metálica?', opts: ['Doação de elétrons','Compartilhamento','Mar de elétrons livres','Atração entre íons'], c: 2, res: '<strong>Mar de elétrons livres.</strong>' },
+  { q: 'A ligação dupla (como em O=O) é composta por:', opts: ['2 sigma','1 sigma e 1 pi','2 pi','1 sigma e 2 pi'], c: 1, res: '<strong>1 sigma + 1 pi.</strong>' },
+  { q: 'O CO₂ tem ligações covalentes polares, mas a molécula é apolar. Por quê?', opts: ['Mesma eletronegatividade','Geometria linear cancela dipolos','Não há pares livres','É um gás'], c: 1, res: '<strong>Geometria linear cancela os dipolos.</strong>' }
+]; }
+
+function getTabelaDid() { return `<div class="card"><div class="did-label">O que é a Tabela Periódica?</div><div class="did-intro">A Tabela Periódica organiza os 118 elementos conhecidos por ordem crescente de número atômico (Z). Criada por Mendeleev em 1869, ela revela padrões e propriedades dos elementos.</div><div id="mod-periodic-wrap" style="overflow-x:auto;padding:12px;background:#fff;border-radius:16px;box-shadow:0 0 0 2px #2563eb,0 0 0 4px #bfdbfe,0 8px 32px rgba(37,99,235,.15);margin:12px 0"><div id="mod-periodic-grid" style="display:grid;grid-template-columns:repeat(18,minmax(24px,1fr));gap:2px;min-width:480px"></div></div><div id="mod-el-detail" style="display:none;background:var(--card);border:1px solid var(--border2);border-radius:14px;padding:16px;margin-bottom:14px"></div><div class="did-step"><div class="step-n">1</div><div class="step-c"><h4>Períodos (linhas horizontais)</h4><p>Existem <strong>7 períodos</strong>. O número do período indica a quantidade de <strong>camadas eletrônicas</strong> do elemento.</p></div></div><div class="did-step"><div class="step-n">2</div><div class="step-c"><h4>Grupos/Famílias (colunas verticais)</h4><p>Existem <strong>18 grupos</strong>. Elementos do mesmo grupo têm o mesmo número de <strong>elétrons de valência</strong> e propriedades químicas parecidas.</p></div></div><div class="formula">Período = nº de camadas | Grupo = elétrons de valência</div></div><div class="card"><div class="did-label">Famílias importantes</div><div class="did-step"><div class="step-n">1</div><div class="step-c"><h4>Metais Alcalinos — Grupo 1 (IA)</h4><p>Li, Na, K, Rb, Cs, Fr<br><strong>1 elétron de valência</strong> → muito reativos.</p></div></div><div class="did-step"><div class="step-n">2</div><div class="step-c"><h4>Halogênios — Grupo 17 (VIIA)</h4><p>F, Cl, Br, I, At<br><strong>7 elétrons de valência</strong> → precisam de 1 e⁻ para completar o octeto.</p></div></div><div class="did-step"><div class="step-n">3</div><div class="step-c"><h4>Gases Nobres — Grupo 18 (VIIIA)</h4><p>He, Ne, Ar, Kr, Xe, Rn<br><strong>8 elétrons de valência</strong> (He tem 2) → inertes.</p></div></div><div class="did-step"><div class="step-n">4</div><div class="step-c"><h4>Metais de Transição — Grupos 3–12</h4><p>Fe, Cu, Zn, Ag, Au, Pt...<br>Camada d incompleta.</p></div></div></div>`; }
+
+function getTabelaQuest() { return [
+  { q: 'O sódio (Na) está no Período 3 da tabela periódica. O que isso indica?', opts: ['Tem 3 prótons','Tem 3 elétrons de valência','Tem 3 camadas eletrônicas','Pertence ao grupo 3'], c: 2, res: '<strong>3 camadas eletrônicas.</strong> O período indica o número de camadas.' },
+  { q: 'Elementos do mesmo grupo (família) têm em comum:', opts: ['Mesmo número de prótons','Mesmo número de nêutrons','Mesma quantidade de elétrons de valência','Mesma massa atômica'], c: 2, res: '<strong>Mesma quantidade de elétrons de valência.</strong>' },
+  { q: 'Qual família é conhecida por ser praticamente inerte (não reage)?', opts: ['Metais alcalinos','Halogênios','Calcogênios','Gases nobres'], c: 3, res: '<strong>Gases nobres.</strong> Camada de valência completa.' },
+  { q: 'A eletronegatividade de um elemento indica:', opts: ['Sua massa atômica','Capacidade de atrair elétrons','Número de prótons','Tamanho do raio atômico'], c: 1, res: '<strong>Capacidade de atrair elétrons.</strong>' },
+  { q: 'O cloro (Cl, Z=17) precisa de quantos elétrons para completar o octeto?', opts: ['1 elétron','2 elétrons','7 elétrons','8 elétrons'], c: 0, res: '<strong>1 elétron.</strong> Grupo 17 → 7 e⁻ de valência, precisa de 1.' }
+]; }
+
+// ════════════════════════════════════════════════════════════════
+//  3. ESTADO E CONFIGURAÇÕES
+// ════════════════════════════════════════════════════════════════
+
+let done = new Set(JSON.parse(localStorage.getItem('lq_done') || '[]'));
+let xp = parseInt(localStorage.getItem('lq_xp') || '0');
+let totalAcc = parseInt(localStorage.getItem('lq_acc') || '0');
+let totalResp = parseInt(localStorage.getItem('lq_resp') || '0');
+let modScores = JSON.parse(localStorage.getItem('lq_scores') || '{}');
+let isAdmin = false;
+let curMod = null;
+let curQ = 0;
+let answers = [];
+
+function save() {
+  localStorage.setItem('lq_done', JSON.stringify([...done]));
+  localStorage.setItem('lq_xp', xp);
+  localStorage.setItem('lq_acc', totalAcc);
+  localStorage.setItem('lq_resp', totalResp);
+  localStorage.setItem('lq_scores', JSON.stringify(modScores));
+}
+
+// ════════════════════════════════════════════════════════════════
+//  4. DEFINIÇÃO DOS MÓDULOS
+// ════════════════════════════════════════════════════════════════
+
 const AREAS = [
-  {el:'tg',tiles:[{id:'atom',emoji:'⚛️',label:'Átomo',sub:'prótons, nêutrons, elétrons',xp:10,did:getDid(),quest:getQuest()}]},
-  {el:'to',tiles:[{id:'ligacoes',emoji:'🔗',label:'Ligações Químicas',sub:'iônica, covalente, metálica',xp:10,did:getLigacoesDid(),quest:getLigacoesQuest()}]},
-  {el:'tf',tiles:[{id:'tabela',emoji:'📊',label:'Tabela Periódica',sub:'períodos, grupos, propriedades',xp:10,did:getTabelaDid(),quest:getTabelaQuest()}]}
+  { el: 'tg', tiles: [{ id: 'atom', emoji: '⚛️', label: 'Átomo', sub: 'prótons, nêutrons, elétrons', xp: 10, did: getDid(), quest: getQuest() }] },
+  { el: 'to', tiles: [{ id: 'ligacoes', emoji: '🔗', label: 'Ligações Químicas', sub: 'iônica, covalente, metálica', xp: 10, did: getLigacoesDid(), quest: getLigacoesQuest() }] },
+  { el: 'tf', tiles: [{ id: 'tabela', emoji: '📊', label: 'Tabela Periódica', sub: 'períodos, grupos, propriedades', xp: 10, did: getTabelaDid(), quest: getTabelaQuest() }] }
 ];
-const ALL = AREAS.flatMap(a=>a.tiles);
+const ALL = AREAS.flatMap(a => a.tiles);
 
-// ══ NAVEGAÇÃO (CORRIGIDA) ══
-function goPage(id){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+// ════════════════════════════════════════════════════════════════
+//  5. NAVEGAÇÃO ENTRE PÁGINAS
+// ════════════════════════════════════════════════════════════════
+
+function goPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
   const map = {
-    'page-home':'nav-home',
-    'page-mapa':'nav-mapa',
-    'page-lab':'nav-lab',
-    'page-exp':'nav-exp',
-    'page-admin':'nav-admin'
+    'page-home': 'nav-home',
+    'page-mapa': 'nav-mapa',
+    'page-lab': 'nav-lab',
+    'page-exp': 'nav-exp',
+    'page-admin': 'nav-admin'
   };
   const ni = document.getElementById(map[id]);
-  if(ni) ni.classList.add('active');
-  if(id==='page-mapa') renderMap();
-  if(id==='page-home') renderHome();
-  if(id==='page-lab') renderLab();
-  if(id==='page-exp') initExp();
-  if(id==='page-admin') renderAdmin();
-  window.scrollTo(0,0);
+  if (ni) ni.classList.add('active');
+  if (id === 'page-mapa') renderMap();
+  if (id === 'page-home') renderHome();
+  if (id === 'page-lab') renderLab();
+  if (id === 'page-exp') initExp();
+  if (id === 'page-admin') renderAdmin();
+  window.scrollTo(0, 0);
 }
 
-function renderHome(){
+// ════════════════════════════════════════════════════════════════
+//  6. FUNÇÃO DA PÁGINA INICIAL (COM ANIMAÇÃO DO FOGUETE)
+// ════════════════════════════════════════════════════════════════
+
+function explorarModulos() {
+  const foguete = document.querySelector('.home-bear svg');
+  if (foguete) {
+    foguete.classList.add('foguete-sobe');
+    setTimeout(() => {
+      goPage('page-mapa');
+    }, 1000);
+  } else {
+    goPage('page-mapa');
+  }
+}
+
+// ════════════════════════════════════════════════════════════════
+//  7. RENDERIZAÇÃO DA HOME
+// ════════════════════════════════════════════════════════════════
+
+function renderHome() {
   document.getElementById('hs-mod').textContent = done.size;
   document.getElementById('hs-xp').textContent = xp;
-  document.getElementById('hs-prog').textContent = Math.min(100, Math.round(done.size/ALL.length*100))+'%';
+  const p = Math.min(100, Math.round(done.size / ALL.length * 100));
+  document.getElementById('hs-prog').textContent = p + '%';
 }
 
-function renderMap(){
-  let di=0; ALL.forEach((t,i)=>{ if(done.has(t.id)) di=i+1; });
-  AREAS.forEach(area=>{
-    const cont=document.getElementById(area.el); if(!cont) return;
-    cont.innerHTML=area.tiles.map(t=>{
-      const isDone=done.has(t.id), isCur=ALL.indexOf(t)===di, isLock=!isDone&&!isCur;
-      return `<div class="tile ${isDone?'done':isCur?'unlocked':'locked'}" onclick="clickTile('${t.id}',${isLock})">
-        ${isDone?'<div class="tile-check"></div>':''}${isLock?'<div class="tile-lock">🔒</div>':''}
-        <div class="tile-emoji">${t.emoji}</div><div class="tile-label">${t.label}</div><div class="tile-sub">${t.sub}</div></div>`;
+// ════════════════════════════════════════════════════════════════
+//  8. RENDERIZAÇÃO DO MAPA
+// ════════════════════════════════════════════════════════════════
+
+function renderMap() {
+  let di = 0;
+  ALL.forEach((t, i) => { if (done.has(t.id)) di = i + 1; });
+  AREAS.forEach(area => {
+    const cont = document.getElementById(area.el);
+    if (!cont) return;
+    cont.innerHTML = area.tiles.map(t => {
+      const isDone = done.has(t.id);
+      const isCur = ALL.indexOf(t) === di;
+      const isLock = !isDone && !isCur;
+      return `<div class="tile ${isDone ? 'done' : isCur ? 'unlocked' : 'locked'}" onclick="clickTile('${t.id}',${isLock})">
+        ${isDone ? '<div class="tile-check"></div>' : ''}
+        ${isLock ? '<div class="tile-lock">🔒</div>' : ''}
+        <div class="tile-emoji">${t.emoji}</div>
+        <div class="tile-label">${t.label}</div>
+        <div class="tile-sub">${t.sub}</div>
+      </div>`;
     }).join('');
   });
-  const d=done.size, total=ALL.length;
-  document.getElementById('prog-fill').style.width = Math.min(100, Math.round(d/total*100))+'%';
-  document.getElementById('prog-num').textContent = d+' / '+total;
-  document.getElementById('xp-val').textContent = xp+' XP';
-  document.getElementById('lvl-text').textContent = d<4?'Nível 1 — Iniciante':d<9?'Nível 2 — Intermediário':'Nível 3 — Avançado';
-  document.getElementById('bear-bubble').textContent = ALL[di]? 'Próximo: '+ALL[di].label+' '+ALL[di].emoji : 'Tudo concluído! 🏆';
+  const d = done.size, total = ALL.length;
+  document.getElementById('prog-fill').style.width = Math.min(100, Math.round(d / total * 100)) + '%';
+  document.getElementById('prog-num').textContent = d + ' / ' + total;
+  document.getElementById('xp-val').textContent = xp + ' XP';
+  document.getElementById('lvl-text').textContent = d < 4 ? 'Nível 1 — Iniciante' : d < 9 ? 'Nível 2 — Intermediário' : 'Nível 3 — Avançado';
+  document.getElementById('bear-bubble').textContent = ALL[di] ? 'Próximo: ' + ALL[di].label + ' ' + ALL[di].emoji : 'Tudo concluído! 🏆';
 }
 
-function clickTile(id,locked){ if(locked){ showToast('Complete o anterior primeiro! 🔒'); return; } const t=ALL.find(x=>x.id===id); if(t) openModule(t); }
+function clickTile(id, locked) {
+  if (locked) { showToast('Complete o anterior primeiro! 🔒'); return; }
+  const t = ALL.find(x => x.id === id);
+  if (t) openModule(t);
+}
 
-function openModule(t){
-  curMod=t; curQ=0; answers=new Array(t.quest.length).fill(null);
-  document.getElementById('mod-title').textContent=t.emoji+' '+t.label;
-  document.getElementById('mod-sub').textContent=t.sub;
-  document.getElementById('tab-did-content').innerHTML=t.did;
-  setTimeout(buildModTable,50);
-  document.getElementById('mod-did-view').style.display='block';
-  document.getElementById('mod-quest-view').style.display='none';
-  const btn=document.getElementById('btn-go-quest');
-  if(t.quest.length===0&&isAdmin){ btn.textContent='✓ Marcar como concluído (Admin)'; btn.onclick=markDone; }
-  else{ btn.textContent='✏️ Ir para as questões →'; btn.onclick=goToQuest; }
+// ════════════════════════════════════════════════════════════════
+//  9. MÓDULO E QUESTÕES
+// ════════════════════════════════════════════════════════════════
+
+function openModule(t) {
+  curMod = t;
+  curQ = 0;
+  answers = new Array(t.quest.length).fill(null);
+  document.getElementById('mod-title').textContent = t.emoji + ' ' + t.label;
+  document.getElementById('mod-sub').textContent = t.sub;
+  document.getElementById('tab-did-content').innerHTML = t.did;
+  setTimeout(buildModTable, 50);
+  document.getElementById('mod-did-view').style.display = 'block';
+  document.getElementById('mod-quest-view').style.display = 'none';
+  const btn = document.getElementById('btn-go-quest');
+  if (t.quest.length === 0 && isAdmin) {
+    btn.textContent = '✓ Marcar como concluído (Admin)';
+    btn.onclick = markDone;
+  } else {
+    btn.textContent = '✏️ Ir para as questões →';
+    btn.onclick = goToQuest;
+  }
   goPage('page-modulo');
 }
-function goToQuest(){ document.getElementById('mod-did-view').style.display='none'; document.getElementById('mod-quest-view').style.display='block'; renderQuestion(); window.scrollTo(0,0); }
 
-function renderQuestion(){
-  const cont=document.getElementById('tab-quest-content');
-  if(!curMod||curMod.quest.length===0){ cont.innerHTML=`<div class="card"><div class="did-label">Em breve</div><div class="did-intro">Questões sendo preparadas.</div><button class="btn-main" onclick="markDone()" style="margin-top:14px">Marcar como concluído ✓</button></div>`; return; }
-  if(curQ>=curMod.quest.length){ renderScore(); return; }
-  const q=curMod.quest[curQ], ans=answers[curQ], L=['A','B','C','D'];
-  const dots=curMod.quest.map((_,i)=>{ let c='q-dot'; if(answers[i]!==null)c+=' done'; else if(i===curQ)c+=' cur'; return `<div class="${c}"></div>`; }).join('');
-  const opts=q.opts.map((op,i)=>{ let c='opt', d=''; if(ans!==null){ d='disabled'; if(i===q.c)c+=' correct'; else if(i===ans)c+=' wrong'; } return `<button class="${c}" ${d} onclick="answerQ(${i})"><div class="opt-l">${L[i]}</div>${op}</button>`; }).join('');
-  const res=ans!==null?`<div class="res-box show"><div class="res-label">✦ Resolução</div><p>${q.res}</p></div>`:'';
-  const isLast=curQ===curMod.quest.length-1, allAns=answers.every(a=>a!==null);
-  const nextBtn=isLast&&allAns?`<button class="btn-main" onclick="renderScore()">Ver resultado 🏆</button>`:isLast?`<button class="btn-main" disabled>Responda para continuar</button>`:`<button class="btn-main" ${ans===null?'disabled':''} onclick="nextQ()">Próxima →</button>`;
-  cont.innerHTML=`<div class="q-dots">${dots}</div><div class="q-card"><div class="q-num">Questão ${curQ+1} de ${curMod.quest.length}</div><div class="q-text">${q.q}</div><div class="opts">${opts}</div>${res}</div><div class="nav-row"><button class="btn-ghost" ${curQ===0?'disabled':''} onclick="prevQ()">← Anterior</button>${nextBtn}</div>`;
-}
-function answerQ(i){ if(answers[curQ]!==null)return; const q=curMod.quest[curQ]; answers[curQ]=i; totalResp++; if(i===q.c)totalAcc++; save(); renderQuestion(); }
-function nextQ(){ curQ++; renderQuestion(); }
-function prevQ(){ curQ--; renderQuestion(); }
-
-function renderScore(){
-  const correct=answers.filter((a,i)=>a===curMod.quest[i]?.c).length;
-  const total=curMod.quest.length, pct=Math.round(correct/total*100);
-  const passed=correct>=3||isAdmin;
-  const stars=pct===100?'⭐⭐⭐':pct>=60?'⭐⭐':'⭐';
-  const msg=pct===100?'Perfeito! Dominou o módulo!':passed?'Muito bem! Você passou!':'Ainda não foi dessa vez...';
-  modScores[curMod.id]=correct; save();
-  const cont=document.getElementById('tab-quest-content');
-  const action=passed?`<button class="btn-main" onclick="markDone()" style="margin-bottom:10px">Concluir e voltar ao mapa ✓</button>`:`<div class="card score-fail">⚠️ Precisa de pelo menos 3 acertos para desbloquear o próximo módulo.</div>`;
-  cont.innerHTML=`<div class="card score-wrap"><div class="score-stars">${stars}</div><div class="score-num">${correct}/${total}</div><div class="score-sub">${pct}% de acerto</div><div class="score-msg">${msg}</div>${passed&&!isAdmin?`<div class="score-xp">+${curMod.xp} XP</div>`:passed&&isAdmin?`<div class="score-xp" style="color:#f59e0b">✓ Admin: aprovado</div>`:''}</div>${action}<button class="btn-ghost" onclick="curQ=0;answers=new Array(curMod.quest.length).fill(null);renderQuestion()" style="margin-top:8px">🔄 Refazer</button>`;
+function goToQuest() {
+  document.getElementById('mod-did-view').style.display = 'none';
+  document.getElementById('mod-quest-view').style.display = 'block';
+  renderQuestion();
+  window.scrollTo(0, 0);
 }
 
-function markDone(){
-  if(!done.has(curMod.id)){ done.add(curMod.id); if(!isAdmin) xp+=curMod.xp; save(); }
-  const bear=document.getElementById('map-bear'); if(bear){ bear.classList.add('pop'); setTimeout(()=>bear.classList.remove('pop'),800); }
-  showToast(isAdmin?'✓ Admin: '+curMod.label+' desbloqueado':'+'+curMod.xp+' XP — '+curMod.label+' concluído! 🎉');
+function renderQuestion() {
+  const cont = document.getElementById('tab-quest-content');
+  if (!curMod || curMod.quest.length === 0) {
+    cont.innerHTML = `<div class="card"><div class="did-label">Em breve</div><div class="did-intro">Questões sendo preparadas.</div><button class="btn-main" onclick="markDone()" style="margin-top:14px">Marcar como concluído ✓</button></div>`;
+    return;
+  }
+  if (curQ >= curMod.quest.length) { renderScore(); return; }
+  const q = curMod.quest[curQ];
+  const ans = answers[curQ];
+  const L = ['A', 'B', 'C', 'D'];
+  const dots = curMod.quest.map((_, i) => {
+    let c = 'q-dot';
+    if (answers[i] !== null) c += ' done';
+    else if (i === curQ) c += ' cur';
+    return `<div class="${c}"></div>`;
+  }).join('');
+  const opts = q.opts.map((op, i) => {
+    let c = 'opt', d = '';
+    if (ans !== null) {
+      d = 'disabled';
+      if (i === q.c) c += ' correct';
+      else if (i === ans) c += ' wrong';
+    }
+    return `<button class="${c}" ${d} onclick="answerQ(${i})"><div class="opt-l">${L[i]}</div>${op}</button>`;
+  }).join('');
+  const res = ans !== null ? `<div class="res-box show"><div class="res-label">✦ Resolução</div><p>${q.res}</p></div>` : '';
+  const isLast = curQ === curMod.quest.length - 1;
+  const allAns = answers.every(a => a !== null);
+  const nextBtn = isLast && allAns ? `<button class="btn-main" onclick="renderScore()">Ver resultado 🏆</button>` :
+    isLast ? `<button class="btn-main" disabled>Responda para continuar</button>` :
+    `<button class="btn-main" ${ans === null ? 'disabled' : ''} onclick="nextQ()">Próxima →</button>`;
+  cont.innerHTML = `
+    <div class="q-dots">${dots}</div>
+    <div class="q-card">
+      <div class="q-num">Questão ${curQ + 1} de ${curMod.quest.length}</div>
+      <div class="q-text">${q.q}</div>
+      <div class="opts">${opts}</div>
+      ${res}
+    </div>
+    <div class="nav-row">
+      <button class="btn-ghost" ${curQ === 0 ? 'disabled' : ''} onclick="prevQ()">← Anterior</button>
+      ${nextBtn}
+    </div>
+  `;
+}
+
+function answerQ(i) {
+  if (answers[curQ] !== null) return;
+  const q = curMod.quest[curQ];
+  answers[curQ] = i;
+  totalResp++;
+  if (i === q.c) totalAcc++;
+  save();
+  renderQuestion();
+}
+
+function nextQ() { curQ++; renderQuestion(); }
+function prevQ() { curQ--; renderQuestion(); }
+
+function renderScore() {
+  const correct = answers.filter((a, i) => a === curMod.quest[i]?.c).length;
+  const total = curMod.quest.length;
+  const pct = Math.round(correct / total * 100);
+  const passed = correct >= 3 || isAdmin;
+  const stars = pct === 100 ? '⭐⭐⭐' : pct >= 60 ? '⭐⭐' : '⭐';
+  const msg = pct === 100 ? 'Perfeito! Dominou o módulo!' : passed ? 'Muito bem! Você passou!' : 'Ainda não foi dessa vez...';
+  modScores[curMod.id] = correct;
+  save();
+  const cont = document.getElementById('tab-quest-content');
+  const action = passed ?
+    `<button class="btn-main" onclick="markDone()" style="margin-bottom:10px">Concluir e voltar ao mapa ✓</button>` :
+    `<div class="card score-fail">⚠️ Precisa de pelo menos 3 acertos para desbloquear o próximo módulo.</div>`;
+  cont.innerHTML = `
+    <div class="card score-wrap">
+      <div class="score-stars">${stars}</div>
+      <div class="score-num">${correct}/${total}</div>
+      <div class="score-sub">${pct}% de acerto</div>
+      <div class="score-msg">${msg}</div>
+      ${passed && !isAdmin ? `<div class="score-xp">+${curMod.xp} XP</div>` : ''}
+      ${passed && isAdmin ? `<div class="score-xp" style="color:#f59e0b">✓ Admin: aprovado</div>` : ''}
+    </div>
+    ${action}
+    <button class="btn-ghost" onclick="curQ=0;answers=new Array(curMod.quest.length).fill(null);renderQuestion()" style="margin-top:8px">🔄 Refazer</button>
+  `;
+}
+
+function markDone() {
+  if (!done.has(curMod.id)) {
+    done.add(curMod.id);
+    if (!isAdmin) xp += curMod.xp;
+    save();
+  }
+  const bear = document.getElementById('map-bear');
+  if (bear) {
+    bear.classList.add('pop');
+    setTimeout(() => bear.classList.remove('pop'), 800);
+  }
+  showToast(isAdmin ? '✓ Admin: ' + curMod.label + ' desbloqueado' : '+' + curMod.xp + ' XP — ' + curMod.label + ' concluído! 🎉');
   goPage('page-mapa');
 }
 
-// ══ TABELA PERIÓDICA NA DIDÁTICA ══
-function buildModTable(){
-  const grid=document.getElementById('mod-periodic-grid'); if(!grid||grid.innerHTML!=='') return;
-  const ROWS=9,COLS=18, cells=Array(ROWS).fill(null).map(()=>Array(COLS).fill(null));
-  ELS.forEach(el=>{ if(el.row<=ROWS&&el.col<=COLS) cells[el.row-1][el.col-1]=el; });
-  let html='';
-  for(let r=0;r<ROWS;r++){
-    if(r===7){ for(let c=0;c<COLS;c++) html+='<div style="height:3px"></div>'; }
-    for(let c=0;c<COLS;c++){
-      const el=cells[r][c];
-      if(el){
-        const col=CAT_C[el.cat]||'#2563eb';
-        html+=`<div style="border-radius:3px;padding:2px 1px;text-align:center;cursor:pointer;background:${col};min-width:24px;transition:transform .15s" onclick="showModEl(${el.z})" title="${el.name}" onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform=''"><div style="font-size:6px;font-family:monospace;color:rgba(255,255,255,.7)">${el.z}</div><div style="font-size:8px;font-weight:700;font-family:monospace;color:#fff;line-height:1.1">${el.sym}</div></div>`;
-      } else html+='<div style="min-width:24px"></div>';
+// ════════════════════════════════════════════════════════════════
+//  10. TABELA PERIÓDICA NA DIDÁTICA
+// ════════════════════════════════════════════════════════════════
+
+function buildModTable() {
+  const grid = document.getElementById('mod-periodic-grid');
+  if (!grid || grid.innerHTML !== '') return;
+  const ROWS = 9, COLS = 18;
+  const cells = Array.from({ length: ROWS }, () => Array(COLS).fill(null));
+  ELS.forEach(el => {
+    if (el.row <= ROWS && el.col <= COLS) cells[el.row - 1][el.col - 1] = el;
+  });
+  let html = '';
+  for (let r = 0; r < ROWS; r++) {
+    if (r === 7) {
+      for (let c = 0; c < COLS; c++) html += '<div style="height:3px"></div>';
+    }
+    for (let c = 0; c < COLS; c++) {
+      const el = cells[r][c];
+      if (el) {
+        const col = CAT_C[el.cat] || '#2563eb';
+        html += `<div style="border-radius:3px;padding:2px 1px;text-align:center;cursor:pointer;background:${col};min-width:24px;transition:transform .15s" onclick="showModEl(${el.z})" title="${el.name}" onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform=''"><div style="font-size:6px;font-family:monospace;color:rgba(255,255,255,.7)">${el.z}</div><div style="font-size:8px;font-weight:700;font-family:monospace;color:#fff;line-height:1.1">${el.sym}</div></div>`;
+      } else {
+        html += '<div style="min-width:24px"></div>';
+      }
     }
   }
-  grid.innerHTML=html;
+  grid.innerHTML = html;
 }
-const CAT_L={'alkali':'Metal alcalino','alkaline':'Metal alcalino-terroso','transition':'Metal de transição','post-transition':'Metal pós-transição','metalloid':'Semimetal','nonmetal':'Não-metal','halogen':'Halogênio','noble':'Gás nobre','lanthanide':'Lantanídeo','actinide':'Actinídeo'};
-const CAT_C={'alkali':'#7c3aed','alkaline':'#d97706','transition':'#2563eb','post-transition':'#16a34a','metalloid':'#ca8a04','nonmetal':'#dc2626','halogen':'#db2777','noble':'#9333ea','lanthanide':'#0d9488','actinide':'#b91c1c'};
-function showModEl(z){ const el=ELS.find(e=>e.z===z); if(!el)return; const n=Math.round(el.mass)-el.z; const panel=document.getElementById('mod-el-detail'); if(!panel)return; panel.style.display='block'; const c=CAT_C[el.cat]||'#2563eb'; panel.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px"><div style="display:flex;gap:12px;align-items:center"><div style="width:48px;height:48px;border-radius:10px;background:${c};display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0"><div style="font-size:6px;color:rgba(255,255,255,.7);font-family:monospace">${el.z}</div><div style="font-size:18px;font-weight:800;color:#fff;font-family:monospace;line-height:1">${el.sym}</div></div><div><div style="font-size:14px;font-weight:700;color:var(--text)">${el.name}</div><div style="font-size:10px;color:${c};font-family:monospace">${CAT_L[el.cat]||el.cat}</div></div></div><button onclick="closeModEl()" style="background:var(--bg3);border:1px solid var(--border2);border-radius:8px;width:28px;height:28px;color:var(--muted2);font-size:14px;cursor:pointer">✕</button></div><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">${['Prótons|'+el.z+' p⁺','Nêutrons|≈'+n+' n⁰','Elétrons|'+el.z+' e⁻','Massa|'+el.mass+' u','Período|'+el.p,'Grupo|'+el.g].map(x=>{const[l,v]=x.split('|');return`<div style="background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:10px"><div style="font-size:8px;color:var(--muted2);font-family:monospace;letter-spacing:1px;text-transform:uppercase;margin-bottom:3px">${l}</div><div style="font-size:16px;font-weight:700;font-family:monospace;color:var(--text)">${v}</div></div>`;}).join('')}</div>`; setTimeout(()=>panel.scrollIntoView({behavior:'smooth',block:'nearest'}),50); }
-function closeModEl(){ const p=document.getElementById('mod-el-detail'); if(p) p.style.display='none'; }
 
-// ══ LABORATÓRIO ══
-function renderLab(){ if(document.getElementById('periodic-grid').innerHTML!=='') return; const grid=document.getElementById('periodic-grid'); const ROWS=9,COLS=18, cells=Array(ROWS).fill(null).map(()=>Array(COLS).fill(null)); ELS.forEach(el=>{ if(el.row<=ROWS&&el.col<=COLS) cells[el.row-1][el.col-1]=el; }); let html=''; for(let r=0;r<ROWS;r++){ if(r===7){ for(let c=0;c<COLS;c++) html+=`<div class="el empty" style="height:4px;min-height:4px"></div>`; } for(let c=0;c<COLS;c++){ const el=cells[r][c]; if(el){ html+=`<div class="el ${el.cat}" onclick="showEl(${el.z})" title="${el.name}"><div class="el-num">${el.z}</div><div class="el-sym">${el.sym}</div><div class="el-name">${el.name.length>8?el.name.substring(0,7)+'…':el.name}</div></div>`; } else html+=`<div class="el empty"></div>`; } } grid.innerHTML=html; document.getElementById('el-legend').innerHTML=Object.entries(CAT_L).map(([k,v])=>`<div class="el-leg-item"><div class="el-leg-dot" style="background:${CAT_C[k]};border:1px solid ${CAT_C[k]}"></div>${v}</div>`).join(''); }
-function showEl(z){ const el=ELS.find(e=>e.z===z); if(!el)return; const n=Math.round(el.mass)-el.z; const panel=document.getElementById('el-detail'); panel.className='el-detail-panel show'; const c=CAT_C[el.cat]||'#2563eb'; panel.innerHTML=`<div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px"><div style="display:flex;align-items:center;gap:14px"><div style="width:56px;height:56px;border-radius:12px;background:${c}44;border:2px solid ${c};display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0"><div style="font-size:7px;color:${c};font-family:var(--mono)">${el.z}</div><div style="font-size:20px;font-weight:800;color:var(--text);font-family:var(--mono);line-height:1">${el.sym}</div></div><div><div style="font-size:16px;font-weight:700;color:var(--text)">${el.name}</div><div style="font-size:11px;color:${c};font-family:var(--mono);margin-top:2px">${CAT_L[el.cat]||el.cat}</div></div></div><button onclick="closeEl()" style="background:var(--bg3);border:1px solid var(--border2);border-radius:8px;width:32px;height:32px;color:var(--muted2);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0">✕</button></div><div class="el-detail-row"><div class="el-detail-item"><div class="label">Nº atômico (Z)</div><div class="value">${el.z}</div></div><div class="el-detail-item"><div class="label">Massa atômica</div><div class="value">${el.mass} u</div></div><div class="el-detail-item"><div class="label">Prótons (p⁺)</div><div class="value">${el.z}</div></div><div class="el-detail-item"><div class="label">Nêutrons (n⁰)</div><div class="value">≈ ${n}</div></div><div class="el-detail-item"><div class="label">Elétrons (e⁻)</div><div class="value">${el.z}</div></div><div class="el-detail-item"><div class="label">Período / Grupo</div><div class="value">${el.p} / ${el.g}</div></div></div>`; setTimeout(()=>panel.scrollIntoView({behavior:'smooth',block:'start'}),50); }
-function closeEl(){ const panel=document.getElementById('el-detail'); panel.className='el-detail-panel'; panel.innerHTML=''; }
+const CAT_L = {
+  alkali: 'Metal alcalino', alkaline: 'Metal alcalino-terroso',
+  transition: 'Metal de transição', 'post-transition': 'Metal pós-transição',
+  metalloid: 'Semimetal', nonmetal: 'Não-metal', halogen: 'Halogênio',
+  noble: 'Gás nobre', lanthanide: 'Lantanídeo', actinide: 'Actinídeo'
+};
+const CAT_C = {
+  alkali: '#7c3aed', alkaline: '#d97706', transition: '#2563eb',
+  'post-transition': '#16a34a', metalloid: '#ca8a04', nonmetal: '#dc2626',
+  halogen: '#db2777', noble: '#9333ea', lanthanide: '#0d9488', actinide: '#b91c1c'
+};
 
-// ══ EXPERIMENTOS (resumido, mas funcional) ══
-let expState='menu', aiMode=false;
-function initExp(){
-  if(document.getElementById('exp-chat').children.length>0) return;
-  const hasKey=!!localStorage.getItem('lq_apikey');
-  aiMode=hasKey;
-  addBearMsg(hasKey?'Olá! 🐻🤖 A IA está ativa! Pode me perguntar qualquer coisa sobre química.':'Olá! 🐻 O que você quer explorar?');
-  const opts=[
-    {l:'⚛️ Prótons, nêutrons e elétrons',a:()=>askEl('part')},
-    {l:'🔗 Junção de dois elementos',a:()=>askComp()},
-    {l:'📋 Propriedades do elemento',a:()=>askEl('prop')},
-    {l:'🔢 Configuração eletrônica',a:()=>askEl('conf')},
+function showModEl(z) {
+  const el = ELS.find(e => e.z === z);
+  if (!el) return;
+  const n = Math.round(el.mass) - el.z;
+  const panel = document.getElementById('mod-el-detail');
+  if (!panel) return;
+  panel.style.display = 'block';
+  const c = CAT_C[el.cat] || '#2563eb';
+  panel.innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px">
+      <div style="display:flex;gap:12px;align-items:center">
+        <div style="width:48px;height:48px;border-radius:10px;background:${c};display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0">
+          <div style="font-size:6px;color:rgba(255,255,255,.7);font-family:monospace">${el.z}</div>
+          <div style="font-size:18px;font-weight:800;color:#fff;font-family:monospace;line-height:1">${el.sym}</div>
+        </div>
+        <div>
+          <div style="font-size:14px;font-weight:700;color:var(--text)">${el.name}</div>
+          <div style="font-size:10px;color:${c};font-family:monospace">${CAT_L[el.cat] || el.cat}</div>
+        </div>
+      </div>
+      <button onclick="closeModEl()" style="background:var(--bg3);border:1px solid var(--border2);border-radius:8px;width:28px;height:28px;color:var(--muted2);font-size:14px;cursor:pointer">✕</button>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">
+      ${['Prótons|'+el.z+' p⁺', 'Nêutrons|≈'+n+' n⁰', 'Elétrons|'+el.z+' e⁻', 'Massa|'+el.mass+' u', 'Período|'+el.p, 'Grupo|'+el.g].map(x => {
+        const [l, v] = x.split('|');
+        return `<div style="background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:10px"><div style="font-size:8px;color:var(--muted2);font-family:monospace;letter-spacing:1px;text-transform:uppercase;margin-bottom:3px">${l}</div><div style="font-size:16px;font-weight:700;font-family:monospace;color:var(--text)">${v}</div></div>`;
+      }).join('')}
+    </div>
+  `;
+  setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
+}
+function closeModEl() {
+  const p = document.getElementById('mod-el-detail');
+  if (p) p.style.display = 'none';
+}
+
+// ════════════════════════════════════════════════════════════════
+//  11. LABORATÓRIO – TABELA PERIÓDICA INTERATIVA
+// ════════════════════════════════════════════════════════════════
+
+function renderLab() {
+  if (document.getElementById('periodic-grid').innerHTML !== '') return;
+  const grid = document.getElementById('periodic-grid');
+  const ROWS = 9, COLS = 18;
+  const cells = Array.from({ length: ROWS }, () => Array(COLS).fill(null));
+  ELS.forEach(el => {
+    if (el.row <= ROWS && el.col <= COLS) cells[el.row - 1][el.col - 1] = el;
+  });
+  let html = '';
+  for (let r = 0; r < ROWS; r++) {
+    if (r === 7) {
+      for (let c = 0; c < COLS; c++) html += `<div class="el empty" style="height:4px;min-height:4px"></div>`;
+    }
+    for (let c = 0; c < COLS; c++) {
+      const el = cells[r][c];
+      if (el) {
+        html += `<div class="el ${el.cat}" onclick="showEl(${el.z})" title="${el.name}">
+          <div class="el-num">${el.z}</div>
+          <div class="el-sym">${el.sym}</div>
+          <div class="el-name">${el.name.length > 8 ? el.name.substring(0,7) + '…' : el.name}</div>
+        </div>`;
+      } else {
+        html += `<div class="el empty"></div>`;
+      }
+    }
+  }
+  grid.innerHTML = html;
+  document.getElementById('el-legend').innerHTML = Object.entries(CAT_L).map(([k, v]) =>
+    `<div class="el-leg-item"><div class="el-leg-dot" style="background:${CAT_C[k]};border:1px solid ${CAT_C[k]}"></div>${v}</div>`
+  ).join('');
+}
+
+function showEl(z) {
+  const el = ELS.find(e => e.z === z);
+  if (!el) return;
+  const n = Math.round(el.mass) - el.z;
+  const panel = document.getElementById('el-detail');
+  panel.className = 'el-detail-panel show';
+  const c = CAT_C[el.cat] || '#2563eb';
+  panel.innerHTML = `
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px">
+      <div style="display:flex;align-items:center;gap:14px">
+        <div style="width:56px;height:56px;border-radius:12px;background:${c}44;border:2px solid ${c};display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0">
+          <div style="font-size:7px;color:${c};font-family:var(--mono)">${el.z}</div>
+          <div style="font-size:20px;font-weight:800;color:var(--text);font-family:var(--mono);line-height:1">${el.sym}</div>
+        </div>
+        <div>
+          <div style="font-size:16px;font-weight:700;color:var(--text)">${el.name}</div>
+          <div style="font-size:11px;color:${c};font-family:var(--mono);margin-top:2px">${CAT_L[el.cat] || el.cat}</div>
+        </div>
+      </div>
+      <button onclick="closeEl()" style="background:var(--bg3);border:1px solid var(--border2);border-radius:8px;width:32px;height:32px;color:var(--muted2);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0">✕</button>
+    </div>
+    <div class="el-detail-row">
+      <div class="el-detail-item"><div class="label">Nº atômico (Z)</div><div class="value">${el.z}</div></div>
+      <div class="el-detail-item"><div class="label">Massa atômica</div><div class="value">${el.mass} u</div></div>
+      <div class="el-detail-item"><div class="label">Prótons (p⁺)</div><div class="value">${el.z}</div></div>
+      <div class="el-detail-item"><div class="label">Nêutrons (n⁰)</div><div class="value">≈ ${n}</div></div>
+      <div class="el-detail-item"><div class="label">Elétrons (e⁻)</div><div class="value">${el.z}</div></div>
+      <div class="el-detail-item"><div class="label">Período / Grupo</div><div class="value">${el.p} / ${el.g}</div></div>
+    </div>
+  `;
+  setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+}
+function closeEl() {
+  const panel = document.getElementById('el-detail');
+  panel.className = 'el-detail-panel';
+  panel.innerHTML = '';
+}
+
+// ════════════════════════════════════════════════════════════════
+//  12. EXPERIMENTOS – CHAT COM O URSINHO
+// ════════════════════════════════════════════════════════════════
+
+let expState = 'menu';
+let aiMode = false;
+
+function initExp() {
+  if (document.getElementById('exp-chat').children.length > 0) return;
+  const hasKey = !!localStorage.getItem('lq_apikey');
+  aiMode = hasKey;
+  addBearMsg(hasKey ? 'Olá! 🐻🤖 A IA está ativa! Pode me perguntar qualquer coisa sobre química.' : 'Olá! 🐻 O que você quer explorar?');
+  const opts = [
+    { l: '⚛️ Prótons, nêutrons e elétrons', a: () => askEl('part') },
+    { l: '🔗 Junção de dois elementos', a: () => askComp() },
+    { l: '📋 Propriedades do elemento', a: () => askEl('prop') },
+    { l: '🔢 Configuração eletrônica', a: () => askEl('conf') }
   ];
-  if(hasKey) opts.push({l:'💬 Perguntar qualquer coisa à IA',a:()=>askAI()});
+  if (hasKey) opts.push({ l: '💬 Perguntar qualquer coisa à IA', a: () => askAI() });
   showOpts(opts);
 }
-function askAI(){ addUserMsg('Perguntar à IA'); expState='ai'; addBearMsg('Pode perguntar qualquer coisa sobre química! 🧪'); showInp('Ex: O que é uma reação exotérmica?'); }
-async function sendToAI(question){
-  const key=localStorage.getItem('lq_apikey');
-  if(!key){ addBearMsg('Chave de API não encontrada. Configure no Admin!'); showMenu(); return; }
-  addBearMsg('Pensando... 🤔');
-  try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-      body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:400,
-        system:'Você é um ursinho cientista simpático que ensina química de forma didática e simples. Responda sempre em português, de forma clara e concisa. Use emojis ocasionalmente. Foque apenas em química. Se perguntarem algo fora de química, redirecione gentilmente.',
-        messages:[{role:'user',content:question}]})
-    });
-    const data=await res.json();
-    const chat=document.getElementById('exp-chat');
-    if(chat.lastChild) chat.removeChild(chat.lastChild);
-    if(data.content&&data.content[0]) addBearMsg(data.content[0].text.replace(/\n/g,'<br>'));
-    else if(data.error) addBearMsg('❌ Erro: '+data.error.message);
-  }catch(e){
-    const chat=document.getElementById('exp-chat');
-    if(chat.lastChild) chat.removeChild(chat.lastChild);
-    addBearMsg('❌ Erro de conexão. Verifique sua chave no Admin.');
-  }
-  showOpts([{l:'💬 Outra pergunta',a:()=>askAI()},{l:'⚛️ Buscar elemento',a:()=>askEl('part')},{l:'🔗 Junção',a:()=>askComp()},{l:'🔄 Recomeçar',a:()=>{expState='menu';document.getElementById('exp-chat').innerHTML='';initExp();}}]);
-}
-function addBearMsg(t){const d=document.createElement('div');d.className='exp-msg bear';d.innerHTML=t;document.getElementById('exp-chat').appendChild(d);document.getElementById('exp-chat').scrollTop=9999;}
-function addUserMsg(t){const d=document.createElement('div');d.className='exp-msg user';d.textContent=t;document.getElementById('exp-chat').appendChild(d);document.getElementById('exp-chat').scrollTop=9999;}
-function showOpts(opts){ const w=document.getElementById('exp-options-wrap'); document.getElementById('exp-input-row').style.display='none'; w.innerHTML=''; opts.forEach(o=>{const b=document.createElement('button');b.className='exp-opt';b.textContent=o.l;b.onclick=o.a;w.appendChild(b);}); }
-function showInp(ph){ document.getElementById('exp-options-wrap').innerHTML=''; document.getElementById('exp-input-row').style.display='flex'; const inp=document.getElementById('exp-input'); inp.placeholder=ph||'Símbolo (ex: Na)'; inp.value=''; inp.focus(); }
-function askEl(type){ const labels={'part':'Prótons, nêutrons e elétrons','prop':'Propriedades','conf':'Configuração eletrônica'}; addUserMsg(labels[type]); expState=type; addBearMsg('Qual elemento? Digite o símbolo ou o nome completo:'); showInp('Ex: H, Na, Sódio, Ferro, Ouro...'); }
-function askComp(){ addUserMsg('Junção de dois elementos'); expState='comp'; addBearMsg('Digite os dois elementos separados por + — ex: Na + Cl ou Sódio + Cloro'); showInp('Ex: Na + Cl ou Sódio + Cloro'); }
-function findEl(s){ const q=s.trim().toLowerCase().replace(/[^a-záàãâéêíóôõúüç]/gi,''); return ELS.find(e=>e.sym.toLowerCase()===q||e.name.toLowerCase()===q||e.name.toLowerCase().startsWith(q)&&q.length>=3); }
-function expSubmit(){
-  const v=document.getElementById('exp-input').value.trim(); if(!v)return; document.getElementById('exp-input').value='';
-  if(expState==='ai'){ addUserMsg(v); sendToAI(v); return; }
-  if(expState==='comp'){ addUserMsg(v); handleComp(v); }
-  else{
-    addUserMsg(v);
-    const el=findEl(v);
-    if(!el){ addBearMsg('Hmm, não encontrei esse elemento. Tente o símbolo (Na, Fe, O) ou nome completo.'); showInp(); return; }
-    if(expState==='part') showPart(el); else if(expState==='prop') showProp(el); else if(expState==='conf') showConf(el);
-  }
-}
-function showPart(el){ const n=Math.round(el.mass)-el.z; addBearMsg(`<strong>${el.name} (${el.sym})</strong><br><br>⚡ Prótons: <strong>${el.z} p⁺</strong><br>⚪ Nêutrons: <strong>≈${n} n⁰</strong><br>🔵 Elétrons: <strong>${el.z} e⁻</strong>`); showMenu(); }
-function showProp(el){ addBearMsg(`<strong>${el.name} (${el.sym})</strong><br><br>Categoria: <strong>${CAT_L[el.cat]||el.cat}</strong><br>Grupo: <strong>${el.g}</strong> | Período: <strong>${el.p}</strong><br>Massa: <strong>${el.mass} u</strong> | Z: <strong>${el.z}</strong>`); showMenu(); }
-function showConf(el){
-  const shells=[2,8,18,32,32,18,8]; let rem=el.z,layers=[];
-  for(const s of shells){ if(rem<=0)break; const n=Math.min(rem,s); layers.push(n); rem-=n; }
-  const conf=layers.map((n,i)=>`Camada ${i+1}: <strong>${n} e⁻</strong>`).join('<br>');
-  addBearMsg(`<strong>Config. eletrônica do ${el.name}:</strong><br><br>${conf}<br><br>Elétrons de valência: <strong>${layers[layers.length-1]}</strong>`); showMenu();
-}
-function handleComp(v){
-  const parts=v.split('+').map(s=>s.trim());
-  if(parts.length!==2){ addBearMsg('Use o formato: Símbolo + Símbolo (ex: Na + Cl)'); showInp(); return; }
-  const e1=findEl(parts[0]), e2=findEl(parts[1]);
-  if(!e1||!e2){ addBearMsg('Um dos elementos não foi encontrado. Tente novamente.'); showInp(); return; }
-  const key=`${e1.sym}+${e2.sym}`;
-  const known={'Na+Cl':{f:'NaCl',n:'Cloreto de sódio',t:'Sal de cozinha — ligação iônica'},'H+O':{f:'H₂O',n:'Água',t:'Ligação covalente polar'},'C+O':{f:'CO₂',n:'Dióxido de carbono',t:'Ligação covalente apolar (linear)'},'N+H':{f:'NH₃',n:'Amônia',t:'Ligação covalente polar (piramidal)'},'Ca+Cl':{f:'CaCl₂',n:'Cloreto de cálcio',t:'Ligação iônica'}};
-  const comp=known[key]||known[`${e2.sym}+${e1.sym}`];
-  if(comp) addBearMsg(`<strong>${e1.name} + ${e2.name}</strong><br><br>Fórmula: <strong>${comp.f}</strong><br>Nome: <strong>${comp.n}</strong><br><br>${comp.t}`);
-  else addBearMsg(`<strong>${e1.name} + ${e2.name}</strong><br><br>Não tenho uma fórmula pronta, mas posso sugerir uma combinação: ${autoCompound(e1,e2)}`);
-  showMenu();
-}
-function getValences(el){
-  const v={'alkali':[1],'alkaline':[2],'halogen':[1],'noble':[0],'nonmetal':{'H':[1],'O':[2],'N':[3,5],'P':[3,5],'S':[2,4,6],'C':[4]},'metalloid':{'B':[3],'Si':[4]},'transition':{'Fe':[2,3],'Cu':[1,2],'Zn':[2],'Mn':[2,4,7],'Cr':[3,6],'Co':[2,3],'Ni':[2],'Ag':[1],'Au':[1,3],'Hg':[1,2]},'post-transition':{'Al':[3],'Sn':[2,4],'Pb':[2,4]}};
-  const cat=v[el.cat];
-  if(Array.isArray(cat)) return cat;
-  if(cat&&cat[el.sym]) return cat[el.sym];
-  return [el.g<=12?el.g:el.g-10];
-}
-function mmc(a,b){ let x=a,y=b; while(y){ let t=y; y=x%y; x=t; } return a*b/x; }
-function autoCompound(e1,e2){
-  const v1=getValences(e1)[0], v2=getValences(e2)[0];
-  if(!v1||!v2||v1===0||v2===0) return 'Esses elementos raramente reagem entre si.';
-  const m=mmc(v1,v2); const n1=m/v1,n2=m/v2;
-  const s1=n1===1?e1.sym:e1.sym+(n1>1?'<sub>'+n1+'</sub>':'');
-  const s2=n2===1?e2.sym:e2.sym+(n2>1?'<sub>'+n2+'</sub>':'');
-  const tipo=((e1.cat==='alkali'||e1.cat==='alkaline'||e1.cat==='transition'||e1.cat==='post-transition')&&(e2.cat==='nonmetal'||e2.cat==='halogen'))?'Ligação iônica (metal + não-metal)':(e1.cat==='nonmetal'||e2.cat==='nonmetal')?'Ligação covalente (não-metal + não-metal)':'Ligação metálica ou iônica';
-  return `Fórmula provável: <strong>${s1}${s2}</strong><br>Valências: ${e1.sym}=${v1}, ${e2.sym}=${v2}<br>Tipo: <strong>${tipo}</strong><br><small style="color:var(--muted2)">⚠️ Fórmula calculada automaticamente.</small>`;
-}
-function showMenu(){ addBearMsg('Quer explorar mais?'); showOpts([{l:'⚛️ Outro elemento',a:()=>askEl('part')},{l:'🔗 Junção',a:()=>askComp()},{l:'📋 Propriedades',a:()=>askEl('prop')},{l:'🔄 Recomeçar',a:()=>{expState='menu';document.getElementById('exp-chat').innerHTML='';initExp();}}]); }
-document.addEventListener('keydown',e=>{ if(document.activeElement===document.getElementById('exp-input')&&e.key==='Enter') expSubmit(); });
 
-// ══ ADMIN ══
-function openAdminOverlay(){ if(isAdmin){ goPage('page-admin'); return; } document.getElementById('admin-pw').value=''; document.getElementById('admin-err').style.display='none'; document.getElementById('overlay-admin').classList.add('show'); }
-function closeAdminOverlay(){ document.getElementById('overlay-admin').classList.remove('show'); }
-function checkAdmin(){ const pw=document.getElementById('admin-pw').value; if(pw==='123'){ isAdmin=true; closeAdminOverlay(); goPage('page-admin'); } else { document.getElementById('admin-err').style.display='block'; } }
-function adminLogout(){ isAdmin=false; goPage('page-home'); }
-function adminUnlockAll(){ ALL.forEach(t=>done.add(t.id)); xp=ALL.reduce((s,t)=>s+t.xp,0); save(); renderMap(); showToast('Todos os módulos desbloqueados!'); }
-function adminResetAll(){
-  const btn=document.getElementById('btn-reset-all');
-  if(btn.dataset.confirm!=='yes'){
-    btn.textContent='⚠️ Tem certeza? Clique de novo para confirmar!';
-    btn.style.background='rgba(239,68,68,.2)';
-    btn.style.borderColor='#ef4444';
-    btn.style.color='#fca5a5';
-    btn.dataset.confirm='yes';
-    setTimeout(()=>{ btn.textContent='🗑 Apagar tudo e começar do zero'; btn.style.background=''; btn.style.borderColor=''; btn.style.color=''; btn.dataset.confirm=''; },3000);
+function askAI() {
+  addUserMsg('Perguntar à IA');
+  expState = 'ai';
+  addBearMsg('Pode perguntar qualquer coisa sobre química! 🧪');
+  showInp('Ex: O que é uma reação exotérmica?');
+}
+
+async function sendToAI(question) {
+  const key = localStorage.getItem('lq_apikey');
+  if (!key) {
+    addBearMsg('Chave de API não encontrada. Configure no Admin!');
+    showMenu();
     return;
   }
-  done.clear(); xp=0; totalAcc=0; totalResp=0; modScores={}; save(); renderMap(); renderHome(); renderAdmin(); showToast('✓ Tudo apagado!');
+  addBearMsg('Pensando... 🤔');
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': key,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 400,
+        system: 'Você é um ursinho cientista simpático que ensina química de forma didática e simples. Responda sempre em português, de forma clara e concisa. Use emojis ocasionalmente. Foque apenas em química. Se perguntarem algo fora de química, redirecione gentilmente.',
+        messages: [{ role: 'user', content: question }]
+      })
+    });
+    const data = await res.json();
+    const chat = document.getElementById('exp-chat');
+    if (chat.lastChild) chat.removeChild(chat.lastChild);
+    if (data.content && data.content[0]) {
+      addBearMsg(data.content[0].text.replace(/\n/g, '<br>'));
+    } else if (data.error) {
+      addBearMsg('❌ Erro: ' + data.error.message);
+    }
+  } catch (e) {
+    const chat = document.getElementById('exp-chat');
+    if (chat.lastChild) chat.removeChild(chat.lastChild);
+    addBearMsg('❌ Erro de conexão. Verifique sua chave no Admin.');
+  }
+  showOpts([
+    { l: '💬 Outra pergunta', a: () => askAI() },
+    { l: '⚛️ Buscar elemento', a: () => askEl('part') },
+    { l: '🔗 Junção', a: () => askComp() },
+    { l: '🔄 Recomeçar', a: () => { expState = 'menu'; document.getElementById('exp-chat').innerHTML = ''; initExp(); } }
+  ]);
 }
-function toggleResetList(){
-  const list=document.getElementById('reset-list');
-  if(list.style.display==='flex'){ list.style.display='none'; return; }
-  list.innerHTML=ALL.map(t=>`<button class="admin-btn danger" style="font-size:11px;padding:8px 12px" onclick="adminResetModule('${t.id}')">${t.emoji} ${t.label}</button>`).join('');
-  list.style.display='flex';
+
+function addBearMsg(t) {
+  const d = document.createElement('div');
+  d.className = 'exp-msg bear';
+  d.innerHTML = t;
+  document.getElementById('exp-chat').appendChild(d);
+  document.getElementById('exp-chat').scrollTop = 9999;
 }
-function adminResetModule(id){ const t=ALL.find(x=>x.id===id); if(!t)return; done.delete(t.id); delete modScores[t.id]; xp=Math.max(0,xp-t.xp); save(); renderMap(); renderAdmin(); document.getElementById('reset-list').style.display='none'; showToast('🔄 "'+t.label+'" resetado!'); }
-function saveApiKey(){
-  const k=document.getElementById('api-key-input').value.trim();
-  if(!k.startsWith('sk-ant-')){ document.getElementById('api-key-input').style.borderColor='var(--red)'; document.getElementById('api-key-status').innerHTML='<span style="color:var(--red)">❌ Chave inválida. Deve começar com sk-ant-</span>'; return; }
-  localStorage.setItem('lq_apikey',k);
-  document.getElementById('api-key-status').innerHTML='<span style="color:var(--green)">✓ Chave salva! IA ativada.</span>';
-  document.getElementById('api-key-input').value='';
+function addUserMsg(t) {
+  const d = document.createElement('div');
+  d.className = 'exp-msg user';
+  d.textContent = t;
+  document.getElementById('exp-chat').appendChild(d);
+  document.getElementById('exp-chat').scrollTop = 9999;
+}
+function showOpts(opts) {
+  const w = document.getElementById('exp-options-wrap');
+  document.getElementById('exp-input-row').style.display = 'none';
+  w.innerHTML = '';
+  opts.forEach(o => {
+    const b = document.createElement('button');
+    b.className = 'exp-opt';
+    b.textContent = o.l;
+    b.onclick = o.a;
+    w.appendChild(b);
+  });
+}
+function showInp(ph) {
+  document.getElementById('exp-options-wrap').innerHTML = '';
+  document.getElementById('exp-input-row').style.display = 'flex';
+  const inp = document.getElementById('exp-input');
+  inp.placeholder = ph || 'Símbolo (ex: Na)';
+  inp.value = '';
+  inp.focus();
+}
+function askEl(type) {
+  const labels = { part: 'Prótons, nêutrons e elétrons', prop: 'Propriedades', conf: 'Configuração eletrônica' };
+  addUserMsg(labels[type]);
+  expState = type;
+  addBearMsg('Qual elemento? Digite o símbolo ou o nome completo:');
+  showInp('Ex: H, Na, Sódio, Ferro, Ouro...');
+}
+function askComp() {
+  addUserMsg('Junção de dois elementos');
+  expState = 'comp';
+  addBearMsg('Digite os dois elementos separados por + — ex: Na + Cl ou Sódio + Cloro');
+  showInp('Ex: Na + Cl ou Sódio + Cloro');
+}
+function findEl(s) {
+  const q = s.trim().toLowerCase().replace(/[^a-záàãâéêíóôõúüç]/gi, '');
+  return ELS.find(e => e.sym.toLowerCase() === q || e.name.toLowerCase() === q || (e.name.toLowerCase().startsWith(q) && q.length >= 3));
+}
+function expSubmit() {
+  const v = document.getElementById('exp-input').value.trim();
+  if (!v) return;
+  document.getElementById('exp-input').value = '';
+  if (expState === 'ai') {
+    addUserMsg(v);
+    sendToAI(v);
+    return;
+  }
+  if (expState === 'comp') {
+    addUserMsg(v);
+    handleComp(v);
+    return;
+  }
+  addUserMsg(v);
+  const el = findEl(v);
+  if (!el) {
+    addBearMsg('Hmm, não encontrei esse elemento. Tente o símbolo (Na, Fe, O) ou nome completo.');
+    showInp();
+    return;
+  }
+  if (expState === 'part') showPart(el);
+  else if (expState === 'prop') showProp(el);
+  else if (expState === 'conf') showConf(el);
+}
+function showPart(el) {
+  const n = Math.round(el.mass) - el.z;
+  addBearMsg(`<strong>${el.name} (${el.sym})</strong><br><br>⚡ Prótons: <strong>${el.z} p⁺</strong><br>⚪ Nêutrons: <strong>≈${n} n⁰</strong><br>🔵 Elétrons: <strong>${el.z} e⁻</strong>`);
+  showMenu();
+}
+function showProp(el) {
+  addBearMsg(`<strong>${el.name} (${el.sym})</strong><br><br>Categoria: <strong>${CAT_L[el.cat] || el.cat}</strong><br>Grupo: <strong>${el.g}</strong> | Período: <strong>${el.p}</strong><br>Massa: <strong>${el.mass} u</strong> | Z: <strong>${el.z}</strong>`);
+  showMenu();
+}
+function showConf(el) {
+  const shells = [2, 8, 18, 32, 32, 18, 8];
+  let rem = el.z, layers = [];
+  for (const s of shells) {
+    if (rem <= 0) break;
+    const n = Math.min(rem, s);
+    layers.push(n);
+    rem -= n;
+  }
+  const conf = layers.map((n, i) => `Camada ${i+1}: <strong>${n} e⁻</strong>`).join('<br>');
+  addBearMsg(`<strong>Config. eletrônica do ${el.name}:</strong><br><br>${conf}<br><br>Elétrons de valência: <strong>${layers[layers.length-1]}</strong>`);
+  showMenu();
+}
+function handleComp(v) {
+  const parts = v.split('+').map(s => s.trim());
+  if (parts.length !== 2) {
+    addBearMsg('Use o formato: Símbolo + Símbolo (ex: Na + Cl)');
+    showInp();
+    return;
+  }
+  const e1 = findEl(parts[0]), e2 = findEl(parts[1]);
+  if (!e1 || !e2) {
+    addBearMsg('Um dos elementos não foi encontrado. Tente novamente.');
+    showInp();
+    return;
+  }
+  const key = e1.sym + '+' + e2.sym;
+  const known = {
+    'Na+Cl': { f: 'NaCl', n: 'Cloreto de sódio', t: 'Sal de cozinha — ligação iônica' },
+    'H+O': { f: 'H₂O', n: 'Água', t: 'Ligação covalente polar' },
+    'C+O': { f: 'CO₂', n: 'Dióxido de carbono', t: 'Ligação covalente apolar (linear)' },
+    'N+H': { f: 'NH₃', n: 'Amônia', t: 'Ligação covalente polar (piramidal)' },
+    'Ca+Cl': { f: 'CaCl₂', n: 'Cloreto de cálcio', t: 'Ligação iônica' }
+  };
+  const comp = known[key] || known[e2.sym + '+' + e1.sym];
+  if (comp) {
+    addBearMsg(`<strong>${e1.name} + ${e2.name}</strong><br><br>Fórmula: <strong>${comp.f}</strong><br>Nome: <strong>${comp.n}</strong><br><br>${comp.t}`);
+  } else {
+    addBearMsg(`<strong>${e1.name} + ${e2.name}</strong><br><br>Não tenho uma fórmula pronta, mas posso sugerir uma combinação: ${autoCompound(e1,e2)}`);
+  }
+  showMenu();
+}
+function getValences(el) {
+  const v = {
+    alkali: [1], alkaline: [2], halogen: [1], noble: [0],
+    nonmetal: { H: [1], O: [2], N: [3,5], P: [3,5], S: [2,4,6], C: [4] },
+    metalloid: { B: [3], Si: [4] },
+    transition: { Fe: [2,3], Cu: [1,2], Zn: [2], Mn: [2,4,7], Cr: [3,6], Co: [2,3], Ni: [2], Ag: [1], Au: [1,3], Hg: [1,2] },
+    'post-transition': { Al: [3], Sn: [2,4], Pb: [2,4] }
+  };
+  const cat = v[el.cat];
+  if (Array.isArray(cat)) return cat;
+  if (cat && cat[el.sym]) return cat[el.sym];
+  return [el.g <= 12 ? el.g : el.g - 10];
+}
+function mmc(a, b) {
+  let x = a, y = b;
+  while (y) { let t = y; y = x % y; x = t; }
+  return a * b / x;
+}
+function autoCompound(e1, e2) {
+  const v1 = getValences(e1)[0], v2 = getValences(e2)[0];
+  if (!v1 || !v2 || v1 === 0 || v2 === 0) return 'Esses elementos raramente reagem entre si.';
+  const m = mmc(v1, v2);
+  const n1 = m / v1, n2 = m / v2;
+  const s1 = n1 === 1 ? e1.sym : e1.sym + (n1 > 1 ? '<sub>' + n1 + '</sub>' : '');
+  const s2 = n2 === 1 ? e2.sym : e2.sym + (n2 > 1 ? '<sub>' + n2 + '</sub>' : '');
+  const tipo = ((e1.cat === 'alkali' || e1.cat === 'alkaline' || e1.cat === 'transition' || e1.cat === 'post-transition') &&
+    (e2.cat === 'nonmetal' || e2.cat === 'halogen')) ?
+    'Ligação iônica (metal + não-metal)' :
+    (e1.cat === 'nonmetal' || e2.cat === 'nonmetal') ?
+      'Ligação covalente (não-metal + não-metal)' :
+      'Ligação metálica ou iônica';
+  return `Fórmula provável: <strong>${s1}${s2}</strong><br>Valências: ${e1.sym}=${v1}, ${e2.sym}=${v2}<br>Tipo: <strong>${tipo}</strong><br><small style="color:var(--muted2)">⚠️ Fórmula calculada automaticamente.</small>`;
+}
+function showMenu() {
+  addBearMsg('Quer explorar mais?');
+  showOpts([
+    { l: '⚛️ Outro elemento', a: () => askEl('part') },
+    { l: '🔗 Junção', a: () => askComp() },
+    { l: '📋 Propriedades', a: () => askEl('prop') },
+    { l: '🔄 Recomeçar', a: () => { expState = 'menu'; document.getElementById('exp-chat').innerHTML = ''; initExp(); } }
+  ]);
+}
+document.addEventListener('keydown', e => {
+  if (document.activeElement === document.getElementById('exp-input') && e.key === 'Enter') expSubmit();
+});
+
+// ════════════════════════════════════════════════════════════════
+//  13. ADMIN
+// ════════════════════════════════════════════════════════════════
+
+function openAdminOverlay() {
+  if (isAdmin) { goPage('page-admin'); return; }
+  document.getElementById('admin-pw').value = '';
+  document.getElementById('admin-err').style.display = 'none';
+  document.getElementById('overlay-admin').classList.add('show');
+}
+function closeAdminOverlay() {
+  document.getElementById('overlay-admin').classList.remove('show');
+}
+function checkAdmin() {
+  const pw = document.getElementById('admin-pw').value;
+  if (pw === '123') {
+    isAdmin = true;
+    closeAdminOverlay();
+    goPage('page-admin');
+  } else {
+    document.getElementById('admin-err').style.display = 'block';
+  }
+}
+function adminLogout() {
+  isAdmin = false;
+  goPage('page-home');
+}
+function adminUnlockAll() {
+  ALL.forEach(t => done.add(t.id));
+  xp = ALL.reduce((s, t) => s + t.xp, 0);
+  save();
+  renderMap();
+  showToast('Todos os módulos desbloqueados!');
+}
+function adminResetAll() {
+  const btn = document.getElementById('btn-reset-all');
+  if (btn.dataset.confirm !== 'yes') {
+    btn.textContent = '⚠️ Tem certeza? Clique de novo para confirmar!';
+    btn.style.background = 'rgba(239,68,68,.2)';
+    btn.style.borderColor = '#ef4444';
+    btn.style.color = '#fca5a5';
+    btn.dataset.confirm = 'yes';
+    setTimeout(() => {
+      btn.textContent = '🗑 Apagar tudo e começar do zero';
+      btn.style.background = '';
+      btn.style.borderColor = '';
+      btn.style.color = '';
+      btn.dataset.confirm = '';
+    }, 3000);
+    return;
+  }
+  done.clear();
+  xp = 0;
+  totalAcc = 0;
+  totalResp = 0;
+  modScores = {};
+  save();
+  renderMap();
+  renderHome();
+  renderAdmin();
+  showToast('✓ Tudo apagado!');
+}
+function toggleResetList() {
+  const list = document.getElementById('reset-list');
+  if (list.style.display === 'flex') { list.style.display = 'none'; return; }
+  list.innerHTML = ALL.map(t =>
+    `<button class="admin-btn danger" style="font-size:11px;padding:8px 12px" onclick="adminResetModule('${t.id}')">${t.emoji} ${t.label}</button>`
+  ).join('');
+  list.style.display = 'flex';
+}
+function adminResetModule(id) {
+  const t = ALL.find(x => x.id === id);
+  if (!t) return;
+  done.delete(t.id);
+  delete modScores[t.id];
+  xp = Math.max(0, xp - t.xp);
+  save();
+  renderMap();
+  renderAdmin();
+  document.getElementById('reset-list').style.display = 'none';
+  showToast('🔄 "' + t.label + '" resetado!');
+}
+function saveApiKey() {
+  const k = document.getElementById('api-key-input').value.trim();
+  if (!k.startsWith('sk-ant-')) {
+    document.getElementById('api-key-input').style.borderColor = 'var(--red)';
+    document.getElementById('api-key-status').innerHTML = '<span style="color:var(--red)">❌ Chave inválida. Deve começar com sk-ant-</span>';
+    return;
+  }
+  localStorage.setItem('lq_apikey', k);
+  document.getElementById('api-key-status').innerHTML = '<span style="color:var(--green)">✓ Chave salva! IA ativada.</span>';
+  document.getElementById('api-key-input').value = '';
   showToast('🤖 Mini IA ativada!');
 }
-function removeApiKey(){ localStorage.removeItem('lq_apikey'); document.getElementById('api-key-status').innerHTML='<span style="color:var(--muted2)">Chave removida.</span>'; showToast('Chave removida.'); }
-function renderAdmin(){
-  const wrap=document.getElementById('admin-modules');
-  wrap.innerHTML=ALL.map(t=>{
-    const sc=modScores[t.id]; const isDone=done.has(t.id);
-    const badge=isDone?'<span class="admin-badge badge-pass">aprovado</span>':sc!==undefined?`<span class="admin-badge badge-fail">${sc}/5 acertos</span>`:'<span class="admin-badge badge-pend">pendente</span>';
-    return `<div class="student-row"><div><div class="student-name">${t.emoji} ${t.label}</div><div class="student-score">${sc!==undefined?sc+' acerto(s)':'não respondido'}</div></div>${badge}</div>`;
+function removeApiKey() {
+  localStorage.removeItem('lq_apikey');
+  document.getElementById('api-key-status').innerHTML = '<span style="color:var(--muted2)">Chave removida.</span>';
+  showToast('Chave removida.');
+}
+function renderAdmin() {
+  const wrap = document.getElementById('admin-modules');
+  wrap.innerHTML = ALL.map(t => {
+    const sc = modScores[t.id];
+    const isDone = done.has(t.id);
+    const badge = isDone ? '<span class="admin-badge badge-pass">aprovado</span>' :
+      sc !== undefined ? `<span class="admin-badge badge-fail">${sc}/5 acertos</span>` :
+      '<span class="admin-badge badge-pend">pendente</span>';
+    return `<div class="student-row">
+      <div>
+        <div class="student-name">${t.emoji} ${t.label}</div>
+        <div class="student-score">${sc !== undefined ? sc + ' acerto(s)' : 'não respondido'}</div>
+      </div>
+      ${badge}
+    </div>`;
   }).join('');
-  const hasKey=!!localStorage.getItem('lq_apikey');
-  document.getElementById('api-key-status').innerHTML=hasKey?'<span style="color:var(--green)">✓ Chave configurada — IA ativa!</span>':'<span style="color:var(--muted2)">Nenhuma chave configurada.</span>';
+  const hasKey = !!localStorage.getItem('lq_apikey');
+  document.getElementById('api-key-status').innerHTML = hasKey ?
+    '<span style="color:var(--green)">✓ Chave configurada — IA ativa!</span>' :
+    '<span style="color:var(--muted2)">Nenhuma chave configurada.</span>';
 }
 
-// ══ TOAST ══
-function showToast(m){ const t=document.getElementById('toast'); t.textContent=m; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2400); }
+// ════════════════════════════════════════════════════════════════
+//  14. TOAST
+// ════════════════════════════════════════════════════════════════
 
-// ══ INIT ══
+function showToast(m) {
+  const t = document.getElementById('toast');
+  t.textContent = m;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2400);
+}
+
+// ════════════════════════════════════════════════════════════════
+//  15. INICIALIZAÇÃO
+// ════════════════════════════════════════════════════════════════
+
 renderHome();
 renderMap();
