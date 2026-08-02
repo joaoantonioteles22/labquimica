@@ -169,29 +169,7 @@ function getTabelaQuest() {
 }
 
 // ════════════════════════════════════════════════════════════════
-//  3. ESTADO E CONFIGURAÇÕES
-// ════════════════════════════════════════════════════════════════
-
-let done = new Set(JSON.parse(localStorage.getItem('lq_done') || '[]'));
-let xp = parseInt(localStorage.getItem('lq_xp') || '0');
-let totalAcc = parseInt(localStorage.getItem('lq_acc') || '0');
-let totalResp = parseInt(localStorage.getItem('lq_resp') || '0');
-let modScores = JSON.parse(localStorage.getItem('lq_scores') || '{}');
-let isAdmin = false;
-let curMod = null;
-let curQ = 0;
-let answers = [];
-
-function save() {
-  localStorage.setItem('lq_done', JSON.stringify([...done]));
-  localStorage.setItem('lq_xp', xp);
-  localStorage.setItem('lq_acc', totalAcc);
-  localStorage.setItem('lq_resp', totalResp);
-  localStorage.setItem('lq_scores', JSON.stringify(modScores));
-}
-
-// ════════════════════════════════════════════════════════════════
-//  4. DEFINIÇÃO DOS MÓDULOS
+//  3. DEFINIÇÃO DOS MÓDULOS (AREAS)
 // ════════════════════════════════════════════════════════════════
 
 const AREAS = [
@@ -238,8 +216,8 @@ const AREAS = [
     ]
   }
 ];
-const ALL = AREAS.flatMap(a => a.tiles);
 
+const ALL = AREAS.flatMap(a => a.tiles);
 // ════════════════════════════════════════════════════════════════
 //  5. NAVEGAÇÃO
 // ════════════════════════════════════════════════════════════════
