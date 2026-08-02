@@ -225,6 +225,10 @@ function explorarModulos() {
     foguete.classList.add('foguete-sobe');
     setTimeout(() => {
       goPage('page-mapa');
+      // Força a renderização do mapa depois de um pequeno atraso
+      setTimeout(() => {
+        renderMap();
+      }, 100);
     }, 1000);
   } else {
     goPage('page-mapa');
