@@ -1,215 +1,57 @@
 // ════════════════════════════════════════════════════════════════
-//  1. DADOS DA TABELA PERIÓDICA (118 elementos)
-// ════════════════════════════════════════════════════════════════
-
-const ELS = [
-  {z:1,sym:'H',name:'Hidrogênio',mass:1.008,row:1,col:1,p:1,g:1,cat:'nonmetal'},
-  {z:2,sym:'He',name:'Hélio',mass:4.003,row:1,col:18,p:1,g:18,cat:'noble'},
-  {z:3,sym:'Li',name:'Lítio',mass:6.941,row:2,col:1,p:2,g:1,cat:'alkali'},
-  {z:4,sym:'Be',name:'Berílio',mass:9.012,row:2,col:2,p:2,g:2,cat:'alkaline'},
-  {z:5,sym:'B',name:'Boro',mass:10.81,row:2,col:13,p:2,g:13,cat:'metalloid'},
-  {z:6,sym:'C',name:'Carbono',mass:12.011,row:2,col:14,p:2,g:14,cat:'nonmetal'},
-  {z:7,sym:'N',name:'Nitrogênio',mass:14.007,row:2,col:15,p:2,g:15,cat:'nonmetal'},
-  {z:8,sym:'O',name:'Oxigênio',mass:15.999,row:2,col:16,p:2,g:16,cat:'nonmetal'},
-  {z:9,sym:'F',name:'Flúor',mass:18.998,row:2,col:17,p:2,g:17,cat:'halogen'},
-  {z:10,sym:'Ne',name:'Neônio',mass:20.18,row:2,col:18,p:2,g:18,cat:'noble'},
-  {z:11,sym:'Na',name:'Sódio',mass:22.99,row:3,col:1,p:3,g:1,cat:'alkali'},
-  {z:12,sym:'Mg',name:'Magnésio',mass:24.305,row:3,col:2,p:3,g:2,cat:'alkaline'},
-  {z:13,sym:'Al',name:'Alumínio',mass:26.982,row:3,col:13,p:3,g:13,cat:'post-transition'},
-  {z:14,sym:'Si',name:'Silício',mass:28.086,row:3,col:14,p:3,g:14,cat:'metalloid'},
-  {z:15,sym:'P',name:'Fósforo',mass:30.974,row:3,col:15,p:3,g:15,cat:'nonmetal'},
-  {z:16,sym:'S',name:'Enxofre',mass:32.065,row:3,col:16,p:3,g:16,cat:'nonmetal'},
-  {z:17,sym:'Cl',name:'Cloro',mass:35.453,row:3,col:17,p:3,g:17,cat:'halogen'},
-  {z:18,sym:'Ar',name:'Argônio',mass:39.948,row:3,col:18,p:3,g:18,cat:'noble'},
-  {z:19,sym:'K',name:'Potássio',mass:39.098,row:4,col:1,p:4,g:1,cat:'alkali'},
-  {z:20,sym:'Ca',name:'Cálcio',mass:40.078,row:4,col:2,p:4,g:2,cat:'alkaline'},
-  {z:21,sym:'Sc',name:'Escândio',mass:44.956,row:4,col:3,p:4,g:3,cat:'transition'},
-  {z:22,sym:'Ti',name:'Titânio',mass:47.867,row:4,col:4,p:4,g:4,cat:'transition'},
-  {z:23,sym:'V',name:'Vanádio',mass:50.942,row:4,col:5,p:4,g:5,cat:'transition'},
-  {z:24,sym:'Cr',name:'Cromo',mass:51.996,row:4,col:6,p:4,g:6,cat:'transition'},
-  {z:25,sym:'Mn',name:'Manganês',mass:54.938,row:4,col:7,p:4,g:7,cat:'transition'},
-  {z:26,sym:'Fe',name:'Ferro',mass:55.845,row:4,col:8,p:4,g:8,cat:'transition'},
-  {z:27,sym:'Co',name:'Cobalto',mass:58.933,row:4,col:9,p:4,g:9,cat:'transition'},
-  {z:28,sym:'Ni',name:'Níquel',mass:58.693,row:4,col:10,p:4,g:10,cat:'transition'},
-  {z:29,sym:'Cu',name:'Cobre',mass:63.546,row:4,col:11,p:4,g:11,cat:'transition'},
-  {z:30,sym:'Zn',name:'Zinco',mass:65.38,row:4,col:12,p:4,g:12,cat:'transition'},
-  {z:31,sym:'Ga',name:'Gálio',mass:69.723,row:4,col:13,p:4,g:13,cat:'post-transition'},
-  {z:32,sym:'Ge',name:'Germânio',mass:72.63,row:4,col:14,p:4,g:14,cat:'metalloid'},
-  {z:33,sym:'As',name:'Arsênio',mass:74.922,row:4,col:15,p:4,g:15,cat:'metalloid'},
-  {z:34,sym:'Se',name:'Selênio',mass:78.96,row:4,col:16,p:4,g:16,cat:'nonmetal'},
-  {z:35,sym:'Br',name:'Bromo',mass:79.904,row:4,col:17,p:4,g:17,cat:'halogen'},
-  {z:36,sym:'Kr',name:'Criptônio',mass:83.798,row:4,col:18,p:4,g:18,cat:'noble'},
-  {z:37,sym:'Rb',name:'Rubídio',mass:85.468,row:5,col:1,p:5,g:1,cat:'alkali'},
-  {z:38,sym:'Sr',name:'Estrôncio',mass:87.62,row:5,col:2,p:5,g:2,cat:'alkaline'},
-  {z:39,sym:'Y',name:'Ítrio',mass:88.906,row:5,col:3,p:5,g:3,cat:'transition'},
-  {z:40,sym:'Zr',name:'Zircônio',mass:91.224,row:5,col:4,p:5,g:4,cat:'transition'},
-  {z:41,sym:'Nb',name:'Nióbio',mass:92.906,row:5,col:5,p:5,g:5,cat:'transition'},
-  {z:42,sym:'Mo',name:'Molibdênio',mass:95.95,row:5,col:6,p:5,g:6,cat:'transition'},
-  {z:43,sym:'Tc',name:'Tecnécio',mass:98,row:5,col:7,p:5,g:7,cat:'transition'},
-  {z:44,sym:'Ru',name:'Rutênio',mass:101.07,row:5,col:8,p:5,g:8,cat:'transition'},
-  {z:45,sym:'Rh',name:'Ródio',mass:102.91,row:5,col:9,p:5,g:9,cat:'transition'},
-  {z:46,sym:'Pd',name:'Paládio',mass:106.42,row:5,col:10,p:5,g:10,cat:'transition'},
-  {z:47,sym:'Ag',name:'Prata',mass:107.87,row:5,col:11,p:5,g:11,cat:'transition'},
-  {z:48,sym:'Cd',name:'Cádmio',mass:112.41,row:5,col:12,p:5,g:12,cat:'transition'},
-  {z:49,sym:'In',name:'Índio',mass:114.82,row:5,col:13,p:5,g:13,cat:'post-transition'},
-  {z:50,sym:'Sn',name:'Estanho',mass:118.71,row:5,col:14,p:5,g:14,cat:'post-transition'},
-  {z:51,sym:'Sb',name:'Antimônio',mass:121.76,row:5,col:15,p:5,g:15,cat:'metalloid'},
-  {z:52,sym:'Te',name:'Telúrio',mass:127.6,row:5,col:16,p:5,g:16,cat:'metalloid'},
-  {z:53,sym:'I',name:'Iodo',mass:126.9,row:5,col:17,p:5,g:17,cat:'halogen'},
-  {z:54,sym:'Xe',name:'Xenônio',mass:131.29,row:5,col:18,p:5,g:18,cat:'noble'},
-  {z:55,sym:'Cs',name:'Césio',mass:132.91,row:6,col:1,p:6,g:1,cat:'alkali'},
-  {z:56,sym:'Ba',name:'Bário',mass:137.33,row:6,col:2,p:6,g:2,cat:'alkaline'},
-  {z:57,sym:'La',name:'Lantânio',mass:138.91,row:6,col:3,p:6,g:3,cat:'lanthanide'},
-  {z:58,sym:'Ce',name:'Cério',mass:140.12,row:6,col:4,p:6,g:4,cat:'lanthanide'},
-  {z:59,sym:'Pr',name:'Praseodímio',mass:140.91,row:6,col:5,p:6,g:5,cat:'lanthanide'},
-  {z:60,sym:'Nd',name:'Neodímio',mass:144.24,row:6,col:6,p:6,g:6,cat:'lanthanide'},
-  {z:61,sym:'Pm',name:'Promécio',mass:145,row:6,col:7,p:6,g:7,cat:'lanthanide'},
-  {z:62,sym:'Sm',name:'Samário',mass:150.36,row:6,col:8,p:6,g:8,cat:'lanthanide'},
-  {z:63,sym:'Eu',name:'Európio',mass:151.96,row:6,col:9,p:6,g:9,cat:'lanthanide'},
-  {z:64,sym:'Gd',name:'Gadolínio',mass:157.25,row:6,col:10,p:6,g:10,cat:'lanthanide'},
-  {z:65,sym:'Tb',name:'Térbio',mass:158.93,row:6,col:11,p:6,g:11,cat:'lanthanide'},
-  {z:66,sym:'Dy',name:'Disprósio',mass:162.5,row:6,col:12,p:6,g:12,cat:'lanthanide'},
-  {z:67,sym:'Ho',name:'Hólmio',mass:164.93,row:6,col:13,p:6,g:13,cat:'lanthanide'},
-  {z:68,sym:'Er',name:'Érbio',mass:167.26,row:6,col:14,p:6,g:14,cat:'lanthanide'},
-  {z:69,sym:'Tm',name:'Túlio',mass:168.93,row:6,col:15,p:6,g:15,cat:'lanthanide'},
-  {z:70,sym:'Yb',name:'Itérbio',mass:173.05,row:6,col:16,p:6,g:16,cat:'lanthanide'},
-  {z:71,sym:'Lu',name:'Lutécio',mass:174.97,row:6,col:17,p:6,g:17,cat:'lanthanide'},
-  {z:72,sym:'Hf',name:'Háfnio',mass:178.49,row:6,col:4,p:6,g:4,cat:'transition'},
-  {z:73,sym:'Ta',name:'Tântalo',mass:180.95,row:6,col:5,p:6,g:5,cat:'transition'},
-  {z:74,sym:'W',name:'Tungstênio',mass:183.84,row:6,col:6,p:6,g:6,cat:'transition'},
-  {z:75,sym:'Re',name:'Rênio',mass:186.21,row:6,col:7,p:6,g:7,cat:'transition'},
-  {z:76,sym:'Os',name:'Ósmio',mass:190.23,row:6,col:8,p:6,g:8,cat:'transition'},
-  {z:77,sym:'Ir',name:'Irídio',mass:192.22,row:6,col:9,p:6,g:9,cat:'transition'},
-  {z:78,sym:'Pt',name:'Platina',mass:195.08,row:6,col:10,p:6,g:10,cat:'transition'},
-  {z:79,sym:'Au',name:'Ouro',mass:196.97,row:6,col:11,p:6,g:11,cat:'transition'},
-  {z:80,sym:'Hg',name:'Mercúrio',mass:200.59,row:6,col:12,p:6,g:12,cat:'post-transition'},
-  {z:81,sym:'Tl',name:'Tálio',mass:204.38,row:6,col:13,p:6,g:13,cat:'post-transition'},
-  {z:82,sym:'Pb',name:'Chumbo',mass:207.2,row:6,col:14,p:6,g:14,cat:'post-transition'},
-  {z:83,sym:'Bi',name:'Bismuto',mass:208.98,row:6,col:15,p:6,g:15,cat:'post-transition'},
-  {z:84,sym:'Po',name:'Polônio',mass:209,row:6,col:16,p:6,g:16,cat:'post-transition'},
-  {z:85,sym:'At',name:'Ástato',mass:210,row:6,col:17,p:6,g:17,cat:'halogen'},
-  {z:86,sym:'Rn',name:'Radônio',mass:222,row:6,col:18,p:6,g:18,cat:'noble'},
-  {z:87,sym:'Fr',name:'Frâncio',mass:223,row:7,col:1,p:7,g:1,cat:'alkali'},
-  {z:88,sym:'Ra',name:'Rádio',mass:226,row:7,col:2,p:7,g:2,cat:'alkaline'},
-  {z:89,sym:'Ac',name:'Actínio',mass:227,row:7,col:3,p:7,g:3,cat:'actinide'},
-  {z:90,sym:'Th',name:'Tório',mass:232.04,row:7,col:4,p:7,g:4,cat:'actinide'},
-  {z:91,sym:'Pa',name:'Protactínio',mass:231.04,row:7,col:5,p:7,g:5,cat:'actinide'},
-  {z:92,sym:'U',name:'Urânio',mass:238.03,row:7,col:6,p:7,g:6,cat:'actinide'},
-  {z:93,sym:'Np',name:'Netúnio',mass:237,row:7,col:7,p:7,g:7,cat:'actinide'},
-  {z:94,sym:'Pu',name:'Plutônio',mass:244,row:7,col:8,p:7,g:8,cat:'actinide'},
-  {z:95,sym:'Am',name:'Amerício',mass:243,row:7,col:9,p:7,g:9,cat:'actinide'},
-  {z:96,sym:'Cm',name:'Cúrio',mass:247,row:7,col:10,p:7,g:10,cat:'actinide'},
-  {z:97,sym:'Bk',name:'Berquélio',mass:247,row:7,col:11,p:7,g:11,cat:'actinide'},
-  {z:98,sym:'Cf',name:'Califórnio',mass:251,row:7,col:12,p:7,g:12,cat:'actinide'},
-  {z:99,sym:'Es',name:'Einsteínio',mass:252,row:7,col:13,p:7,g:13,cat:'actinide'},
-  {z:100,sym:'Fm',name:'Férmio',mass:257,row:7,col:14,p:7,g:14,cat:'actinide'},
-  {z:101,sym:'Md',name:'Mendelévio',mass:258,row:7,col:15,p:7,g:15,cat:'actinide'},
-  {z:102,sym:'No',name:'Nobélio',mass:259,row:7,col:16,p:7,g:16,cat:'actinide'},
-  {z:103,sym:'Lr',name:'Laurêncio',mass:262,row:7,col:17,p:7,g:17,cat:'actinide'},
-  {z:104,sym:'Rf',name:'Rutherfórdio',mass:267,row:7,col:4,p:7,g:4,cat:'transition'},
-  {z:105,sym:'Db',name:'Dúbnio',mass:268,row:7,col:5,p:7,g:5,cat:'transition'},
-  {z:106,sym:'Sg',name:'Seabórgio',mass:269,row:7,col:6,p:7,g:6,cat:'transition'},
-  {z:107,sym:'Bh',name:'Bóhrio',mass:270,row:7,col:7,p:7,g:7,cat:'transition'},
-  {z:108,sym:'Hs',name:'Hássio',mass:277,row:7,col:8,p:7,g:8,cat:'transition'},
-  {z:109,sym:'Mt',name:'Meitnério',mass:278,row:7,col:9,p:7,g:9,cat:'transition'},
-  {z:110,sym:'Ds',name:'Darmstádtio',mass:281,row:7,col:10,p:7,g:10,cat:'transition'},
-  {z:111,sym:'Rg',name:'Roentgênio',mass:282,row:7,col:11,p:7,g:11,cat:'transition'},
-  {z:112,sym:'Cn',name:'Copernício',mass:285,row:7,col:12,p:7,g:12,cat:'transition'},
-  {z:113,sym:'Nh',name:'Nihônio',mass:286,row:7,col:13,p:7,g:13,cat:'post-transition'},
-  {z:114,sym:'Fl',name:'Fleróvio',mass:289,row:7,col:14,p:7,g:14,cat:'post-transition'},
-  {z:115,sym:'Mc',name:'Moscóvio',mass:290,row:7,col:15,p:7,g:15,cat:'post-transition'},
-  {z:116,sym:'Lv',name:'Livermório',mass:293,row:7,col:16,p:7,g:16,cat:'post-transition'},
-  {z:117,sym:'Ts',name:'Tenessino',mass:294,row:7,col:17,p:7,g:17,cat:'halogen'},
-  {z:118,sym:'Og',name:'Oganessônio',mass:294,row:7,col:18,p:7,g:18,cat:'noble'}
-];
-
-// ════════════════════════════════════════════════════════════════
-//  2. FUNÇÕES DIDÁTICAS (conteúdos dos módulos)
-// ════════════════════════════════════════════════════════════════
-// [mantido igual ao que você já tem, não vou repetir para não alongar]
-function getDid() { return `<div class="card"><div class="did-label">O que é um átomo?</div>...`; }
-function getQuest() { return [ ... ]; }
-function getLigacoesDid() { return `<div class="card">...`; }
-function getLigacoesQuest() { return [ ... ]; }
-function getTabelaDid() { return `<div class="card">...`; }
-function getTabelaQuest() { return [ ... ]; }
-
-// ════════════════════════════════════════════════════════════════
-//  3. ESTADO E CONFIGURAÇÕES
-// ════════════════════════════════════════════════════════════════
-// [mantido igual]
-
-// ════════════════════════════════════════════════════════════════
-//  4. DEFINIÇÃO DOS MÓDULOS
-// ════════════════════════════════════════════════════════════════
-
-const AREAS = [
-  { el: 'tg', tiles: [{ id: 'atom', emoji: '⚛️', label: 'Átomo', sub: 'prótons, nêutrons, elétrons', xp: 10, did: getDid(), quest: getQuest() }] },
-  { el: 'to', tiles: [{ id: 'ligacoes', emoji: '🔗', label: 'Ligações Químicas', sub: 'iônica, covalente, metálica', xp: 10, did: getLigacoesDid(), quest: getLigacoesQuest() }] },
-  { el: 'tf', tiles: [{ id: 'tabela', emoji: '📊', label: 'Tabela Periódica', sub: 'períodos, grupos, propriedades', xp: 10, did: getTabelaDid(), quest: getTabelaQuest() }] }
-];
-const ALL = AREAS.flatMap(a => a.tiles);
-
-// ════════════════════════════════════════════════════════════════
 //  5. NAVEGAÇÃO ENTRE PÁGINAS (CORRIGIDA)
 // ════════════════════════════════════════════════════════════════
 
 function goPage(id) {
-  console.log('🔄 goPage chamado para:', id); // ← LOG para depuração
+  console.log('🔄 goPage chamado para:', id);
+  // Esconde todas as páginas
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  const targetPage = document.getElementById(id);
-  if (targetPage) {
-    targetPage.classList.add('active');
-    console.log('✅ Página ativada:', id);
-  } else {
+  // Mostra a página alvo
+  const target = document.getElementById(id);
+  if (!target) {
     console.error('❌ Página não encontrada:', id);
     return;
   }
+  target.classList.add('active');
+  console.log('✅ Página ativada:', id);
+  // Atualiza a navegação inferior
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  const map = {
+  const navMap = {
     'page-home': 'nav-home',
     'page-mapa': 'nav-mapa',
     'page-lab': 'nav-lab',
     'page-exp': 'nav-exp',
     'page-admin': 'nav-admin'
   };
-  const ni = document.getElementById(map[id]);
-  if (ni) ni.classList.add('active');
-  
-  // Renderiza conforme a página (exceto mapa, que será chamado depois)
+  const navBtn = document.getElementById(navMap[id]);
+  if (navBtn) navBtn.classList.add('active');
+  // Renderiza conteúdo específico (exceto mapa, que é chamado separadamente)
   if (id === 'page-home') renderHome();
   if (id === 'page-lab') renderLab();
   if (id === 'page-exp') initExp();
   if (id === 'page-admin') renderAdmin();
-  
   window.scrollTo(0, 0);
 }
 
 // ════════════════════════════════════════════════════════════════
-//  6. FUNÇÃO DA PÁGINA INICIAL (COM ANIMAÇÃO DO FOGUETE)
+//  6. FUNÇÃO DA PÁGINA INICIAL (COM ANIMAÇÃO E RETRY)
 // ════════════════════════════════════════════════════════════════
 
 function explorarModulos() {
   console.log('🚀 explorarModulos() chamado');
   const foguete = document.querySelector('.home-bear svg');
   if (foguete) {
-    console.log('🛸 Foguete encontrado, adicionando classe .foguete-sobe');
     foguete.classList.add('foguete-sobe');
+    console.log('🛸 Foguete subindo...');
     setTimeout(() => {
-      console.log('⏳ 1s passado, chamando goPage("page-mapa")');
       goPage('page-mapa');
-      // Aguarda o DOM ser atualizado e depois renderiza o mapa
-      setTimeout(() => {
-        console.log('⏳ 300ms passado, chamando renderMap()');
-        renderMap();
-      }, 300);
+      // Tenta renderizar o mapa com retry
+      renderMapWithRetry(0);
     }, 1000);
   } else {
     console.warn('⚠️ Foguete não encontrado, indo direto para o mapa');
     goPage('page-mapa');
-    setTimeout(() => {
-      renderMap();
-    }, 300);
+    renderMapWithRetry(0);
   }
 }
 
@@ -219,35 +61,55 @@ function explorarModulos() {
 
 function renderHome() {
   console.log('🏠 renderHome() chamado');
-  document.getElementById('hs-mod').textContent = done.size;
-  document.getElementById('hs-xp').textContent = xp;
-  const p = Math.min(100, Math.round(done.size / ALL.length * 100));
-  document.getElementById('hs-prog').textContent = p + '%';
+  const elMod = document.getElementById('hs-mod');
+  const elXp = document.getElementById('hs-xp');
+  const elProg = document.getElementById('hs-prog');
+  if (elMod) elMod.textContent = done.size;
+  if (elXp) elXp.textContent = xp;
+  if (elProg) {
+    const p = Math.min(100, Math.round(done.size / ALL.length * 100));
+    elProg.textContent = p + '%';
+  }
 }
 
 // ════════════════════════════════════════════════════════════════
-//  8. RENDERIZAÇÃO DO MAPA (CORRIGIDA COM VERIFICAÇÕES)
+//  8. RENDERIZAÇÃO DO MAPA (COM VERIFICAÇÃO DE ELEMENTOS)
 // ════════════════════════════════════════════════════════════════
 
-function renderMap() {
-  console.log('🗺️ renderMap() chamado');
-  // Verifica se os elementos existem
-  const conts = ['tg', 'to', 'tf'];
-  const missing = conts.filter(id => !document.getElementById(id));
-  if (missing.length > 0) {
-    console.warn('⚠️ Elementos não encontrados:', missing);
+function renderMapWithRetry(tentativa) {
+  console.log(`🗺️ renderMap() - tentativa ${tentativa + 1}`);
+  // Verifica se os elementos necessários existem
+  const containers = ['tg', 'to', 'tf'];
+  const allExist = containers.every(id => document.getElementById(id) !== null);
+  const progFill = document.getElementById('prog-fill');
+  const progNum = document.getElementById('prog-num');
+  const xpVal = document.getElementById('xp-val');
+  const lvlText = document.getElementById('lvl-text');
+  const bearBubble = document.getElementById('bear-bubble');
+  
+  if (!allExist || !progFill || !progNum || !xpVal || !lvlText || !bearBubble) {
+    console.warn('⚠️ Elementos do mapa ainda não prontos. Tentativa', tentativa + 1);
+    if (tentativa < 5) {
+      setTimeout(() => renderMapWithRetry(tentativa + 1), 500);
+    } else {
+      console.error('❌ Falha ao renderizar mapa após 5 tentativas.');
+    }
+    return;
   }
   
+  // Se chegou aqui, todos os elementos existem → renderiza
+  console.log('✅ Todos os elementos encontrados. Renderizando mapa...');
+  renderMap();
+}
+
+function renderMap() {
+  console.log('🗺️ renderMap() executando');
   let di = 0;
   ALL.forEach((t, i) => { if (done.has(t.id)) di = i + 1; });
-  console.log('📦 Módulos concluídos:', done.size, 'Próximo índice:', di);
   
   AREAS.forEach(area => {
     const cont = document.getElementById(area.el);
-    if (!cont) {
-      console.error('❌ Container não encontrado:', area.el);
-      return;
-    }
+    if (!cont) return;
     cont.innerHTML = area.tiles.map(t => {
       const isDone = done.has(t.id);
       const isCur = ALL.indexOf(t) === di;
@@ -268,20 +130,5 @@ function renderMap() {
   document.getElementById('xp-val').textContent = xp + ' XP';
   document.getElementById('lvl-text').textContent = d < 4 ? 'Nível 1 — Iniciante' : d < 9 ? 'Nível 2 — Intermediário' : 'Nível 3 — Avançado';
   document.getElementById('bear-bubble').textContent = ALL[di] ? 'Próximo: ' + ALL[di].label + ' ' + ALL[di].emoji : 'Tudo concluído! 🏆';
-  console.log('✅ renderMap() concluído');
+  console.log('✅ renderMap() concluído com sucesso!');
 }
-
-// ════════════════════════════════════════════════════════════════
-//  O RESTO DO SEU CÓDIGO AQUI (openModule, renderQuestion, etc.)
-//  MANTIDO IGUAL AO QUE VOCÊ JÁ TINHA
-// ════════════════════════════════════════════════════════════════
-
-// ... (copie aqui todo o resto que você já tinha das seções 9 a 14)
-// Não vou repetir para não estourar o limite de caracteres.
-
-// ════════════════════════════════════════════════════════════════
-//  15. INICIALIZAÇÃO
-// ════════════════════════════════════════════════════════════════
-
-renderHome();
-console.log('🚀 LabQ iniciado. Clique em "Explorar módulos" para testar.');
