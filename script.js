@@ -167,18 +167,52 @@ const ALL = AREAS.flatMap(a => a.tiles);
 //  5. NAVEGAÇÃO
 // ════════════════════════════════════════════════════════════════
 function goPage(id) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  console.log('🔄 goPage chamado para:', id);
+  
+  // Esconde todas as páginas
+  document.querySelectorAll('.page').forEach(p => {
+    p.classList.remove('active');
+    p.style.display = 'none';
+  });
+  
+  // Mostra a página alvo
   const target = document.getElementById(id);
-  if (target) target.classList.add('active');
+  if (!target) {
+    console.error('❌ Página não encontrada:', id);
+    return;
+  }
+  
+  target.classList.add('active');
+  target.style.display = 'block';
+  target.style.minHeight = '100vh';
+  target.style.backgroundColor = '#000';
+  console.log('✅ Página ativada:', id);
+  
+  // Atualiza a navegação inferior
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  const map = {'page-home':'nav-home','page-mapa':'nav-mapa','page-lab':'nav-lab','page-exp':'nav-exp','page-admin':'nav-admin'};
-  const ni = document.getElementById(map[id]);
-  if (ni) ni.classList.add('active');
+  const navMap = {
+    'page-home': 'nav-home',
+    'page-mapa': 'nav-mapa',
+    'page-lab': 'nav-lab',
+    'page-exp': 'nav-exp',
+    'page-admin': 'nav-admin'
+  };
+  const navBtn = document.getElementById(navMap[id]);
+  if (navBtn) navBtn.classList.add('active');
+  
+  // ⭐ RENDERIZA O CONTEÚDO DE CADA PÁGINA
   if (id === 'page-home') renderHome();
+  if (id === 'page-mapa') {
+    // Aguarda um instante para garantir que a página esteja no DOM
+    setTimeout(() => {
+      renderMap();
+    }, 150);
+  }
   if (id === 'page-lab') renderLab();
   if (id === 'page-exp') initExp();
   if (id === 'page-admin') renderAdmin();
-  window.scrollTo(0,0);
+  
+  window.scrollTo(0, 0);
 }
 
 // ════════════════════════════════════════════════════════════════
