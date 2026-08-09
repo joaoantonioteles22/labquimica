@@ -532,9 +532,13 @@ function askComp() {
   showInp();
 }
 
+function normalizarTexto(s) {
+  return s.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
+
 function findEl(s) {
-  const q = s.trim().toLowerCase();
-  return ELS.find(e => e.sym.toLowerCase() === q || e.name.toLowerCase() === q);
+  const q = normalizarTexto(s);
+  return ELS.find(e => normalizarTexto(e.sym) === q || normalizarTexto(e.name) === q);
 }
 
 function expSubmit() {
