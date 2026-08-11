@@ -11,6 +11,8 @@ let xp = parseInt(localStorage.getItem('lq_xp') || '0');
 let totalAcc = parseInt(localStorage.getItem('lq_acc') || '0');
 let totalResp = parseInt(localStorage.getItem('lq_resp') || '0');
 let modScores = JSON.parse(localStorage.getItem('lq_scores') || '{}');
+let revisaoPendentes = JSON.parse(localStorage.getItem('lq_rev_pend') || '[]');
+let revisaoCooldown = JSON.parse(localStorage.getItem('lq_rev_cd') || '{}');
 let isAdmin = false;
 let curMod = null;
 let curQ = 0;
@@ -24,6 +26,53 @@ function save() {
   localStorage.setItem('lq_scores', JSON.stringify(modScores));
 }
 
+function saveRevisao() {
+  localStorage.setItem('lq_rev_pend', JSON.stringify(revisaoPendentes));
+  localStorage.setItem('lq_rev_cd', JSON.stringify(revisaoCooldown));
+}
+
+// Marca uma questão como certa/errada no sistema de revisão.
+// Errou → entra na fila de pendentes. Acertou (vindo da fila) → some por 50 exercícios.
+function processarRevisao(modId, qIdx, acertou) {
+  const qid = modId + '-' + qIdx;
+  if (acertou) {
+    if (revisaoPendentes.includes(qid)) {
+      revisaoPendentes = revisaoPendentes.filter(x => x !== qid);
+      revisaoCooldown[qid] = totalResp + 50;
+    }
+  } else {
+    if (!revisaoPendentes.includes(qid)) revisaoPendentes.push(qid);
+    delete revisaoCooldown[qid];
+  }
+  sweepCooldown();
+  saveRevisao();
+  updateRevisaoBadge();
+}
+
+// Libera (remove) questões cujo período de 50 exercícios já passou
+function sweepCooldown() {
+  Object.keys(revisaoCooldown).forEach(id => {
+    if (totalResp >= revisaoCooldown[id]) delete revisaoCooldown[id];
+  });
+}
+
+function updateRevisaoBadge() {
+  const btn = document.getElementById('nav-revisao');
+  if (!btn) return;
+  let dot = btn.querySelector('.rev-dot');
+  if (revisaoPendentes.length > 0) {
+    if (!dot) {
+      dot = document.createElement('span');
+      dot.className = 'rev-dot';
+      dot.style.cssText = 'position:absolute;top:8px;right:22%;width:7px;height:7px;border-radius:50%;background:#ef4444;box-shadow:0 0 4px #ef4444';
+      btn.style.position = 'relative';
+      btn.appendChild(dot);
+    }
+  } else if (dot) {
+    dot.remove();
+  }
+}
+
 // ════════════════════════════════════════════════════════════════
 // 5. NAVEGAÇÃO (CORRIGIDA)
 // ════════════════════════════════════════════════════════════════
@@ -32,13 +81,14 @@ function goPage(id) {
   const target = document.getElementById(id);
   if (target) target.classList.add('active');
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  const map = {'page-home':'nav-home','page-mapa':'nav-mapa','page-lab':'nav-lab','page-exp':'nav-exp','page-admin':'nav-admin'};
+  const map = {'page-home':'nav-home','page-mapa':'nav-mapa','page-lab':'nav-lab','page-exp':'nav-exp','page-revisao':'nav-revisao','page-admin':'nav-admin'};
   const ni = document.getElementById(map[id]);
   if (ni) ni.classList.add('active');
   if (id === 'page-mapa') renderMap();
   if (id === 'page-home') { renderHome(); resetHomeBear(); }
   if (id === 'page-lab') renderLab();
   if (id === 'page-exp') initExp();
+  if (id === 'page-revisao') renderRevisao();
   if (id === 'page-admin') renderAdmin();
   window.scrollTo(0,0);
 }
@@ -181,6 +231,7 @@ function answerQ(i) {
   totalResp++;
   if (i === q.c) totalAcc++;
   save();
+  processarRevisao(curMod.id, curQ, i === q.c);
   renderQuestion();
 }
 
@@ -581,6 +632,61 @@ function showToast(m) {
   t.textContent = m;
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 2400);
+}
+
+// ════════════════════════════════════════════════════════════════
+// 15. REVISÃO (questões erradas voltam aqui até acertar)
+// ════════════════════════════════════════════════════════════════
+function renderRevisao() {
+  sweepCooldown();
+  saveRevisao();
+  updateRevisaoBadge();
+  const cont = document.getElementById('revisao-content');
+  if (!cont) return;
+  if (revisaoPendentes.length === 0) {
+    cont.innerHTML = `<div class="card" style="text-align:center;padding:32px 18px"><div style="font-size:34px;margin-bottom:10px">🎉</div><div class="did-label" style="text-align:center">Tudo em dia!</div><div class="did-intro">Nenhuma questão pendente de revisão agora. Continue estudando os módulos — se errar algo, aparece aqui pra você reforçar.</div></div>`;
+    return;
+  }
+  const qid = revisaoPendentes[0];
+  const sep = qid.lastIndexOf('-');
+  const modId = qid.substring(0, sep);
+  const qIdx = parseInt(qid.substring(sep + 1));
+  const mod = ALL.find(m => m.id === modId);
+  if (!mod || !mod.quest[qIdx]) {
+    revisaoPendentes.shift();
+    saveRevisao();
+    renderRevisao();
+    return;
+  }
+  const q = mod.quest[qIdx];
+  const L = ['A', 'B', 'C', 'D'];
+  const opts = q.opts.map((op, i) => `<button class="opt" onclick="answerRevisao('${qid}',${i})"><div class="opt-l">${L[i]}</div>${op}</button>`).join('');
+  cont.innerHTML = `<div style="font-size:11px;color:var(--muted2);font-family:var(--mono);margin-bottom:10px">${mod.emoji} ${mod.label} · ${revisaoPendentes.length} pendente${revisaoPendentes.length > 1 ? 's' : ''}</div><div class="q-card"><div class="q-text">${q.q}</div><div class="opts" id="rev-opts">${opts}</div><div class="res-box" id="rev-res"></div></div>`;
+}
+
+function answerRevisao(qid, i) {
+  const sep = qid.lastIndexOf('-');
+  const modId = qid.substring(0, sep);
+  const qIdx = parseInt(qid.substring(sep + 1));
+  const mod = ALL.find(m => m.id === modId);
+  if (!mod) return;
+  const q = mod.quest[qIdx];
+  const acertou = i === q.c;
+  totalResp++;
+  if (acertou) totalAcc++;
+  save();
+  processarRevisao(modId, qIdx, acertou);
+
+  const optsEl = document.getElementById('rev-opts');
+  [...optsEl.children].forEach((btn, idx) => {
+    btn.disabled = true;
+    if (idx === q.c) btn.classList.add('correct');
+    else if (idx === i) btn.classList.add('wrong');
+  });
+  const resEl = document.getElementById('rev-res');
+  resEl.className = 'res-box show';
+  resEl.innerHTML = `<div class="res-label">✦ Resolução</div><p>${q.res}</p>`;
+  setTimeout(renderRevisao, 1800);
 }
 
 renderHome();
