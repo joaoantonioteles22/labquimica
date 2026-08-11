@@ -167,4 +167,3 @@ function answerRevisao(qid, i) {
   resEl.innerHTML = `<div class="res-label">✦ Resolução</div><p>${q.res}</p>`;
   setTimeout(renderRevisao, 1800);
 }
-
