@@ -6,31 +6,60 @@
 // ════════════════════════════════════════════════════════════════
 // 8. RENDERIZAÇÃO DO MAPA
 // ════════════════════════════════════════════════════════════════
+let nivelAtual = 'medio';
+let subareaAtual = 'ano1';
+
+function selecionarNivel(nivelId) {
+  nivelAtual = nivelId;
+  const nivel = NIVEIS.find(n => n.id === nivelId);
+  subareaAtual = nivel.subareas[0].id;
+  renderMap();
+}
+
+function selecionarSubarea(subareaId) {
+  subareaAtual = subareaId;
+  renderMap();
+}
+
 function renderMap() {
-  let di = 0;
-  ALL.forEach((t, i) => { if (done.has(t.id)) di = i + 1; });
-  AREAS.forEach(area => {
-    const cont = document.getElementById(area.el);
-    if (!cont) return;
-    cont.innerHTML = area.tiles.map(t => {
+  const nivel = NIVEIS.find(n => n.id === nivelAtual) || NIVEIS[0];
+  document.getElementById('nivel-tabs').innerHTML = NIVEIS.map(n =>
+    `<button class="nivel-tab ${n.id === nivelAtual ? 'active' : ''}" onclick="selecionarNivel('${n.id}')">${n.label}</button>`
+  ).join('');
+
+  const subarea = nivel.subareas.find(s => s.id === subareaAtual) || nivel.subareas[0];
+  subareaAtual = subarea.id;
+  document.getElementById('subarea-tabs').innerHTML = nivel.subareas.map(s =>
+    `<button class="subarea-tab ${s.id === subareaAtual ? 'active' : ''}" onclick="selecionarSubarea('${s.id}')">${s.label}</button>`
+  ).join('');
+
+  const tilesCont = document.getElementById('tiles-container');
+  if (subarea.tiles.length === 0) {
+    tilesCont.innerHTML = `<div class="card" style="text-align:center;padding:28px 18px;margin-top:4px"><div style="font-size:28px;margin-bottom:8px">🚧</div><div class="did-intro" style="margin:0">Módulos de "${subarea.label}" em construção. Em breve!</div></div>`;
+  } else {
+    tilesCont.innerHTML = `<div class="tiles-grid">` + subarea.tiles.map((t, i) => {
       const isDone = done.has(t.id);
-      const isCur = ALL.indexOf(t) === di;
-      const isLock = !isDone && !isCur;
-      return `<div class="tile ${isDone ? 'done' : isCur ? 'unlocked' : 'locked'}" onclick="clickTile('${t.id}',${isLock})">
+      const isLock = !isDone && !(i === 0 || done.has(subarea.tiles[i - 1].id));
+      return `<div class="tile ${isDone ? 'done' : isLock ? 'locked' : 'unlocked'}" onclick="clickTile('${t.id}',${isLock})">
         ${isDone ? '<div class="tile-check"></div>' : ''}
         ${isLock ? '<div class="tile-lock">🔒</div>' : ''}
         <div class="tile-emoji">${t.emoji}</div>
         <div class="tile-label">${t.label}</div>
         <div class="tile-sub">${t.sub}</div>
       </div>`;
-    }).join('');
-  });
+    }).join('') + `</div>`;
+  }
+
   const d = done.size, total = ALL.length;
   document.getElementById('prog-fill').style.width = Math.min(100, Math.round(d / total * 100)) + '%';
   document.getElementById('prog-num').textContent = d + ' / ' + total;
   document.getElementById('xp-val').textContent = xp + ' XP';
   document.getElementById('lvl-text').textContent = d < 4 ? 'Nível 1 — Iniciante' : d < 9 ? 'Nível 2 — Intermediário' : 'Nível 3 — Avançado';
-  document.getElementById('bear-bubble').textContent = ALL[di] ? 'Próximo: ' + ALL[di].label + ' ' + ALL[di].emoji : 'Tudo concluído! 🏆';
+
+  const proximo = subarea.tiles.find(t => !done.has(t.id));
+  document.getElementById('bear-bubble').textContent = proximo
+    ? 'Próximo: ' + proximo.label + ' ' + proximo.emoji
+    : (subarea.tiles.length ? 'Concluído aqui! 🏆' : 'Em construção 🚧');
 }
 
 function clickTile(id, locked) {
@@ -108,10 +137,10 @@ function answerQ(i) {
   if (answers[curQ] !== null) return;
   const q = curMod.quest[curQ];
   answers[curQ] = i;
-  totalResp++;
-  if (i === q.c) totalAcc++;
-  save();
-  processarRevisao(curMod.id, curQ, i === q.c);
+  if (!isAdmin) {
+    registrarResposta(curMod.id, i === q.c);
+    processarRevisao(curMod.id, curQ, i === q.c);
+  }
   renderQuestion();
 }
 
@@ -193,4 +222,3 @@ function closeModEl() {
   const p = document.getElementById('mod-el-detail');
   if (p) p.style.display = 'none';
 }
-
