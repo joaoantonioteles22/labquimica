@@ -43,4 +43,3 @@ function closeEl() {
   panel.className = 'el-detail-panel';
   panel.innerHTML = '';
 }
-
