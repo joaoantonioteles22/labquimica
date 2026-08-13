@@ -10,6 +10,7 @@ let xp = parseInt(localStorage.getItem('lq_xp') || '0');
 let totalAcc = parseInt(localStorage.getItem('lq_acc') || '0');
 let totalResp = parseInt(localStorage.getItem('lq_resp') || '0');
 let modScores = JSON.parse(localStorage.getItem('lq_scores') || '{}');
+let statsPorModulo = JSON.parse(localStorage.getItem('lq_stats_mod') || '{}');
 let revisaoPendentes = JSON.parse(localStorage.getItem('lq_rev_pend') || '[]');
 let revisaoCooldown = JSON.parse(localStorage.getItem('lq_rev_cd') || '{}');
 let isAdmin = false;
@@ -23,6 +24,23 @@ function save() {
   localStorage.setItem('lq_acc', totalAcc);
   localStorage.setItem('lq_resp', totalResp);
   localStorage.setItem('lq_scores', JSON.stringify(modScores));
+}
+
+function saveStats() {
+  localStorage.setItem('lq_stats_mod', JSON.stringify(statsPorModulo));
+}
+
+// Registra uma resposta (módulo, questão certa ou errada) nas estatísticas
+// gerais e por matéria. NUNCA é chamado no modo admin (ver answerQ/answerRevisao),
+// então as estatísticas nunca são "sujadas" por testes do professor.
+function registrarResposta(modId, acertou) {
+  totalResp++;
+  if (acertou) totalAcc++;
+  if (!statsPorModulo[modId]) statsPorModulo[modId] = { resp: 0, acc: 0 };
+  statsPorModulo[modId].resp++;
+  if (acertou) statsPorModulo[modId].acc++;
+  save();
+  saveStats();
 }
 
 function saveRevisao() {
@@ -45,7 +63,6 @@ function processarRevisao(modId, qIdx, acertou) {
   }
   sweepCooldown();
   saveRevisao();
-  updateRevisaoBadge();
 }
 
 // Libera (remove) questões cujo período de 50 exercícios já passou
@@ -54,21 +71,3 @@ function sweepCooldown() {
     if (totalResp >= revisaoCooldown[id]) delete revisaoCooldown[id];
   });
 }
-
-function updateRevisaoBadge() {
-  const btn = document.getElementById('nav-revisao');
-  if (!btn) return;
-  let dot = btn.querySelector('.rev-dot');
-  if (revisaoPendentes.length > 0) {
-    if (!dot) {
-      dot = document.createElement('span');
-      dot.className = 'rev-dot';
-      dot.style.cssText = 'position:absolute;top:8px;right:22%;width:7px;height:7px;border-radius:50%;background:#ef4444;box-shadow:0 0 4px #ef4444';
-      btn.style.position = 'relative';
-      btn.appendChild(dot);
-    }
-  } else if (dot) {
-    dot.remove();
-  }
-}
-
