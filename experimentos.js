@@ -174,4 +174,3 @@ function autoCompound(el1, el2) {
 }
 
 document.addEventListener('keydown', e => { if (document.activeElement === document.getElementById('exp-input') && e.key === 'Enter') expSubmit(); });
-
