@@ -19,6 +19,7 @@ function goPage(id) {
   if (id === 'page-lab') renderLab();
   if (id === 'page-exp') initExp();
   if (id === 'page-revisao') renderRevisao();
+  if (id === 'page-estatisticas') renderEstatisticas();
   if (id === 'page-admin') renderAdmin();
   window.scrollTo(0,0);
 }
@@ -52,4 +53,3 @@ function renderHome() {
   const p = Math.min(100, Math.round(done.size / ALL.length * 100));
   document.getElementById('hs-prog').textContent = p + '%';
 }
-
