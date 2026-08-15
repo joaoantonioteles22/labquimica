@@ -121,6 +121,8 @@ function showToast(m) {
 // ════════════════════════════════════════════════════════════════
 // 15. REVISÃO (questões erradas voltam aqui até acertar)
 // ════════════════════════════════════════════════════════════════
+let recentesLivre = [];
+
 function renderRevisao() {
   sweepCooldown();
   saveRevisao();
@@ -132,9 +134,13 @@ function renderRevisao() {
     qid = revisaoPendentes[0];
     modo = 'pendente';
   } else {
-    const mod = ALL[Math.floor(Math.random() * ALL.length)];
-    const idx = Math.floor(Math.random() * mod.quest.length);
-    qid = mod.id + '-' + idx;
+    const pool = [];
+    ALL.forEach(mod => mod.quest.forEach((q, i) => pool.push(mod.id + '-' + i)));
+    let candidatos = pool.filter(id => !recentesLivre.includes(id));
+    if (candidatos.length === 0) { recentesLivre = []; candidatos = pool; }
+    qid = candidatos[Math.floor(Math.random() * candidatos.length)];
+    recentesLivre.push(qid);
+    if (recentesLivre.length > 25) recentesLivre.shift();
     modo = 'livre';
   }
 
