@@ -9,6 +9,49 @@
 let nivelAtual = 'medio';
 let subareaAtual = 'ano1';
 
+// Ordem em que Ensino Médio e Faculdade destravam, bloco por bloco.
+// Um bloco só destrava depois que TODOS os módulos do bloco anterior
+// estiverem concluídos. Avançado não entra aqui — ele é tratado à parte.
+const ORDEM_PROGRESSAO = [
+  { nivel: 'medio', subarea: 'ano1' },
+  { nivel: 'medio', subarea: 'ano2' },
+  { nivel: 'medio', subarea: 'ano3' },
+  { nivel: 'faculdade', subarea: 'analitica' },
+  { nivel: 'faculdade', subarea: 'organicaAv' },
+  { nivel: 'faculdade', subarea: 'inorganica' },
+  { nivel: 'faculdade', subarea: 'fqAv' },
+  { nivel: 'faculdade', subarea: 'bioquimica' },
+  { nivel: 'faculdade', subarea: 'quantica' }
+];
+
+function subareaCompleta(nivelId, subareaId) {
+  const nivel = NIVEIS.find(n => n.id === nivelId);
+  const s = nivel.subareas.find(x => x.id === subareaId);
+  return s.tiles.length === 0 || s.tiles.every(t => done.has(t.id));
+}
+
+// Todos os blocos ANTES do índice dado (0..index-1) já foram concluídos?
+function blocosAnterioresCompletos(index) {
+  for (let i = 0; i < index; i++) {
+    const b = ORDEM_PROGRESSAO[i];
+    if (!subareaCompleta(b.nivel, b.subarea)) return false;
+  }
+  return true;
+}
+
+// Faculdade inteira concluída = todo o Ensino Médio + toda a Faculdade
+// concluídos (já que a Faculdade só destrava depois do Médio).
+function faculdadeInteiraCompleta() {
+  return blocosAnterioresCompletos(ORDEM_PROGRESSAO.length);
+}
+
+function subareaDestravada(nivelId, subareaId) {
+  if (nivelId === 'avancado') return faculdadeInteiraCompleta();
+  const idx = ORDEM_PROGRESSAO.findIndex(b => b.nivel === nivelId && b.subarea === subareaId);
+  if (idx === -1) return true; // segurança: se não estiver na lista, não bloqueia
+  return blocosAnterioresCompletos(idx);
+}
+
 function selecionarNivel(nivelId) {
   nivelAtual = nivelId;
   const nivel = NIVEIS.find(n => n.id === nivelId);
@@ -34,8 +77,19 @@ function renderMap() {
   ).join('');
 
   const tilesCont = document.getElementById('tiles-container');
+  const destravada = subareaDestravada(nivel.id, subarea.id);
+
   if (subarea.tiles.length === 0) {
     tilesCont.innerHTML = `<div class="card" style="text-align:center;padding:28px 18px;margin-top:4px"><div style="font-size:28px;margin-bottom:8px">🚧</div><div class="did-intro" style="margin:0">Módulos de "${subarea.label}" em construção. Em breve!</div></div>`;
+  } else if (!destravada) {
+    tilesCont.innerHTML = `<div class="tiles-grid">` + subarea.tiles.map(t =>
+      `<div class="tile locked" onclick="clickTile('${t.id}',true)">
+        <div class="tile-lock">🔒</div>
+        <div class="tile-emoji">${t.emoji}</div>
+        <div class="tile-label">${t.label}</div>
+        <div class="tile-sub">${t.sub}</div>
+      </div>`
+    ).join('') + `</div><div class="did-intro" style="margin-top:12px;text-align:center">🔒 Complete a etapa anterior por completo pra desbloquear esta área.</div>`;
   } else {
     tilesCont.innerHTML = `<div class="tiles-grid">` + subarea.tiles.map((t, i) => {
       const isDone = done.has(t.id);
@@ -57,7 +111,9 @@ function renderMap() {
   document.getElementById('lvl-text').textContent = d < 4 ? 'Nível 1 — Iniciante' : d < 9 ? 'Nível 2 — Intermediário' : 'Nível 3 — Avançado';
 
   const proximo = subarea.tiles.find(t => !done.has(t.id));
-  document.getElementById('bear-bubble').textContent = proximo
+  document.getElementById('bear-bubble').textContent = !destravada
+    ? '🔒 Área bloqueada até terminar a etapa anterior'
+    : proximo
     ? 'Próximo: ' + proximo.label + ' ' + proximo.emoji
     : (subarea.tiles.length ? 'Concluído aqui! 🏆' : 'Em construção 🚧');
 }
