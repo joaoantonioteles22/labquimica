@@ -9,6 +9,15 @@
 let nivelAtual = 'medio';
 let subareaAtual = 'ano1';
 
+// ════════════════════════════════════════════════════════════════
+// INTERRUPTOR TEMPORÁRIO — deixe true enquanto quiser que TODO MUNDO
+// (não só o Admin) veja todos os módulos destravados, sem precisar
+// completar nada antes. Quando quiser voltar à regra normal (só o
+// 1º módulo do 1º Ano liberado, indo bloco por bloco), troque para
+// false — é a única linha que precisa mudar.
+// ════════════════════════════════════════════════════════════════
+const DESBLOQUEIO_TOTAL_TEMPORARIO = true;
+
 // Ordem em que Ensino Médio e Faculdade destravam, bloco por bloco.
 // Um bloco só destrava depois que TODOS os módulos do bloco anterior
 // estiverem concluídos. Avançado não entra aqui — ele é tratado à parte.
@@ -46,6 +55,7 @@ function faculdadeInteiraCompleta() {
 }
 
 function subareaDestravada(nivelId, subareaId) {
+  if (DESBLOQUEIO_TOTAL_TEMPORARIO) return true;
   if (nivelId === 'avancado') return faculdadeInteiraCompleta();
   const idx = ORDEM_PROGRESSAO.findIndex(b => b.nivel === nivelId && b.subarea === subareaId);
   if (idx === -1) return true; // segurança: se não estiver na lista, não bloqueia
@@ -93,7 +103,7 @@ function renderMap() {
   } else {
     tilesCont.innerHTML = `<div class="tiles-grid">` + subarea.tiles.map((t, i) => {
       const isDone = done.has(t.id);
-      const isLock = !isDone && !(i === 0 || done.has(subarea.tiles[i - 1].id));
+      const isLock = !DESBLOQUEIO_TOTAL_TEMPORARIO && !isDone && !(i === 0 || done.has(subarea.tiles[i - 1].id));
       return `<div class="tile ${isDone ? 'done' : isLock ? 'locked' : 'unlocked'}" onclick="clickTile('${t.id}',${isLock})">
         ${isDone ? '<div class="tile-check"></div>' : ''}
         ${isLock ? '<div class="tile-lock">🔒</div>' : ''}
